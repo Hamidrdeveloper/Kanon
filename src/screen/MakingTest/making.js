@@ -12,6 +12,7 @@ import Carousel, {getInputRangeFromIndexes} from 'react-native-snap-carousel';
 import background from '../../../assets/images/abstract.png';
 
 import backgroundC from '../../../assets/images/abstract2.png';
+import back from '../../../assets/images/back.png';
 
 import style from './Style/style';
 import ItemTest from './ItemTest';
@@ -120,7 +121,18 @@ class Making extends React.Component {
     );
   }
   render() {
-    let {imageBottom, viewFull, imagePro, viewLine} = style;
+    let {
+      imageBottom,
+      viewFull,
+      buttonBack,
+      textHeder,
+      viewHeder,
+      space,
+      viewButton,
+      viewFullButton,
+      textInputItem,
+      textButton
+    } = style;
     return (
       <View style={viewFull}>
         <ImageBackground source={background} style={viewFull}>
@@ -129,10 +141,12 @@ class Making extends React.Component {
             resizeMode="stretch"
             source={backgroundC}
           />
-          <View>
-              <Text>آزمون ساز</Text>
-              <Image />
+          <View style={viewHeder}>
+            <Image source={back} style={buttonBack} />
+
+            <Text style={textHeder}>آزمون ساز</Text>
           </View>
+          <View style={space} />
           <ItemTest />
           <ItemTest />
           <ItemTest />
@@ -140,6 +154,11 @@ class Making extends React.Component {
           <ItemTest />
           <ItemTest />
           <ItemTest />
+          <View style={viewFullButton}>
+            <Card style={viewButton}>
+              <Text style={textButton}>دریافت صوالات</Text>
+            </Card>
+          </View>
         </ImageBackground>
       </View>
     );

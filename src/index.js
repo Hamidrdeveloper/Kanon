@@ -4,8 +4,11 @@ import Making from './screen/MakingTest/making'
 import {Image} from 'react-native';
 import {createAppContainer} from 'react-navigation';
 import im_exam from '../assets/images/test.png';
-import { createTabNavigator, createBottomTabNavigator } from 'react-navigation-tabs';
-
+import {
+  createStackNavigator,
+  StackViewTransitionConfigs,
+} from 'react-navigation-stack';
+import { createBottomTabNavigator } from 'react-navigation-tabs';
 const bottomTab = createBottomTabNavigator({
   Home: {
     screen: Home,
@@ -61,5 +64,13 @@ const bottomTab = createBottomTabNavigator({
   },
 },
 );
+const homeStack = createStackNavigator({
+  exmBuild:{
+    screen:Making
+  },
+  Home:{screen:bottomTab}
 
-export default createAppContainer(bottomTab);
+},{
+  headerMode:'none'
+})
+export default createAppContainer(homeStack);

@@ -1,17 +1,18 @@
 import {StyleSheet} from 'react-native';
+import Res from '../../../Color/color';
 export default StyleSheet.create({
   matchParent: {
     width: 200,
     height: 250,
   },
   textTitle: {textAlign: 'center', fontFamily: 'BYekan', fontSize: 30},
-  date: {textAlign: 'center', fontFamily: 'BYekan', fontSize: 15,marginTop:5},
+  date: {textAlign: 'center', fontFamily: 'BYekan', fontSize: 15, marginTop: 5},
   viewCircle: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
     padding: 8,
-    marginTop:15
+    marginTop: 15,
   },
   viewCircleII: {
     width: 60,
@@ -27,8 +28,8 @@ export default StyleSheet.create({
     fontFamily: 'Yekan',
     fontSize: 20,
     padding: 8,
-    color:"#c6c6c6",
-    marginTop:15
+    color: '#c6c6c6',
+    marginTop: 15,
   },
   buttonItem: {
     backgroundColor: '#333648',
@@ -56,32 +57,88 @@ export default StyleSheet.create({
     marginTop: 45,
   },
   viewLine: {
-    width:  `100%`,
+    width: '100%',
     height: 55,
-    marginRight:15,
-    marginLeft:15,
-    elevation:5,
+    marginRight: 15,
+    marginLeft: 15,
+    elevation: 5,
     backgroundColor: '#fff',
     borderRadius: 50,
     alignSelf: 'center',
     marginTop: 15,
-    borderWidth:1
+    borderWidth: 1,
   },
-   textInputItem:{
-    width: `100%`,
-    height: `100%`,
-   },
-   viewFullIem:{
-    width: `100%`,
+  viewFullButton: {
+    width: '100%',
     height: 55,
-    marginTop:20,
-    paddingLeft:15,
-    paddingRight:15
-   },
-   imageBottom:{
+    marginTop: 20,
+    paddingLeft: 15,
+    paddingRight: 15,
+    bottom: 0,
+    position: 'absolute',
+  },
+  viewButton: {
+    width: '100%',
+    height: 55,
+    marginRight: 15,
+    marginLeft: 15,
+    elevation: 5,
+    backgroundColor: '#bfbfbf',
+    borderRadius: 50,
+    alignSelf: 'center',
+    marginTop: 15,
+    position: 'absolute',
+    bottom: 0,
+    marginBottom: 25,
+  },
+  // eslint-disable-next-line no-dupe-keys
+  textButton: {
+    width: '100%',
+    height: '100%',
+    textAlign: 'center',
+    textAlignVertical: 'center',
+    fontSize: 18,
+    color: '#fff',
+    fontFamily: 'BYekan',
+  },
+  textInputItem: {
+    width: '100%',
+    height: '100%',
+  },
+  viewFullIem: {
+    width: '100%',
+    height: 55,
+    marginTop: 20,
+    paddingLeft: 15,
+    paddingRight: 15,
+  },
+  imageBottom: {
     width: '100%',
     height: '50%',
     position: 'absolute',
     bottom: 0,
-  }
+  },
+  buttonBack: {
+    width: 25,
+    height: 25,
+    marginLeft: 10,
+    tintColor: Res.Color.primers,
+  },
+  textHeder: {
+    fontSize: 35,
+    color: Res.Color.primers,
+    fontFamily: 'BYekan',
+    right: 0,
+    position: 'absolute',
+    paddingRight: 15,
+  },
+  viewHeder: {
+    marginTop: 25,
+    alignItems: 'center',
+    flexDirection: 'row',
+    paddingRight: 15,
+  },
+  space: {
+    marginTop: 50,
+  },
 });
