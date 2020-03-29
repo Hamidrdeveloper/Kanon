@@ -1,6 +1,7 @@
 import React from 'react';
 import Home from './screen/Home/Home';
 import Making from './screen/MakingTest/making'
+import Fixed from './screen/FixeTest/Fixed'
 import {Image} from 'react-native';
 import {createAppContainer} from 'react-navigation';
 import im_exam from '../assets/images/test.png';
@@ -66,7 +67,7 @@ const bottomTab = createBottomTabNavigator({
 );
 const homeStack = createStackNavigator({
   exmBuild:{
-    screen:Making
+    screen:Fixed
   },
   Home:{screen:bottomTab}
 

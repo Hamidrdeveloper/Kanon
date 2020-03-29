@@ -34,6 +34,8 @@
 		125736A562794D20A62AAB1F /* Zocial.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F7FEB6985A1D498D80BB64B9 /* Zocial.ttf */; };
 		F74972E200F1443396D069D7 /* Yekan.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 0EB4FD16E9224F1BA6CCD908 /* Yekan.ttf */; };
 		9145DE07ABF540209E848396 /* BYekan.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 40C544655B1B4E92A8769037 /* BYekan.ttf */; };
+		5CCCD389293D49F4BE2C7AFB /* B Yekan+ Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8CC5C21F59A344F0882FD11F /* B Yekan+ Bold.ttf */; };
+		7F365E33E3AF4B6F8405E430 /* BYekanBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 98BD5FACAED04487848B33C1 /* BYekanBold.ttf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -87,6 +89,8 @@
 		F7FEB6985A1D498D80BB64B9 /* Zocial.ttf */ = {isa = PBXFileReference; name = "Zocial.ttf"; path = "../node_modules/react-native-vector-icons/Fonts/Zocial.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 		0EB4FD16E9224F1BA6CCD908 /* Yekan.ttf */ = {isa = PBXFileReference; name = "Yekan.ttf"; path = "../assets/fonts/Yekan.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 		40C544655B1B4E92A8769037 /* BYekan.ttf */ = {isa = PBXFileReference; name = "BYekan.ttf"; path = "../assets/fonts/BYekan.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		8CC5C21F59A344F0882FD11F /* B Yekan+ Bold.ttf */ = {isa = PBXFileReference; name = "B Yekan+ Bold.ttf"; path = "../assets/fonts/B Yekan+ Bold.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		98BD5FACAED04487848B33C1 /* BYekanBold.ttf */ = {isa = PBXFileReference; name = "BYekanBold.ttf"; path = "../assets/fonts/BYekanBold.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -215,6 +219,8 @@
 				F7FEB6985A1D498D80BB64B9 /* Zocial.ttf */,
 				0EB4FD16E9224F1BA6CCD908 /* Yekan.ttf */,
 				40C544655B1B4E92A8769037 /* BYekan.ttf */,
+				8CC5C21F59A344F0882FD11F /* B Yekan+ Bold.ttf */,
+				98BD5FACAED04487848B33C1 /* BYekanBold.ttf */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -374,6 +380,8 @@
 				125736A562794D20A62AAB1F /* Zocial.ttf in Resources */,
 				F74972E200F1443396D069D7 /* Yekan.ttf in Resources */,
 				9145DE07ABF540209E848396 /* BYekan.ttf in Resources */,
+				5CCCD389293D49F4BE2C7AFB /* B Yekan+ Bold.ttf in Resources */,
+				7F365E33E3AF4B6F8405E430 /* BYekanBold.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
