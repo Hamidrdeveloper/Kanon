@@ -20,62 +20,7 @@ import style from './Style/style';
 import {FlatList} from 'react-native-gesture-handler';
 let screenWidth = Dimensions.get('window').width;
 class Fixed extends React.Component {
-  _scrollInterpolator(index, carouselProps) {
-    const range = [3, 2, 1, 0, -1];
-    const inputRange = getInputRangeFromIndexes(range, index, carouselProps);
-    const outputRange = range;
-
-    return {inputRange, outputRange};
-  }
-
-  _animatedStyles(index, animatedValue, carouselProps) {
-    const translateProp = 'translateY';
-    const translatePropX = 'translateX';
-
-    return {
-      zIndex: carouselProps.data.length - index,
-      opacity: animatedValue.interpolate({
-        inputRange: [2, 3],
-        outputRange: [1, 0],
-      }),
-      transform: [
-        {
-          rotate: animatedValue.interpolate({
-            inputRange: [-1, 0, 1, 2, 3],
-            outputRange: ['0deg', '0deg', '0deg', '0deg', '0deg'],
-            extrapolate: 'default',
-          }),
-        },
-        {
-          [translateProp]: animatedValue.interpolate({
-            inputRange: [-1, 0, 1, 2, 3],
-            outputRange: [
-              20,
-              0,
-              20, // centered
-              20, // centered
-              20, // centered
-            ],
-            extrapolate: 'default',
-          }),
-        },
-        {
-          [translatePropX]: animatedValue.interpolate({
-            inputRange: [-1, 0, 1, 2, 3],
-            outputRange: [
-              -20,
-              0,
-              20, // centered
-              20, // centered
-              20, // centered
-            ],
-            extrapolate: 'default',
-          }),
-        },
-      ],
-    };
-  }
-
+  
   renderGridItem() {
     let {
       textTitle,

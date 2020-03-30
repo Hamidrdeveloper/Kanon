@@ -10,6 +10,7 @@ import {
   StackViewTransitionConfigs,
 } from 'react-navigation-stack';
 import { createBottomTabNavigator } from 'react-navigation-tabs';
+import RegisterScreen from './screen/Register/RegisterScreen';
 const bottomTab = createBottomTabNavigator({
   Home: {
     screen: Home,
@@ -67,7 +68,7 @@ const bottomTab = createBottomTabNavigator({
 );
 const homeStack = createStackNavigator({
   exmBuild:{
-    screen:Fixed
+    screen:RegisterScreen
   },
   Home:{screen:bottomTab}
 
