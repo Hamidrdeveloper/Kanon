@@ -1,3 +1,4 @@
+/* eslint-disable react-native/no-inline-styles */
 import React from 'react';
 import {
   View,
@@ -15,6 +16,7 @@ import background from '../../../assets/images/abstract.png';
 import backgroundC from '../../../assets/images/abstract2.png';
 
 import style from './Style/style';
+import Dropdown from '../../components/drop';
 let screenWidth = Dimensions.get('window').width;
 class ItemTest extends React.Component {
   render() {
@@ -22,7 +24,12 @@ class ItemTest extends React.Component {
     return (
       <View style={viewFullIem}>
         <Card style={viewLine}>
-          <TextInput style={textInputItem} />
+          <View style={{width: '100%'}}>
+            <Dropdown
+              containerStyle={{width: '100%'}}
+              textDefault="رفع اشکال"
+            />
+          </View>
         </Card>
       </View>
     );

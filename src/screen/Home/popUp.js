@@ -15,6 +15,7 @@ import Res from '../../Color/color';
 import {Card} from 'react-native-paper';
 import Carousel, {getInputRangeFromIndexes} from 'react-native-snap-carousel';
 import background from '../../../assets/images/abstract.png';
+import PropTypes from 'prop-types';
 
 import backgroundC from '../../../assets/images/abstract2.png';
 import back from '../../../assets/images/back.png';
@@ -28,6 +29,9 @@ class PopUp extends React.Component {
     let {navigation} = this.props;
     navigation.navigate('Home');
   }
+  _hideModalMenu = () => {
+    this.props.changeState(false);
+  };
   render() {
     let {
       textTitlePopUp,
@@ -46,7 +50,25 @@ class PopUp extends React.Component {
     } = style;
     return (
       <View
-        style={{height: '100%', width: '100%', backgroundColor: 'transparent'}}>
+        style={{
+          height: '100%',
+          width: '100%',
+          backgroundColor: 'transparent',
+          alignItems: 'center',
+        }}>
+        <TouchableOpacity
+          onPress={() => {
+            this._hideModalMenu();
+          }}>
+          <View
+            style={{
+              width: 50,
+              height: 4,
+              borderRadius: 8,
+              backgroundColor: Res.Color.grayLight,
+            }}
+          />
+        </TouchableOpacity>
         <View style={viewItem}>
           <View style={viewItemRow}>
             <Text style={textTitlePopUp}>{'فارسی نهم'}</Text>
@@ -96,17 +118,24 @@ class PopUp extends React.Component {
                 width: '100%',
                 paddingLeft: 15,
                 paddingBottom: 15,
-                marginBottom:15
+                marginBottom: 15,
               },
             ]}>
-            <TouchableOpacity style={{width: '50%', height: 50}} onPress={this._hideTabBar}>
+            <TouchableOpacity
+              activeOpacity={10}
+              style={{width: '50%', height: 50}}
+              onPress={() => {
+                this._hideTabBar;
+              }}>
               <View style={[buttonItem, {width: '100%', height: 50}]}>
                 <Text style={textButton}>{'برسی سوال'}</Text>
               </View>
             </TouchableOpacity>
             <View style={{width: 10}} />
 
-            <TouchableOpacity style={{width: '50%', height: 50}} onPress={this._hideTabBar}>
+            <TouchableOpacity
+              style={{width: '50%', height: 50}}
+              onPress={this._hideTabBar}>
               <View style={[buttonItem, {width: '100%', height: 50}]}>
                 <Text style={textButton}>{'برسی سوال'}</Text>
               </View>
@@ -116,6 +145,9 @@ class PopUp extends React.Component {
       </View>
     );
   }
+  static propsType = {
+    changeState: PropTypes.func,
+  };
 }
 
 export default PopUp;

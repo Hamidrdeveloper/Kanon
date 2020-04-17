@@ -22,6 +22,24 @@ import Dropdown from '../../components/drop';
 
 let screenWidth = Dimensions.get('window').width;
 class Fixed extends React.Component {
+  static navigationOptions = ({navigation}) => {
+    const {params} = navigation.state;
+
+    return {
+      tabBarVisible: false,
+    };
+  };
+  state = {
+    stepOne: 1,
+  };
+  componentDidMount() {
+    this.props.navigation.setParams({tabBarVisible: false});
+  }
+  _onStepList(e) {
+    this.setState({
+      stepOne: e,
+    });
+  }
   renderGridItem() {
     let {
       textTitle,
@@ -46,7 +64,7 @@ class Fixed extends React.Component {
             borderRadius: 30,
             marginTop: 15,
             paddingBottom: 1,
-            marginBottom:1
+            marginBottom: 1,
           }}>
           <Image style={imageCard} resizeMode="stretch" source={circle} />
           <View style={viewItem}>
@@ -89,28 +107,25 @@ class Fixed extends React.Component {
       viewCardButton,
       textCardButton,
       viewFullCardButton,
-      textCardButtonGray
+      textCardButtonGray,
     } = style;
     return (
       <View style={viewFull}>
         <ImageBackground source={background} style={viewFull}>
-          <Image
-            style={imageBottom}
-            resizeMode="stretch"
-            source={backgroundC}
-          />
-          <ScrollView style={{marginBottom: 15}}>
+          <ScrollView
+            style={{marginBottom: 15, paddingRight: 15, paddingLeft: 15}}>
             <View style={viewHeder}>
               <Image source={back} style={buttonBack} />
 
               <Text style={textHeder}>رفع اشکال</Text>
             </View>
-            <View style={viewHeder}>
+            <View style={[viewHeder, {marginTop: 8}]}>
               <View style={viewFullIem}>
                 <Card style={viewLine}>
-                  <Dropdown textDefault="رفع اشکال"  />
+                  <Dropdown textDefault="رفع اشکال" />
                 </Card>
               </View>
+              <View style={{width:10}}/>
               <View style={viewFullIem}>
                 <Card style={viewLine}>
                   <Dropdown textDefault="رفع اشکال" />
@@ -134,9 +149,47 @@ class Fixed extends React.Component {
           <View style={viewFullCardButton}>
             <Card style={cardButton}>
               <View style={viewCardButton}>
-                <Text style={textCardButton}>پاسخ داده نشده</Text>
-                <Text style={textCardButtonGray}>پاسخ داده نشده</Text>
-                <Text style={textCardButtonGray}>پاسخ داده نشده</Text>
+                <TouchableOpacity
+                  onPress={() => {
+                    this._onStepList(1);
+                  }}>
+                  <Text
+                    style={
+                      this.state.stepOne === 1
+                        ? textCardButton
+                        : textCardButtonGray
+                    }>
+                    پاسخ داده نشده
+                  </Text>
+                </TouchableOpacity>
+                <View style={{width:15}}/>
+                <TouchableOpacity
+                  onPress={() => {
+                    this._onStepList(2);
+                  }}>
+                  <Text
+                    style={
+                      this.state.stepOne === 2
+                        ? textCardButton
+                        : textCardButtonGray
+                    }>
+                    سوالات رزرو شده
+                  </Text>
+                </TouchableOpacity>
+                <View style={{width:15}}/>
+                <TouchableOpacity
+                  onPress={() => {
+                    this._onStepList(3);
+                  }}>
+                  <Text
+                    style={
+                      this.state.stepOne === 3
+                        ? textCardButton
+                        : textCardButtonGray
+                    }>
+                    پاسخ داده شده
+                  </Text>
+                </TouchableOpacity>
               </View>
             </Card>
           </View>

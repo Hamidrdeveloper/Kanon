@@ -64,6 +64,7 @@ class RegisterScreen extends React.Component {
               </View>
               <View style={viewFullCardButton}>
                 <TouchableOpacity
+                activeOpacity={10}
                   style={buttonItem}
                   onPress={() => this._openScreen()}>
                   <View>

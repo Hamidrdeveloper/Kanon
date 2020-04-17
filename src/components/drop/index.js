@@ -728,15 +728,15 @@ export default class Dropdown extends PureComponent {
         <TouchableOpacity {...touchableProps}>
           <View
             style={{
-              width: 130,
+              width: '100%',
               flexDirection: 'row',
               alignItems: 'center',
               justifyContent: 'flex-start',
             }}>
-            <Icon name="down" fontSize={12} style={{marginLeft: 8}} />
+            <Icon name="down" size={15} style={{marginLeft: 8}} />
             <View
               pointerEvents="box-only"
-              style={{width: '100%', paddingRight: 5}}>
+              style={{width: '85%', paddingRight: 5}}>
               {this.renderBase(props)}
               {this.renderRipple()}
             </View>

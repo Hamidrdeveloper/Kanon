@@ -111,8 +111,8 @@ export default StyleSheet.create({
   },
   viewFullIem: {
     width: '100%',
-    height: 55,
-    marginTop: 20,
+    height: 50,
+    marginTop: 8,
     paddingLeft: 15,
     paddingRight: 15,
   },
@@ -143,6 +143,6 @@ export default StyleSheet.create({
     paddingRight: 15,
   },
   space: {
-    marginTop: 50,
+    marginTop: 30,
   },
 });

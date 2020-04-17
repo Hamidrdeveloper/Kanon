@@ -26,7 +26,7 @@ class Making extends React.Component {
     };
   };
   componentDidMount(){
-    this.props.navigation.setParams({tabBarVisible: true});
+    this.props.navigation.setParams({tabBarVisible: false});
 
   }
 

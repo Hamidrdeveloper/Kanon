@@ -57,6 +57,27 @@ const ExmStack = createStackNavigator(
     },
   },
 );
+const TestStack = createStackNavigator(
+  {
+    //Defination of Navigaton from home screen
+
+    Fixed: {screen: Fixed},
+  },
+  {
+    headerMode: 'none',
+    initialRouteName: 'Fixed',
+    initialRouteParams: {transition: 'fade'},
+    transitionConfig: () => StackViewTransitionConfigs.ModalSlideFromBottomIOS,
+    navigationOptions: {
+      headerVisible: false,
+      mode: 'modal',
+      headerMode: null,
+      headerLeft: null,
+      headerShown: false,
+    },
+  },
+);
+
 
 const bottomTab = createBottomTabNavigator(
   {
@@ -87,7 +108,7 @@ const bottomTab = createBottomTabNavigator(
       },
     },
     CreatProduct: {
-      screen: Fixed,
+      screen: TestStack,
       navigationOptions: {
         tabBarLabel: 'رفع اشکال',
         tabBarIcon: ({tintColor}) => (
@@ -114,6 +135,7 @@ const bottomTab = createBottomTabNavigator(
     },
   },
   {
+    initialRouteName: 'Home',
     mode: 'modal',
     headerMode: null,
     headerLeft: null,
@@ -145,6 +167,22 @@ const homeStack = createStackNavigator(
     headerShown: false,
   },
 );
+TestStack.navigationOptions = ({navigation}) => {
+  const {state} = navigation;
+  const routes = state.routes[state.index];
+
+  /**
+   * verify the current state of tabBarVisible from navigation params
+   * if isn't avaliable, will set default as true
+   */
+  const tabBarVisible = state.routes[state.index].params
+    ? state.routes[state.index].params.tabBarVisible
+    : true;
+
+  return {
+    tabBarVisible,
+  };
+};
 ExmStack.navigationOptions = ({navigation}) => {
   const {state} = navigation;
   const routes = state.routes[state.index];

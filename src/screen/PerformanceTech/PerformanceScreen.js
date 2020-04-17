@@ -35,7 +35,7 @@ class PerformanceScreen extends React.Component {
     console.log('Rating is: ' + rating);
   }
   _hideModalPerformance = () => {
-    this.props.changeState(false)
+    this.props.changeState(false);
   };
   render() {
     let {
@@ -73,12 +73,15 @@ class PerformanceScreen extends React.Component {
       <View style={{width: '100%', height: '100%'}}>
         <Card style={viewForm}>
           <TouchableOpacity
+            activeOpacity={10}
             style={{
               position: 'absolute',
               width: 25,
               height: 25,
             }}
-            onPress={ this._hideModalPerformance}>
+            onPress={() => {
+              this._hideModalPerformance();
+            }}>
             <View
               style={{
                 position: 'absolute',

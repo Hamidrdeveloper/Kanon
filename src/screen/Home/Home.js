@@ -11,14 +11,26 @@ import {
 import {Card, Modal} from 'react-native-paper';
 import Carousel, {getInputRangeFromIndexes} from 'react-native-snap-carousel';
 import background from '../../../assets/images/abstract.png';
-
+import alarm from '../../../assets/images/alarm.png';
+import menu from '../../../assets/images/menu.png';
 import backgroundC from '../../../assets/images/abstract2.png';
 import PopUp from './popUp';
 import style from './Style/style';
 import PerformanceScreen from '../PerformanceTech/PerformanceScreen';
+import Res from '../../Color/color';
+import NotifyScreen from '../notify/notifyScreen';
+import ListClass from './lsitClass';
+import PopUpMenu from './popUpMenu';
 let screenWidth = Dimensions.get('window').width;
 class Home extends React.Component {
-  state = {isModalVisible: false, tabBarVisible: true, top: 0,isModalPerformance:true};
+  state = {
+    isModalVisible: false,
+    tabBarVisible: true,
+    top: 0,
+    isModalPerformance: false,
+    isModalNotify: false,
+    isModalPopUpMenu: false,
+  };
 
   static navigationOptions = ({navigation}) => {
     const {params} = navigation.state;
@@ -89,8 +101,9 @@ class Home extends React.Component {
       isModalVisible: true,
     });
   };
-  _hideTabBar = () => {
+  _hideTabBar = e => {
     this.props.navigation.setParams({tabBarVisible: !this.state.tabBarVisible});
+
     this.setState({
       tabBarVisible: !this.state.tabBarVisible,
       isModalVisible: !this.state.isModalVisible,
@@ -100,58 +113,31 @@ class Home extends React.Component {
     this.setState({
       isModalPerformance: e,
     });
-  }
-  renderGridItem() {
-    let {
-      textTitle,
-      date,
-      viewCircle,
-      viewCircleII,
-      circleTitle,
-      detail,
-      buttonItem,
-      textButton,
-      cardModelPerformance
-    } = style;
-    return (
-      <TouchableOpacity activeOpacity={1}>
-        <Card
-          style={{
-            width: (screenWidth + 50) / 2,
-            flexWrap: 'wrap',
-            borderRadius: 15,
-            paddingBottom: 30,
-          }}>
-          <Text style={textTitle}>{'فارسی نهم'}</Text>
-          <Text style={date}>{'1398/08/23'}</Text>
-          <View style={viewCircle}>
-            <View style={viewCircleII}>
-              <Text style={circleTitle}>{'نیم سال'}</Text>
-            </View>
-            <View style={viewCircleII}>
-              <Text style={circleTitle}>{'نیم سال'}</Text>
-            </View>
-            <View style={viewCircleII}>
-              <Text style={circleTitle}>{'نیم سال'}</Text>
-            </View>
-          </View>
-          <Text style={detail}>
-            {
-              'سلام،در واژه نامه ی کتاب معنی سریر رو به صورت «تخت پادشاهی» نوشته،اگر تخت تنها هم بیاد درسته؟'
-            }
-          </Text>
-          <TouchableOpacity onPress={this._hideTabBar}>
-            <View style={buttonItem}>
-              <Text style={textButton}>{'برسی سوال'}</Text>
-            </View>
-          </TouchableOpacity>
-        </Card>
-      </TouchableOpacity>
-    );
+  };
+  _hideModalNotify = e => {
+    this.setState({
+      isModalNotify: e,
+    });
+  };
+  _hideModalMenu = e => {
+    this.props.navigation.setParams({tabBarVisible: !this.state.tabBarVisible});
+    this.setState({
+      isModalPopUpMenu: e,
+      tabBarVisible: !e,
+    });
+  };
+  _openTabBar() {
+    this._hideTabBar(true);
   }
 
   _openPerformance() {
-    this._hideModalPerformance(true)
+    this._hideModalPerformance(true);
+  }
+  _openModalNotify() {
+    this._hideModalNotify(true);
+  }
+  _openModalMenu() {
+    this._hideModalMenu(true);
   }
 
   render() {
@@ -162,12 +148,49 @@ class Home extends React.Component {
       viewLine,
       textPerformance,
       cardModelPop,
-      cardModelPerformance
+      cardModelPerformance,
     } = style;
     return (
       <View style={[viewFull]}>
         <View style={[viewFull, {paddingBottom: this.state.top}]}>
           <ImageBackground source={background} style={[viewFull]}>
+            <View
+              style={{
+                width: '100%',
+                flexDirection: 'row',
+                marginTop: 20,
+                paddingLeft: 15,
+                paddingRight: 15,
+              }}>
+              <TouchableOpacity
+                activeOpacity={10}
+                onPress={() => this._openModalNotify()}>
+                <Image
+                  source={alarm}
+                  style={{width: 25, height: 25, tintColor: '#ffff'}}
+                />
+              </TouchableOpacity>
+              <TouchableOpacity
+                activeOpacity={10}
+                style={{
+                  width: 20,
+                  height: 20,
+                  position: 'absolute',
+                  right: 0,
+
+                  marginRight: 15,
+                }}
+                onPress={() => this._openModalMenu()}>
+                <Image
+                  source={menu}
+                  style={{
+                    width: 20,
+                    height: 20,
+                    tintColor: '#ffff',
+                  }}
+                />
+              </TouchableOpacity>
+            </View>
             <Image
               source={{
                 uri:
@@ -185,36 +208,61 @@ class Home extends React.Component {
               }}>
               حمید رضا علیزاده
             </Text>
-            <TouchableOpacity onPress={() => this._openPerformance()}>
+
+            <TouchableOpacity
+              activeOpacity={10}
+              onPress={() => {
+                this._openPerformance();
+              }}>
               <Card style={viewLine}>
                 <Text style={textPerformance}>مشاهده ی گزارش عملکرد 5/5</Text>
               </Card>
             </TouchableOpacity>
-            <Carousel
-              data={[1, 2, 3, 4, 5, 7, 9]}
-              marginTop={70}
-              horizontal={true}
-              layout={'default'}
-              scrollInterpolator={this._scrollInterpolator}
-              slideInterpolatedStyle={this._animatedStyles}
-              sliderWidth={screenWidth}
-              itemWidth={(screenWidth + 50) / 2}
-              renderItem={({item, index}) => this.renderGridItem()}
-            />
+            <ListClass hideTabBar={this._hideTabBar} />
             <Modal
               visible={this.state.isModalVisible}
               onDismiss={this._hideTabBar}>
               <View style={{height: '100%', justifyContent: 'flex-end'}}>
                 <Card style={cardModelPop}>
-                  <PopUp />
+                  <PopUp changeState={this._hideTabBar} />
                 </Card>
               </View>
             </Modal>
-            <Modal visible={this.state.isModalPerformance} onDismiss={this._hideTabBar}>
-              <View style={{height: '100%', justifyContent: 'center',padding:20,paddingBottom:30}}>
-               
-                  <PerformanceScreen changeState={this._hideModalPerformance}/>
-              
+            <Modal
+              transparent={true}
+              animationType={'none'}
+              visible={this.state.isModalPerformance}
+              onDismiss={this._hideTabBar}>
+              <View
+                style={{
+                  height: '100%',
+                  justifyContent: 'center',
+                  padding: 20,
+                  paddingBottom: 30,
+                }}>
+                <PerformanceScreen changeState={this._hideModalPerformance} />
+              </View>
+            </Modal>
+            <Modal
+              visible={this.state.isModalNotify}
+              onDismiss={this._hideTabBar}>
+              <View
+                style={{
+                  height: '100%',
+                  justifyContent: 'center',
+                  padding: 20,
+                  paddingBottom: 30,
+                }}>
+                <NotifyScreen changeState={this._hideModalNotify} />
+              </View>
+            </Modal>
+            <Modal
+              visible={this.state.isModalPopUpMenu}
+              onDismiss={this._hideModalMenu}>
+              <View style={{height: '100%', justifyContent: 'flex-end'}}>
+                <Card style={cardModelPop}>
+                  <PopUpMenu changeState={this._hideModalMenu} />
+                </Card>
               </View>
             </Modal>
           </ImageBackground>

@@ -8,7 +8,7 @@ export default StyleSheet.create({
   textTitle: {
     textAlign: 'right',
     fontFamily: 'BYekanBold',
-    fontSize: 27,
+    fontSize: 24,
     color: Res.Color.primers,
   },
   viewItem: {
@@ -17,7 +17,7 @@ export default StyleSheet.create({
     paddingLeft: 15,
     paddingRight: 15,
   },
-  date: {fontFamily: 'BYekanBold', fontSize: 13, color: Res.Color.primers},
+  date: {fontFamily: 'BYekanBold', fontSize: 11, color: Res.Color.primers},
   viewCircle: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -68,12 +68,11 @@ export default StyleSheet.create({
   },
   viewLine: {
     width: '100%',
-    height: 50,
+    height: 40,
     elevation: 5,
     backgroundColor: '#fff',
-    borderRadius: 15,
+    borderRadius: 8,
     alignSelf: 'center',
-    marginTop: 15,
   },
   viewFullButton: {
     width: '100%',
@@ -116,8 +115,7 @@ export default StyleSheet.create({
     flex: 1,
     height: 55,
     marginTop: 20,
-    paddingLeft: 15,
-    paddingRight: 8,
+
   },
   imageBottom: {
     width: '100%',
@@ -132,7 +130,7 @@ export default StyleSheet.create({
     tintColor: Res.Color.primers,
   },
   textHeder: {
-    fontSize: 35,
+    fontSize: 28,
     color: Res.Color.primers,
     fontFamily: 'BYekanBold',
     right: 0,
@@ -157,6 +155,7 @@ export default StyleSheet.create({
     color: Res.Color.primers,
     fontFamily: 'BYekanBold',
     right: 0,
+    fontSize: 11,
     position: 'absolute',
     paddingRight: 13,
   },
@@ -164,17 +163,16 @@ export default StyleSheet.create({
     flexDirection: 'row',
     width: '100%',
   },
-  flatListStyle: {marginRight: 15, marginLeft: 15,marginBottom:60},
+  flatListStyle: { marginBottom: 60},
   viewDetail: {
     paddingLeft: 100,
     width: '100%',
-    paddingBottom: 10,
   },
   imageCard: {
     width: 120,
     height: '88%',
-  
-    bottom:0,
+
+    bottom: 0,
     tintColor: '#f8f7f9',
     borderBottomLeftRadius: 20,
 
@@ -191,26 +189,31 @@ export default StyleSheet.create({
     width: '100%',
     height: 50,
     flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
     padding: 8,
   },
   textCardButton: {
     flex: 1,
     height: '100%',
+    width: '100%',
     backgroundColor: '#fff',
     borderRadius: 30,
     textAlign: 'center',
-    marginRight: 8,
-    fontSize: 14,
+    
+    fontSize: 12,
+    padding: 8,
     fontFamily: 'BYekanBold',
     textAlignVertical: 'center',
   },
   textCardButtonGray: {
     flex: 1,
+    width: '100%',
     height: '100%',
     color: '#fff',
     borderRadius: 30,
     textAlign: 'center',
-    marginRight: 8,
+    
     fontSize: 14,
     fontFamily: 'BYekanBold',
     textAlignVertical: 'center',
@@ -218,8 +221,8 @@ export default StyleSheet.create({
   viewFullCardButton: {
     width: '100%',
     height: 50,
-    position:'absolute',
-    bottom:0,
+    position: 'absolute',
+    bottom: 0,
     paddingLeft: 15,
     paddingRight: 15,
     marginBottom: 15,
