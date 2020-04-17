@@ -18,60 +18,16 @@ import style from './Style/style';
 import ItemTest from './ItemTest';
 let screenWidth = Dimensions.get('window').width;
 class Making extends React.Component {
-  _scrollInterpolator(index, carouselProps) {
-    const range = [3, 2, 1, 0, -1];
-    const inputRange = getInputRangeFromIndexes(range, index, carouselProps);
-    const outputRange = range;
-
-    return {inputRange, outputRange};
-  }
-
-  _animatedStyles(index, animatedValue, carouselProps) {
-    const translateProp = 'translateY';
-    const translatePropX = 'translateX';
+  static navigationOptions = ({navigation}) => {
+    const {params} = navigation.state;
 
     return {
-      zIndex: carouselProps.data.length - index,
-      opacity: animatedValue.interpolate({
-        inputRange: [2, 3],
-        outputRange: [1, 0],
-      }),
-      transform: [
-        {
-          rotate: animatedValue.interpolate({
-            inputRange: [-1, 0, 1, 2, 3],
-            outputRange: ['0deg', '0deg', '0deg', '0deg', '0deg'],
-            extrapolate: 'default',
-          }),
-        },
-        {
-          [translateProp]: animatedValue.interpolate({
-            inputRange: [-1, 0, 1, 2, 3],
-            outputRange: [
-              20,
-              0,
-              20, // centered
-              20, // centered
-              20, // centered
-            ],
-            extrapolate: 'default',
-          }),
-        },
-        {
-          [translatePropX]: animatedValue.interpolate({
-            inputRange: [-1, 0, 1, 2, 3],
-            outputRange: [
-              -20,
-              0,
-              20, // centered
-              20, // centered
-              20, // centered
-            ],
-            extrapolate: 'default',
-          }),
-        },
-      ],
+      tabBarVisible: false,
     };
+  };
+  componentDidMount(){
+    this.props.navigation.setParams({tabBarVisible: true});
+
   }
 
   renderGridItem() {
@@ -156,7 +112,7 @@ class Making extends React.Component {
           <ItemTest />
           <View style={viewFullButton}>
             <Card style={viewButton}>
-              <Text style={textButton}>دریافت صوالات</Text>
+              <Text style={textButton}>دریافت سوالات</Text>
             </Card>
           </View>
         </ImageBackground>

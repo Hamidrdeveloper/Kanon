@@ -21,6 +21,10 @@ import style from './Style/style';
 import {FlatList} from 'react-native-gesture-handler';
 let screenWidth = Dimensions.get('window').width;
 class RegisterScreen extends React.Component {
+  _openScreen() {
+    let {navigation} = this.props;
+    navigation.navigate('Home');
+  }
   render() {
     let {
       imageBottom,
@@ -40,27 +44,38 @@ class RegisterScreen extends React.Component {
       viewFullCardButton,
     } = style;
     return (
-      <View style={{width:`100%`,height:`100%`}} >
-        <ImageBackground source={background} resizeMode="stretch" style={viewFull}>
+      <View style={{width: '100%', height: '100%'}}>
+        <ImageBackground
+          source={background}
+          resizeMode="stretch"
+          style={viewFull}>
           <View style={viewRegister}>
-          <View style={viewForm}>
-            <Text style={textTitle}>کانون فرهنگی آموزش</Text>
-            <Text style={detail}>اپلیکیشن دبیران</Text>
+            <View style={viewForm}>
+              <Text style={textTitle}>کانون فرهنگی آموزش</Text>
+              <Text style={detail}>اپلیکیشن دبیران</Text>
+              <View style={{width: '85%',marginTop:`18%`}}>
+                <Text style={titleRegister}>کدملی</Text>
+              </View>
 
-            <Text style={titleRegister}>کدملی</Text>
-            <View style={viewFullCardButton}>
-            <Card style={cardButton}>
-             <TextInput/>
-            </Card>
-          </View>
-          <View style={buttonItem}>
-                <Text style={textButton}>{'ثبت نام'}</Text>
+              <View style={viewFullCardButton}>
+                <Card style={cardButton}>
+                  <TextInput />
+                </Card>
               </View>
-              <View style={buttonLogin}>
-                <Text style={textButtonLogin}>{'ورود'}</Text>
+              <View style={viewFullCardButton}>
+                <TouchableOpacity
+                  style={buttonItem}
+                  onPress={() => this._openScreen()}>
+                  <View>
+                    <Text style={textButton}>{'ثبت نام'}</Text>
+                  </View>
+                </TouchableOpacity>
+                <View style={buttonLogin}>
+                  <Text style={textButtonLogin}>{'ورود'}</Text>
+                </View>
               </View>
+            </View>
           </View>
-</View>
         </ImageBackground>
       </View>
     );

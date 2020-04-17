@@ -1,5 +1,9 @@
 import {StyleSheet} from 'react-native';
 import Res from '../../../Color/color';
+import {
+  widthPercentageToDP as wp,
+  heightPercentageToDP as hp,
+} from 'react-native-responsive-screen';
 export default StyleSheet.create({
   matchParent: {
     width: 200,
@@ -58,7 +62,7 @@ export default StyleSheet.create({
   },
   viewLine: {
     width: '100%',
-    height: 55,
+    height: hp(7),
     marginRight: 15,
     marginLeft: 15,
     elevation: 5,
@@ -79,7 +83,7 @@ export default StyleSheet.create({
   },
   viewButton: {
     width: '100%',
-    height: 55,
+    height: hp(7),
     marginRight: 15,
     marginLeft: 15,
     elevation: 5,

@@ -18,9 +18,10 @@ import back from '../../../assets/images/back.png';
 import circle from '../../../assets/images/circaleBack.png';
 import style from './Style/style';
 import {FlatList} from 'react-native-gesture-handler';
+import Dropdown from '../../components/drop';
+
 let screenWidth = Dimensions.get('window').width;
 class Fixed extends React.Component {
-  
   renderGridItem() {
     let {
       textTitle,
@@ -44,6 +45,8 @@ class Fixed extends React.Component {
             width: '100%',
             borderRadius: 30,
             marginTop: 15,
+            paddingBottom: 1,
+            marginBottom:1
           }}>
           <Image style={imageCard} resizeMode="stretch" source={circle} />
           <View style={viewItem}>
@@ -52,15 +55,13 @@ class Fixed extends React.Component {
               <Text style={viewItemRowII}>{'1398/08/23'}</Text>
               <View>
                 <Text style={date}>{'آزمون کانون'}</Text>
-                <Text style={date}>{'1398/08/23'}</Text>
+                <Text style={date}>{'1398/08/24'}</Text>
               </View>
             </View>
             <View style={viewItemRow}>
               <View style={viewDetail}>
                 <Text style={detail}>
-                  {
-                    'را سوالات نمیاد؟اسلا اینجا سوال داره؟اها راستی نصبم نمیشه لطفا سریع جواب بدین وگرنه مامانم کلمو میکنه اگر سایتی پیدا نکنم که سوالات انلاین داشته باشه حل کنم'
-                  }
+                  {'را سوالات نمیاد؟اسلا اینجا سوال داره؟اها راستی نصبم م'}
                 </Text>
               </View>
               <View style={buttonItem}>
@@ -88,6 +89,7 @@ class Fixed extends React.Component {
       viewCardButton,
       textCardButton,
       viewFullCardButton,
+      textCardButtonGray
     } = style;
     return (
       <View style={viewFull}>
@@ -106,16 +108,16 @@ class Fixed extends React.Component {
             <View style={viewHeder}>
               <View style={viewFullIem}>
                 <Card style={viewLine}>
-                  <Text style={textInputItem}>رفع اشکال </Text>
+                  <Dropdown textDefault="رفع اشکال"  />
                 </Card>
               </View>
               <View style={viewFullIem}>
                 <Card style={viewLine}>
-                  <Text style={textInputItem}>رفع اشکال </Text>
+                  <Dropdown textDefault="رفع اشکال" />
                 </Card>
               </View>
             </View>
-           
+
             <FlatList
               data={[1, 2, 3, 4, 5, 7, 9]}
               marginTop={10}
@@ -127,14 +129,14 @@ class Fixed extends React.Component {
               sliderWidth={screenWidth}
               itemWidth={(screenWidth + 50) / 2}
               renderItem={({item, index}) => this.renderGridItem()}
-            /> 
+            />
           </ScrollView>
           <View style={viewFullCardButton}>
             <Card style={cardButton}>
               <View style={viewCardButton}>
                 <Text style={textCardButton}>پاسخ داده نشده</Text>
-                <Text style={textCardButton}>پاسخ داده نشده</Text>
-                <Text style={textCardButton}>پاسخ داده نشده</Text>
+                <Text style={textCardButtonGray}>پاسخ داده نشده</Text>
+                <Text style={textCardButtonGray}>پاسخ داده نشده</Text>
               </View>
             </Card>
           </View>

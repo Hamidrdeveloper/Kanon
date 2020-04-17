@@ -2,17 +2,20 @@ import {StyleSheet, Dimensions} from 'react-native';
 import Res from '../../../Color/color';
 let screenWidth = Dimensions.get('window').width;
 let screenHeight = Dimensions.get('window').height;
-
+import {
+  widthPercentageToDP as wp,
+  heightPercentageToDP as hp,
+} from 'react-native-responsive-screen';
 export default StyleSheet.create({
   matchParent: {
     width: 200,
-    height: 100,
+    height: 250,
   },
   textTitle: {
     width: '100%',
     textAlign: 'center',
     fontFamily: 'BYekanBold',
-    fontSize: 30,
+    fontSize: 40,
     color: Res.Color.primers,
   },
   viewItem: {
@@ -42,40 +45,43 @@ export default StyleSheet.create({
     width: '100%',
     textAlign: 'center',
     fontFamily: 'BYekanBold',
-    fontSize: 23,
+    fontSize: 18,
     color: '#a0a0a0',
   },
   buttonItem: {
     backgroundColor: '#333648',
     borderRadius: 30,
-    marginTop:100,
-    width: '85%',
-    height: 50,
-    
+    marginTop: 100,
+    width: '100%',
+    height: 55,
+    justifyContent: 'flex-end',
+    alignSelf: 'flex-end',
   },
 
   viewFull: {
     width: '100%',
     height: '100%',
-   
+    padding: 30,
   },
   imagePro: {
-    width: 80,
-    height: 80,
-    borderRadius: 100,
+    width: 60,
+    height: 60,
+    borderRadius: hp(7),
     alignSelf: 'center',
-    marginTop: 45,
   },
-  viewRegister: {
-    width: '100%',
-    height: `100%`,
-    paddingRight:15,
-    paddingLeft:15
-   
+  viewRank: {
+    height: hp(12),
+    width: wp(11),
+    borderColor: Res.Color.primers,
+    borderWidth: 2,
+    borderRadius: 15,
+    marginLeft: 10,
+    justifyContent: 'flex-end',
+    alignItems: 'center',
   },
   viewFullButton: {
     width: '100%',
-    height: 50,
+    height: 55,
     marginTop: 20,
     paddingLeft: 15,
     paddingRight: 15,
@@ -97,14 +103,10 @@ export default StyleSheet.create({
     marginBottom: 25,
   },
   // eslint-disable-next-line no-dupe-keys
-  textButton: {
-    width: '100%',
-    height: '100%',
-    textAlign: 'center',
-    textAlignVertical: 'center',
-    fontSize: 25,
-    color: '#fff',
-    fontFamily: 'BYekanBold',
+  textRank: {
+    fontSize: 35,
+    color: Res.Color.primers,
+    fontFamily: 'Yekan',
   },
   textInputItem: {
     width: '100%',
@@ -117,16 +119,10 @@ export default StyleSheet.create({
     paddingLeft: 15,
     paddingRight: 8,
   },
-  imageBottom: {
-    width: '100%',
-    height: '50%',
-    position: 'absolute',
-    bottom: 0,
-  },
+  imageBottom: {width: wp(8), height: hp(8), flex: 1},
   buttonBack: {
-    width: 25,
-    height: 25,
-    marginLeft: 10,
+    width: 15,
+    height: 15,
     tintColor: Res.Color.primers,
   },
   textHeder: {
@@ -138,9 +134,11 @@ export default StyleSheet.create({
     paddingRight: 15,
   },
   viewForm: {
-    marginTop: `35%`,
     width: '100%',
     height: '100%',
+    padding: 25,
+    borderRadius: 40,
+    elevation: 8,
   },
   space: {
     marginTop: 15,
@@ -148,44 +146,92 @@ export default StyleSheet.create({
   viewItemRow: {
     flexDirection: 'row',
     width: '100%',
+    alignItems: 'flex-end',
+    justifyContent: 'center',
+    marginTop: 15,
   },
   viewItemRowII: {
-    color: Res.Color.primers,
-    fontFamily: 'BYekanBold',
-    right: 0,
-    position: 'absolute',
-    paddingRight: 15,
+    width: '100%',
+    flexDirection: 'row',
   },
   viewItemRowIII: {
     flexDirection: 'row',
     width: '100%',
   },
-  flatListStyle: {marginRight: 15, marginLeft: 15},
+  cardBottom: {
+    flex: 1,
+    width: '100%',
+    height: 75,
+    alignItems:'flex-end',
+    paddingRight:8,
+    backgroundColor: '#f6f6f8',
+    borderRadius: 10,
+  },
+  cardBottomLine: {
+    height: 75,
+    width: 1.5,
+    backgroundColor: '#f6f6f8',
+    marginLeft: 8,
+    marginRight: 8,
+  },
   viewDetail: {
     paddingLeft: 100,
     width: '100%',
     paddingBottom: 10,
   },
   imageCard: {
-    width: 120,
-    height: '100%',
-    marginTop: 5,
-    tintColor: '#f8f7f9',
-    borderBottomLeftRadius: 20,
+    alignItems: 'center',
+  },
+  viewTextRating: {
+    flexDirection: 'row-reverse',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  viewTextShowRank: {
+    flexDirection: 'row-reverse',
 
-    // borderBottomWidth: 7000,
+    alignItems: 'center',
+    paddingLeft: 8,
+  },
+  textShowRank: {
+    height: '100%',
+
+    textAlignVertical: 'center',
+    right: 0,
+    fontFamily: 'BYekanBold',
+    paddingLeft: 20,
+  },
+  viewImageShowRank:{
     position: 'absolute',
+    right: 0,
+    height: '100%',
+    width: 25,
+    justifyContent: 'center',
+  },
+  textRating: {
+    height: '100%',
+
+    textAlignVertical: 'center',
+    right: 0,
+    color:Res.Color.gray,
+    fontFamily: 'BYekanBold',
   },
   cardButton: {
-    width: '80%',
-    height: 50,
-    backgroundColor: '#bfbfbf',
+    width: '100%',
+    height: '100%',
+
+    backgroundColor: '#f7f7f9',
     borderRadius: 30,
   },
-  
+  cardButtonMore: {
+    width: '100%',
+    height: '100%',
+    backgroundColor: '#e6e6e6',
+    borderRadius: 30,
+  },
   viewCardButton: {
     width: '100%',
-    height: 50,
+    height: 55,
     flexDirection: 'row',
     padding: 8,
   },
@@ -201,33 +247,40 @@ export default StyleSheet.create({
     textAlignVertical: 'center',
   },
   viewFullCardButton: {
-    width: '100%',
-    height: 50,
-    alignItems:'center'
+    width: wp(55),
+    height: hp(4),
+  },
+  viewFullCardButtonmore: {
+    height: hp(4),
+    marginTop: 10,
   },
   titleRegister: {
     width: '100%',
     textAlign: 'right',
     fontFamily: 'BYekanBold',
-    fontSize: 22,
-
+    fontSize: 25,
     color: '#a0a0a0',
   },
-  buttonLogin:{
+  buttonLogin: {
     borderRadius: 30,
-    marginTop:18,
+    marginTop: 18,
     width: '100%',
-    height: 50,
+    height: 55,
     justifyContent: 'flex-end',
     alignSelf: 'flex-end',
   },
-  textButtonLogin:{
-    width: '100%',
-    height: '100%',
+  textBottomRank: {
     textAlign: 'center',
     textAlignVertical: 'center',
-    fontSize: 25,
+    fontSize: hp(1.5),
     color: Res.Color.primers,
     fontFamily: 'BYekanBold',
-  }
+  },
+  textTopRank: {
+    textAlign: 'center',
+    textAlignVertical: 'center',
+    fontSize: hp(1.5),
+    color: Res.Color.primers,
+    fontFamily: 'BYekanBold',
+  },
 });

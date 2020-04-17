@@ -1,46 +1,94 @@
 import React from 'react';
-import Home from './screen/Home/Home';
-import Making from './screen/MakingTest/making'
-import Fixed from './screen/FixeTest/Fixed'
+import Home from './screen/Home/home';
+import Making from './screen/MakingTest/making';
+import Fixed from './screen/FixeTest/Fixed';
 import {Image} from 'react-native';
 import {createAppContainer} from 'react-navigation';
 import im_exam from '../assets/images/test.png';
+import passed from '../assets/images/passed.png';
+import house from '../assets/images/house.png';
+import werite from '../assets/images/werite.png';
 import {
   createStackNavigator,
   StackViewTransitionConfigs,
 } from 'react-navigation-stack';
-import { createBottomTabNavigator } from 'react-navigation-tabs';
+import {createBottomTabNavigator} from 'react-navigation-tabs';
 import RegisterScreen from './screen/Register/RegisterScreen';
-const bottomTab = createBottomTabNavigator({
-  Home: {
-    screen: Home,
+import PerformanceScreen from './screen/PerformanceTech/PerformanceScreen';
+import PopUp from './screen/Home/popUp';
+
+const ProfileStack = createStackNavigator(
+  {
+    //Defination of Navigaton from home screen
+
+    HomeStack: {screen: Home},
+  },
+  {
+    headerMode: 'none',
+    initialRouteName: 'HomeStack',
+    initialRouteParams: {transition: 'fade'},
+    transitionConfig: () => StackViewTransitionConfigs.ModalSlideFromBottomIOS,
     navigationOptions: {
-      tabBarLabel: 'آزمون سازی',
-      tabBarIcon: ({tintColor}) => (
-        <Image
-          source={im_exam}
-          style={{width: 20, height: 20, color: tintColor}}
-          tintColor={tintColor}
-        />
-      ),
+      headerVisible: false,
+      mode: 'modal',
+      headerMode: null,
+      headerLeft: null,
+      headerShown: false,
     },
   },
-  HoDebugging: {
-    screen: Making,
+);
+const ExmStack = createStackNavigator(
+  {
+    //Defination of Navigaton from home screen
+
+    CreatExm: {screen: Making},
+  },
+  {
+    headerMode: 'none',
+    initialRouteName: 'CreatExm',
+    initialRouteParams: {transition: 'fade'},
+    transitionConfig: () => StackViewTransitionConfigs.ModalSlideFromBottomIOS,
     navigationOptions: {
-        tabBarLabel: 'محصول ساز',
+      headerVisible: false,
+      mode: 'modal',
+      headerMode: null,
+      headerLeft: null,
+      headerShown: false,
+    },
+  },
+);
+
+const bottomTab = createBottomTabNavigator(
+  {
+    CreatExm: {
+      screen: ExmStack,
+      navigationOptions: {
+        tabBarLabel: 'آزمون سازی',
         tabBarIcon: ({tintColor}) => (
           <Image
-            source={im_exam}
+            source={passed}
             style={{width: 20, height: 20, color: tintColor}}
             tintColor={tintColor}
           />
         ),
       },
-  },
-  CreatProduct: {
-    screen: Home,
-    navigationOptions: {
+    },
+    HoDebugging: {
+      screen: Making,
+      navigationOptions: {
+        tabBarLabel: 'محصول ساز',
+        tabBarIcon: ({tintColor}) => (
+          <Image
+            source={werite}
+            style={{width: 20, height: 20, color: tintColor}}
+            tintColor={tintColor}
+          />
+        ),
+      },
+    },
+    CreatProduct: {
+      screen: Fixed,
+      navigationOptions: {
         tabBarLabel: 'رفع اشکال',
         tabBarIcon: ({tintColor}) => (
           <Image
@@ -50,29 +98,90 @@ const bottomTab = createBottomTabNavigator({
           />
         ),
       },
-  },
-  CreatExm: {
-    screen: Home,
-    navigationOptions: {
+    },
+    Home: {
+      screen: ProfileStack,
+      navigationOptions: {
         tabBarLabel: 'خانه',
         tabBarIcon: ({tintColor}) => (
           <Image
-            source={im_exam}
+            source={house}
             style={{width: 20, height: 20, color: tintColor}}
             tintColor={tintColor}
           />
         ),
       },
+    },
   },
-},
+  {
+    mode: 'modal',
+    headerMode: null,
+    headerLeft: null,
+    headerShown: false,
+  },
 );
-const homeStack = createStackNavigator({
-  exmBuild:{
-    screen:RegisterScreen
-  },
-  Home:{screen:bottomTab}
 
-},{
-  headerMode:'none'
-})
-export default createAppContainer(homeStack);
+const homeStack = createStackNavigator(
+  {
+    Register: {screen: RegisterScreen},
+    Home: {screen: bottomTab},
+    CaptureModal: {
+      screen: PopUp,
+      navigationOptions: {
+        gesturesEnabled: false,
+      },
+    },
+    Modal: {
+      screen: bottomTab,
+    },
+    Performance: {
+      screen: PerformanceScreen,
+    },
+  },
+  {
+    mode: 'modal',
+    headerMode: null,
+    headerLeft: null,
+    headerShown: false,
+  },
+);
+ExmStack.navigationOptions = ({navigation}) => {
+  const {state} = navigation;
+  const routes = state.routes[state.index];
+
+  /**
+   * verify the current state of tabBarVisible from navigation params
+   * if isn't avaliable, will set default as true
+   */
+  const tabBarVisible = state.routes[state.index].params
+    ? state.routes[state.index].params.tabBarVisible
+    : true;
+
+  return {
+    tabBarVisible,
+  };
+};
+ProfileStack.navigationOptions = ({navigation}) => {
+  const {state} = navigation;
+  const routes = state.routes[state.index];
+
+  /**
+   * verify the current state of tabBarVisible from navigation params
+   * if isn't avaliable, will set default as true
+   */
+  const tabBarVisible = state.routes[state.index].params
+    ? state.routes[state.index].params.tabBarVisible
+    : true;
+
+  return {
+    tabBarVisible,
+  };
+};
+
+const AppContainer = createAppContainer(homeStack);
+
+export default class App extends React.Component {
+  render() {
+    return <AppContainer />;
+  }
+}
