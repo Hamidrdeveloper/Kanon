@@ -1,5 +1,5 @@
 import React from 'react';
-import Home from './screen/Home/home';
+import Home from './containers/Home';
 import Making from './screen/MakingTest/making';
 import Fixed from './screen/FixeTest/Fixed';
 import {Image} from 'react-native';

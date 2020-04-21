@@ -33,6 +33,7 @@ class Fixed extends React.Component {
     stepOne: 1,
   };
   componentDidMount() {
+
     this.props.navigation.setParams({tabBarVisible: false});
   }
   _onStepList(e) {

@@ -7,6 +7,7 @@ import {
   Image,
   ImageBackground,
   Button,
+  AsyncStorage,
 } from 'react-native';
 import {Card, Modal} from 'react-native-paper';
 import Carousel, {getInputRangeFromIndexes} from 'react-native-snap-carousel';
@@ -21,8 +22,12 @@ import Res from '../../Color/color';
 import NotifyScreen from '../notify/notifyScreen';
 import ListClass from './lsitClass';
 import PopUpMenu from './popUpMenu';
+import Channel from '../../channel/indext';
+import HomeAction from '../../action/HomeAction';
+import {connect} from 'react-redux';
+import {bindActionCreators} from 'redux';
 let screenWidth = Dimensions.get('window').width;
-class Home extends React.Component {
+class HomeScreen extends React.Component {
   state = {
     isModalVisible: false,
     tabBarVisible: true,
@@ -138,6 +143,13 @@ class Home extends React.Component {
   }
   _openModalMenu() {
     this._hideModalMenu(true);
+  }
+  componentDidMount() {
+    AsyncStorage.getItem('userid').then(data => {
+      console.log(data);
+      var userId = data;
+      this.props._onAnsweredQuestion(userId);
+    });
   }
 
   render() {
@@ -271,5 +283,16 @@ class Home extends React.Component {
     );
   }
 }
-
-export default Home;
+function mapStateTop(state) {
+  return {
+    AQ_data: state.Home.data,
+    isLoaded: state.Home.isLoaded,
+  };
+}
+function mapDispatchToProps(dispatch) {
+  return bindActionCreators(HomeAction, dispatch);
+}
+export default connect(
+  mapStateTop,
+  mapDispatchToProps,
+)(HomeScreen);

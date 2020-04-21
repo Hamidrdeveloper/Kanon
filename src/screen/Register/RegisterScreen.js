@@ -9,6 +9,7 @@ import {
   ImageBackground,
   ScrollView,
   TextInput,
+  AsyncStorage,
 } from 'react-native';
 import {Card} from 'react-native-paper';
 import Carousel, {getInputRangeFromIndexes} from 'react-native-snap-carousel';
@@ -19,11 +20,32 @@ import back from '../../../assets/images/back.png';
 import circle from '../../../assets/images/circaleBack.png';
 import style from './Style/style';
 import {FlatList} from 'react-native-gesture-handler';
+import LoginAction from '../../action/LoginAction';
+import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
+import Res from '../../Color/color';
+
 let screenWidth = Dimensions.get('window').width;
 class RegisterScreen extends React.Component {
-  _openScreen() {
+  state = {
+    nationalCode: '',
+  };
+
+  onLogin = e => {
     let {navigation} = this.props;
-    navigation.navigate('Home');
+
+    LoginAction._onLogin(this.state.nationalCode).then(data => {
+      if (data !== '0') {
+        console.log(data.Rid);
+        AsyncStorage.setItem('userid', data.Rid+"");
+    
+        navigation.navigate('Home');
+      }
+    });
+  };
+  onChangeTextUser(e) {
+    this.setState({
+      nationalCode: e,
+    });
   }
   render() {
     let {
@@ -45,28 +67,46 @@ class RegisterScreen extends React.Component {
     } = style;
     return (
       <View style={{width: '100%', height: '100%'}}>
-        <ImageBackground
+        <Image
+          style={{width: '100%', height: '100%', position: 'absolute'}}
           source={background}
           resizeMode="stretch"
-          style={viewFull}>
+        />
+        {/* <ImageBackground
+          resizeMode="stretch"
+          style={viewFull}> */}
+        <KeyboardAwareScrollView
+          contentContainerStyle={{flexGrow: 1}}
+          enableOnAndroid={true}
+          style={{width: '100%', height: '100%'}}>
           <View style={viewRegister}>
             <View style={viewForm}>
               <Text style={textTitle}>کانون فرهنگی آموزش</Text>
               <Text style={detail}>اپلیکیشن دبیران</Text>
-              <View style={{width: '85%',marginTop:`18%`}}>
+              <View style={{width: '85%', marginTop: '18%'}}>
                 <Text style={titleRegister}>کدملی</Text>
               </View>
 
               <View style={viewFullCardButton}>
                 <Card style={cardButton}>
-                  <TextInput />
+                  <TextInput
+                    style={{
+                      textAlign: 'center',
+                      textAlignVertical: 'center',
+                      fontSize: 16,
+                      color: Res.Color.primers,
+                      fontFamily: 'BYekanBold',
+                    }}
+                    maxLength={11}
+                    onChangeText={text => this.onChangeTextUser(text)}
+                  />
                 </Card>
               </View>
               <View style={viewFullCardButton}>
                 <TouchableOpacity
-                activeOpacity={10}
+                  activeOpacity={10}
                   style={buttonItem}
-                  onPress={() => this._openScreen()}>
+                  onPress={() => this.onLogin()}>
                   <View>
                     <Text style={textButton}>{'ثبت نام'}</Text>
                   </View>
@@ -77,7 +117,8 @@ class RegisterScreen extends React.Component {
               </View>
             </View>
           </View>
-        </ImageBackground>
+        </KeyboardAwareScrollView>
+        {/* </ImageBackground> */}
       </View>
     );
   }
