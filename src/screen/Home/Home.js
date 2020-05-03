@@ -26,6 +26,8 @@ import Channel from '../../channel/indext';
 import HomeAction from '../../action/HomeAction';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
+import PropTypes from 'prop-types';
+
 let screenWidth = Dimensions.get('window').width;
 class HomeScreen extends React.Component {
   state = {
@@ -149,7 +151,12 @@ class HomeScreen extends React.Component {
       console.log(data);
       var userId = data;
       this.props._onAnsweredQuestion(userId);
+      console.log('=====>', this.props.data);
+
     });
+  }
+  componentWillUpdate() {
+    console.log('=====>', this.props.data);
   }
 
   render() {
@@ -230,7 +237,10 @@ class HomeScreen extends React.Component {
                 <Text style={textPerformance}>مشاهده ی گزارش عملکرد 5/5</Text>
               </Card>
             </TouchableOpacity>
-            <ListClass hideTabBar={this._hideTabBar} />
+            <ListClass
+              hideTabBar={this._hideTabBar}
+              AQ_data={this.props.data}
+            />
             <Modal
               visible={this.state.isModalVisible}
               onDismiss={this._hideTabBar}>
@@ -282,10 +292,13 @@ class HomeScreen extends React.Component {
       </View>
     );
   }
+  static propTypes = {
+    navigation: PropTypes.any,
+  };
 }
 function mapStateTop(state) {
   return {
-    AQ_data: state.Home.data,
+    data: state.Home.data,
     isLoaded: state.Home.isLoaded,
   };
 }

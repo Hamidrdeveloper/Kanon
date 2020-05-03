@@ -12,6 +12,7 @@ import {
 import {Card} from 'react-native-paper';
 import Carousel, {getInputRangeFromIndexes} from 'react-native-snap-carousel';
 import background from '../../../assets/images/abstract.png';
+import PropTypes from 'prop-types';
 
 import backgroundC from '../../../assets/images/abstract2.png';
 import back from '../../../assets/images/back.png';
@@ -19,9 +20,12 @@ import circle from '../../../assets/images/circaleBack.png';
 import style from './Style/style';
 import {FlatList} from 'react-native-gesture-handler';
 import Dropdown from '../../components/drop';
+import FixAction from '../../action/FixAction';
+import {bindActionCreators} from 'redux';
+import {connect} from 'react-redux';
 
 let screenWidth = Dimensions.get('window').width;
-class Fixed extends React.Component {
+class FixeScreen extends React.Component {
   static navigationOptions = ({navigation}) => {
     const {params} = navigation.state;
 
@@ -32,14 +36,23 @@ class Fixed extends React.Component {
   state = {
     stepOne: 1,
   };
+  _filterSort(data, indext) {
+    return data.groupName;
+  }
+  _filterName(data, indext) {
+    return data;
+  }
   componentDidMount() {
-
     this.props.navigation.setParams({tabBarVisible: false});
+    this.props._onGroups();
   }
   _onStepList(e) {
     this.setState({
       stepOne: e,
     });
+  }
+  componentWillUpdate() {
+    console.log('Groups', this.props.dataGroups);
   }
   renderGridItem() {
     let {
@@ -123,13 +136,18 @@ class Fixed extends React.Component {
             <View style={[viewHeder, {marginTop: 8}]}>
               <View style={viewFullIem}>
                 <Card style={viewLine}>
-                  <Dropdown textDefault="رفع اشکال" />
+                  <Dropdown
+                    textDefault="همه دروس"
+                    data={this.props.dataGroups}
+                    labelExtractor={this._filterSort}
+                    valueExtractor={this._filterName}
+                  />
                 </Card>
               </View>
-              <View style={{width:10}}/>
+              <View style={{width: 10}} />
               <View style={viewFullIem}>
                 <Card style={viewLine}>
-                  <Dropdown textDefault="رفع اشکال" />
+                  <Dropdown textDefault="همه مقاطع" />
                 </Card>
               </View>
             </View>
@@ -151,6 +169,7 @@ class Fixed extends React.Component {
             <Card style={cardButton}>
               <View style={viewCardButton}>
                 <TouchableOpacity
+                  style={{position: 'absolute', left: 8}}
                   onPress={() => {
                     this._onStepList(1);
                   }}>
@@ -163,7 +182,7 @@ class Fixed extends React.Component {
                     پاسخ داده نشده
                   </Text>
                 </TouchableOpacity>
-                <View style={{width:15}}/>
+                <View style={{width: 15}} />
                 <TouchableOpacity
                   onPress={() => {
                     this._onStepList(2);
@@ -177,8 +196,9 @@ class Fixed extends React.Component {
                     سوالات رزرو شده
                   </Text>
                 </TouchableOpacity>
-                <View style={{width:15}}/>
+                <View style={{width: 15}} />
                 <TouchableOpacity
+                  style={{position: 'absolute', right: 8}}
                   onPress={() => {
                     this._onStepList(3);
                   }}>
@@ -198,6 +218,21 @@ class Fixed extends React.Component {
       </View>
     );
   }
-}
 
-export default Fixed;
+  static propTypes = {
+    navigation: PropTypes.any,
+  };
+}
+function mapStateTop(state) {
+  return {
+    dataGroups: state.Fixe.dataGroups,
+    isLoaded: state.Fixe.isLoaded,
+  };
+}
+function mapDispatchToProps(dispatch) {
+  return bindActionCreators(FixAction, dispatch);
+}
+export default connect(
+  mapStateTop,
+  mapDispatchToProps,
+)(FixeScreen);

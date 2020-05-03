@@ -22,7 +22,7 @@ import back from '../../../assets/images/back.png';
 import circle from '../../../assets/images/circaleBack.png';
 import style from './Style/style';
 import {FlatList} from 'react-native-gesture-handler';
-import Fixed from '../FixeTest/Fixed';
+import Fixed from '../FixeTest/FixeScreen';
 import {AirbnbRating} from '../../react_native_ratings_example';
 import Icon from 'react-native-vector-icons/FontAwesome';
 let screenWidth = Dimensions.get('window').width;
@@ -64,19 +64,7 @@ class PopUpMenu extends React.Component {
               paddingRight: 30,
             },
           ]}>
-          <TouchableOpacity
-            onPress={() => {
-              this._hideModalMenu();
-            }}>
-            <View
-              style={{
-                width: 50,
-                height: 4,
-                borderRadius: 8,
-                backgroundColor: Res.Color.grayLight,
-              }}
-            />
-          </TouchableOpacity>
+         
           <Text style={textTitlePopUpMenu}>{'فارسی نهم'}</Text>
           <View style={viewFullCardButton}>
             <View style={cardButton}>
@@ -125,6 +113,26 @@ class PopUpMenu extends React.Component {
             <Icon name="info-circle" size={15} />
           </View>
           <View style={lineService} />
+          <TouchableOpacity
+          activeOpacity={10}
+            style={{
+              width: 50,
+              height: 50,
+              position: 'absolute',
+              top: 0,
+            }}
+            onPress={() => {
+              this._hideModalMenu();
+            }}>
+            <View
+              style={{
+                width: 50,
+                height: 4,
+                borderRadius: 8,
+                backgroundColor: Res.Color.grayLight,
+              }}
+            />
+          </TouchableOpacity>
         </View>
       </View>
     );

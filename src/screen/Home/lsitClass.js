@@ -29,6 +29,13 @@ class ListClass extends React.Component {
     isModalPerformance: false,
     isModalNotify: false,
   };
+  static navigationOptions = ({navigation}) => {
+    const {params} = navigation.state;
+
+    return {
+      tabBarVisible: true,
+    };
+  };
   _scrollInterpolator(index, carouselProps) {
     const range = [3, 2, 1, 0, -1];
     const inputRange = getInputRangeFromIndexes(range, index, carouselProps);
@@ -86,11 +93,10 @@ class ListClass extends React.Component {
   }
 
   _hideTabBar = () => {
-
     this.props.hideTabBar(false);
   };
 
-  renderGridItem() {
+  renderGridItem({item, index}) {
     let {
       textTitle,
       date,
@@ -106,30 +112,33 @@ class ListClass extends React.Component {
       <TouchableOpacity activeOpacity={1}>
         <Card
           style={{
-            width: (screenWidth + 50) / 2,
             flexWrap: 'wrap',
             borderRadius: 15,
-            paddingBottom: 30,
+            paddingBottom: 15,
           }}>
-          <Text style={textTitle}>{'فارسی نهم'}</Text>
-          <Text style={date}>{'1398/08/23'}</Text>
-          <View style={viewCircle}>
-            <View style={viewCircleII}>
-              <Text style={circleTitle}>{'نیم سال'}</Text>
-            </View>
-            <View style={viewCircleII}>
-              <Text style={circleTitle}>{'نیم سال'}</Text>
-            </View>
-            <View style={viewCircleII}>
-              <Text style={circleTitle}>{'نیم سال'}</Text>
-            </View>
-          </View>
-          <Text style={detail}>
-            {
-              'سلام،در واژه نامه ی کتاب معنی سریر رو به صورت «تخت پادشاهی» نوشته،اگر تخت تنها هم بیاد درسته؟'
-            }
+          <Text style={textTitle}>{item.CrsName}</Text>
+          <Text style={date} maxLength="5">
+            {item.persianDate.substring(0, 10)}
           </Text>
-          <TouchableOpacity onPress={this._hideTabBar}>
+          <View style={viewCircle}>
+            <View style={{width: 5}} />
+            <View style={viewCircleII}>
+              <Text style={circleTitle}>{item.GroupName}</Text>
+            </View>
+            <View style={{width: 5}} />
+            <View style={viewCircleII}>
+              <Text style={circleTitle}>
+                {item.questionType + '\n' + item.persianDate.substring(0, 10)}
+              </Text>
+            </View>
+            <View style={{width: 5}} />
+            <View style={viewCircleII}>
+              <Text style={circleTitle}>{'نیم سال'}</Text>
+            </View>
+            <View style={{width: 5}} />
+          </View>
+          <Text style={detail}>{item.ProblemText}</Text>
+          <TouchableOpacity activeOpacity={10} onPress={this._hideTabBar}>
             <View style={buttonItem}>
               <Text style={textButton}>{'برسی سوال'}</Text>
             </View>
@@ -152,21 +161,22 @@ class ListClass extends React.Component {
     return (
       <View style={[viewFull]}>
         <Carousel
-          data={[1, 2, 3, 4, 5, 7, 9]}
+          data={this.props.AQ_data}
           marginTop={30}
           horizontal={true}
           layout={'default'}
           scrollInterpolator={this._scrollInterpolator}
           slideInterpolatedStyle={this._animatedStyles}
           sliderWidth={screenWidth}
-          itemWidth={(screenWidth + 50) / 2}
-          renderItem={({item, index}) => this.renderGridItem()}
+          itemWidth={(screenWidth + 60) / 2}
+          renderItem={(item, index) => this.renderGridItem(item, index)}
         />
       </View>
     );
   }
   static propTypes = {
     hideTabBar: PropTypes.func,
+    AQ_data: PropTypes.any,
   };
 }
 

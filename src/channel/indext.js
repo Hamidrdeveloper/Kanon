@@ -33,10 +33,31 @@ export default class Channel {
         teacherId: e,
       })
       .then(res => {
-        console.log(res);
+        console.log(res.data.Data.questions);
         console.log(res.data);
         if (res.data.Status === 1) {
-          return res.data;
+          return res.data.Data.questions;
+        } else {
+          return '0';
+        }
+      })
+      .catch(error => {
+        console.log(error);
+        return '0';
+      });
+  }
+  onPostGroups(e) {
+    var add = address.postGroups();
+    console.log(add);
+    return axios
+      .post(add, {
+        teacherId: e,
+      })
+      .then(res => {
+        console.log(res.data.Data);
+        console.log(res.data);
+        if (res.data.Status === 1) {
+          return res.data.Data;
         } else {
           return '0';
         }

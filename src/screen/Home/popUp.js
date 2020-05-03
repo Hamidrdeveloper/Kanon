@@ -22,7 +22,7 @@ import back from '../../../assets/images/back.png';
 import circle from '../../../assets/images/circaleBack.png';
 import style from './Style/style';
 import {FlatList} from 'react-native-gesture-handler';
-import Fixed from '../FixeTest/Fixed';
+import Fixed from '../FixeTest/FixeScreen';
 let screenWidth = Dimensions.get('window').width;
 class PopUp extends React.Component {
   _openScreen() {
@@ -57,6 +57,12 @@ class PopUp extends React.Component {
           alignItems: 'center',
         }}>
         <TouchableOpacity
+          style={{
+            width: 50,
+            height: 50,
+            position: 'absolute',
+            top: 0,
+          }}
           onPress={() => {
             this._hideModalMenu();
           }}>

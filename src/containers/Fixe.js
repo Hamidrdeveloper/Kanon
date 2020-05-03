@@ -4,12 +4,13 @@ import HomeScreen from '../screen/Home/home';
 import {createStore, applyMiddleware} from 'redux';
 import reducers from '../reducers';
 import thunk from 'redux-thunk';
+import FixeScreen from '../screen/FixeTest/FixeScreen';
 const store = createStore(reducers, applyMiddleware(thunk));
-export default class Home extends Component {
+export default class Fixe extends Component {
   render() {
     return (
       <Provider store={store}>
-        <HomeScreen navigation={this.props.navigation}/>
+        <FixeScreen navigation={this.props.navigation}/>
       </Provider>
     );
   }

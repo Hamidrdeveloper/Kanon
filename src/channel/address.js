@@ -7,6 +7,9 @@ const address = {
   postAnsweredQuestion: e => {
     return `${API_BASE}/teacher/getAnsweredQuestion`;
   },
+  postGroups: e => {
+    return `${API_BASE}/teacher/GetGroups`;
+  },
 };
 
 export default address;

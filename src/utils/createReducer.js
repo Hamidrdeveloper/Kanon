@@ -1,6 +1,6 @@
 export default function createReducer(initialState, actionHandlers) {
   return (state = initialState, action) => {
-    const reduceFun = actionHandlers[action.Type];
+    const reduceFun = actionHandlers[action.type];
     if (!reduceFun) {
       return state;
     }

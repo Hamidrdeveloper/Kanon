@@ -52,13 +52,13 @@ export default StyleSheet.create({
     
 
   },
-  textTitle: {textAlign: 'center', fontFamily: 'BYekan', fontSize: hp(4)},
+  textTitle: {textAlign: 'center', fontFamily: 'BYekan', fontSize: hp(3)},
   date: {textAlign: 'center', fontFamily: 'BYekan', fontSize: hp(2)},
   viewCircle: {
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'space-between',
-    padding: 8,
+    justifyContent: 'center',
+    
   },
   datePopUp: {fontFamily: 'BYekanBold', fontSize: 15, color: Res.Color.primers},
   viewItemRow: {
@@ -80,14 +80,14 @@ export default StyleSheet.create({
     paddingRight: 15,
   },
   viewCircleII: {
-    width: 60,
-    height: 60,
+    width: 65,
+    height: 65,
     borderRadius: 100,
     backgroundColor: '#d3d3d3',
     alignItems: 'center',
     justifyContent: 'center',
   },
-  circleTitle: {textAlign: 'center', fontFamily: 'Yekan'},
+  circleTitle: {textAlign: 'center', fontFamily: 'Yekan',fontSize:11},
   detail: {
     textAlign: 'center',
     fontFamily: 'Yekan',

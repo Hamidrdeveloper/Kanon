@@ -1,4 +1,6 @@
 import {combineReducers} from 'redux';
 import Home from './HomeList';
-const reducers = combineReducers({Home});
+import Fixe from './FixeList';
+
+const reducers = combineReducers({Home, Fixe});
 export default reducers;
