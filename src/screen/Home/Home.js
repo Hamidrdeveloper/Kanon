@@ -27,10 +27,13 @@ import HomeAction from '../../action/HomeAction';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import PropTypes from 'prop-types';
-
+import {UserData} from '../../model/userData';
+import Recorder from '../../components/recorderPlayer'
 let screenWidth = Dimensions.get('window').width;
 class HomeScreen extends React.Component {
   state = {
+    detail: '',
+    imagePro: UserData.jsonData.teacherPicture,
     isModalVisible: false,
     tabBarVisible: true,
     top: 0,
@@ -108,6 +111,15 @@ class HomeScreen extends React.Component {
       isModalVisible: true,
     });
   };
+  _hideTabBarItem = (e, data) => {
+    this.props.navigation.setParams({tabBarVisible: !this.state.tabBarVisible});
+    console.log('_hideTabBarItem', data);
+    this.setState({
+      tabBarVisible: !this.state.tabBarVisible,
+      isModalVisible: !this.state.isModalVisible,
+      detail: data,
+    });
+  };
   _hideTabBar = e => {
     this.props.navigation.setParams({tabBarVisible: !this.state.tabBarVisible});
 
@@ -152,7 +164,6 @@ class HomeScreen extends React.Component {
       var userId = data;
       this.props._onAnsweredQuestion(userId);
       console.log('=====>', this.props.data);
-
     });
   }
   componentWillUpdate() {
@@ -213,7 +224,9 @@ class HomeScreen extends React.Component {
             <Image
               source={{
                 uri:
-                  'https://cdn01.zoomit.ir/2018/10/e3d98770-8164-49cc-a419-6f0bd80c3b2c.jpg',
+                  this.state.imagePro != null
+                    ? `http://kanoonihaweb.kanoon.ir/${this.state.imagePro}`
+                    : 'https://cdn01.zoomit.ir/2018/10/e3d98770-8164-49cc-a419-6f0bd80c3b2c.jpg',
               }}
               style={imagePro}
             />
@@ -225,7 +238,9 @@ class HomeScreen extends React.Component {
                 marginTop: 8,
                 fontFamily: 'BYekan',
               }}>
-              حمید رضا علیزاده
+              {UserData.jsonData.teacherInfo.FirstName +
+                '' +
+                UserData.jsonData.teacherInfo.LastName}
             </Text>
 
             <TouchableOpacity
@@ -238,16 +253,20 @@ class HomeScreen extends React.Component {
               </Card>
             </TouchableOpacity>
             <ListClass
-              hideTabBar={this._hideTabBar}
+              hideTabBar={this._hideTabBarItem}
               AQ_data={this.props.data}
             />
             <Modal
               visible={this.state.isModalVisible}
               onDismiss={this._hideTabBar}>
               <View style={{height: '100%', justifyContent: 'flex-end'}}>
-                <Card style={cardModelPop}>
-                  <PopUp changeState={this._hideTabBar} />
-                </Card>
+                <View style={cardModelPop}>
+                  <PopUp
+                    changeState={this._hideTabBar}
+                    dataPro={this.state.detail}
+                    navigation={this.props.navigation}
+                  />
+                </View>
               </View>
             </Modal>
             <Modal
@@ -289,6 +308,9 @@ class HomeScreen extends React.Component {
             </Modal>
           </ImageBackground>
         </View>
+      
+
+       
       </View>
     );
   }

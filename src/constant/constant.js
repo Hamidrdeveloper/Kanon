@@ -6,5 +6,11 @@ export const AnsweredQuestion = {
 export const AnsweredQuestionBySort = {
   LIST: 'AnsweredQuestionBySort.LIST',
   GROUPS: 'AnsweredQuestionBySort.GROUPS',
+  COURSE: 'AnsweredQuestionBySort.COURSE',
   LOG: 'AnsweredQuestionBySort.LOG',
 };
+export const AnsweredQuestionCourseBase = {
+  LIST: 'AnsweredQuestionCourseBase.LIST',
+  RESENT: 'AnsweredQuestionCourseBase.RESENT',
+  LOG: 'AnsweredQuestionCourseBase.LOG',
+}

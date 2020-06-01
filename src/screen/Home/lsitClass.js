@@ -92,8 +92,8 @@ class ListClass extends React.Component {
     };
   }
 
-  _hideTabBar = () => {
-    this.props.hideTabBar(false);
+  _hideTabBar = e => {
+    this.props.hideTabBar(false, e);
   };
 
   renderGridItem({item, index}) {
@@ -138,7 +138,9 @@ class ListClass extends React.Component {
             <View style={{width: 5}} />
           </View>
           <Text style={detail}>{item.ProblemText}</Text>
-          <TouchableOpacity activeOpacity={10} onPress={this._hideTabBar}>
+          <TouchableOpacity
+            activeOpacity={10}
+            onPress={() => this._hideTabBar(item)}>
             <View style={buttonItem}>
               <Text style={textButton}>{'برسی سوال'}</Text>
             </View>

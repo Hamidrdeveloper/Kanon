@@ -11,7 +11,7 @@ export default StyleSheet.create({
   },
   textTitlePopUp: {
     textAlign: 'right',
-    fontSize: hp(4),
+    fontSize: hp(5),
     color: Res.Color.primers,
     fontFamily: 'BYekanBold',
     right: 0,
@@ -19,38 +19,32 @@ export default StyleSheet.create({
     paddingRight: 15,
   },
   textTitlePopUpMenu: {
-    width:`100%`,
+    width: '100%',
     textAlign: 'center',
     fontSize: hp(4),
     color: Res.Color.primers,
     fontFamily: 'BYekanBold',
     right: 0,
-    
-
   },
-  lineService:{
+  lineService: {
     width: '100%',
     height: 1,
     backgroundColor: Res.Color.grayLight,
     marginTop: 15,
   },
-  viewIconService:{
+  viewIconService: {
     flexDirection: 'row',
-    width: `100%`,
+    width: '100%',
     alignItems: 'center',
     justifyContent: 'flex-end',
-    marginTop:12.5,
-    paddingRight:20
+    marginTop: 12.5,
+    paddingRight: 20,
   },
   textServicePopUpMenu: {
-
     textAlign: 'right',
     fontSize: hp(2.3),
     color: Res.Color.primers,
     fontFamily: 'BYekanBold',
-  
-    
-
   },
   textTitle: {textAlign: 'center', fontFamily: 'BYekan', fontSize: hp(3)},
   date: {textAlign: 'center', fontFamily: 'BYekan', fontSize: hp(2)},
@@ -58,13 +52,13 @@ export default StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
-    
   },
   datePopUp: {fontFamily: 'BYekanBold', fontSize: 15, color: Res.Color.primers},
   viewItemRow: {
+    width: '100%',
     flexDirection: 'row',
-
-    alignItems: 'center',
+    height: 50,
+    alignItems: 'flex-end',
   },
   viewItemRowII: {
     color: Res.Color.primers,
@@ -87,7 +81,7 @@ export default StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  circleTitle: {textAlign: 'center', fontFamily: 'Yekan',fontSize:11},
+  circleTitle: {textAlign: 'center', fontFamily: 'Yekan', fontSize: 11},
   detail: {
     textAlign: 'center',
     fontFamily: 'Yekan',
@@ -100,7 +94,7 @@ export default StyleSheet.create({
     borderRadius: 30,
     width: 100,
     height: 40,
-    marginTop: 15,
+
     alignSelf: 'center',
   },
   textButton: {
@@ -118,14 +112,13 @@ export default StyleSheet.create({
     height: 60,
     borderRadius: 100,
     alignSelf: 'center',
-   
   },
   textRating: {
     height: '100%',
 
     textAlignVertical: 'center',
     right: 0,
-    color:Res.Color.gray,
+    color: Res.Color.gray,
     fontFamily: 'BYekanBold',
   },
   viewTextRating: {
@@ -155,7 +148,7 @@ export default StyleSheet.create({
   },
   cardModelPop: {
     width: '100%',
-    height: '70%',
+    height: '100%',
     borderTopLeftRadius: 30,
     borderTopRightRadius: 30,
     paddingTop: 15,
@@ -165,12 +158,10 @@ export default StyleSheet.create({
     textAlign: 'center',
     textAlignVertical: 'center',
     fontFamily: 'BYekan',
-    fontSize:12,
+    fontSize: 12,
     height: '100%',
   },
   cardModelPerformance: {
-    
     height: '100%',
-    
   },
 });

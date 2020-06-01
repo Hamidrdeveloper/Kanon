@@ -495,7 +495,8 @@ export default class Dropdown extends PureComponent {
     }
 
     title = title == null || typeof title === 'string' ? title : String(title);
-
+    title = title == '[object Object]' ? textDefault : title;
+    console.log('title', title);
     return (
       <TextInput
         allowFontScaling={false}
@@ -508,7 +509,7 @@ export default class Dropdown extends PureComponent {
           textAlign: 'right',
           width: '100%',
           fontFamily: 'BYekanBold',
-          fontSize:17
+          fontSize: 17,
         }}
         value={title}
         editable={false}

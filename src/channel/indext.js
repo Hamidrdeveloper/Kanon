@@ -1,5 +1,7 @@
 import axios from 'react-native-axios';
 import address from './address';
+import {UserData} from '../model/userData';
+
 export default class Channel {
   constructor(options) {
     this.options = options;
@@ -15,6 +17,7 @@ export default class Channel {
         console.log(res);
         console.log(res.data.Data.teacherInfo);
         if (res.data.Status === 1) {
+          UserData.jsonData = res.data.Data;
           return res.data.Data.teacherInfo;
         } else {
           return '0';
@@ -25,6 +28,71 @@ export default class Channel {
         return '0';
       });
   }
+
+  onPostGroups(e) {
+    var add = address.postGroups();
+    console.log(add);
+    return axios
+      .post(add)
+      .then(res => {
+        console.log(res.data.Data);
+        console.log(res.data);
+        if (res.data.Status === 1) {
+          return res.data.Data;
+        } else {
+          return '0';
+        }
+      })
+      .catch(error => {
+        console.log(error);
+        return '0';
+      });
+  }
+  onPostCourse(e) {
+    var add = address.postCourse();
+    console.log(add);
+    return axios
+      .post(add, {
+        groupcode: e,
+      })
+      .then(res => {
+        console.log(res.data.Data);
+        console.log(res.data);
+        if (res.data.Status === 1) {
+          return res.data.Data.lessons;
+        } else {
+          return '0';
+        }
+      })
+      .catch(error => {
+        console.log(error);
+        return '0';
+      });
+  }
+
+  onAllQuestion(teacherId) {
+    var add = address.postAllQuestion();
+    console.log(add);
+
+    return axios
+      .post(add, {
+        teacherId: teacherId,
+      })
+      .then(res => {
+        console.log('onAllQuestion', res.data.Data.questions);
+        console.log('onAllQuestion', res.data);
+        if (res.data.Status === 1) {
+          return res.data.Data.questions;
+        } else {
+          return '0';
+        }
+      })
+      .catch(error => {
+        console.log(error);
+        return '0';
+      });
+  }
+
   onPostAnsweredQuestion(e) {
     var add = address.postAnsweredQuestion();
     console.log(add);
@@ -46,16 +114,151 @@ export default class Channel {
         return '0';
       });
   }
-  onPostGroups(e) {
-    var add = address.postGroups();
+  onPosAnsweredQuestionCourseBase(teacherId, groupCode, crsId) {
+    var add = address.postAnsweredQuestionCourseBase();
+    if (crsId === null) {
+      add = address.postQuestionGroupBase();
+    } else {
+      add = address.postAnsweredQuestionCourseBase();
+    }
+    console.log(add);
+    console.log(teacherId, groupCode, crsId);
+    return axios
+      .post(add, {
+        teacherId: teacherId,
+        groupCode: groupCode,
+        crsId: crsId,
+      })
+      .then(res => {
+        console.log('onPosAnsweredQuestionCourseBase', res.data.Data.questions);
+        console.log('onPosAnsweredQuestionCourseBase', res.data);
+        if (res.data.Status === 1) {
+          return res.data.Data.questions;
+        } else {
+          return '0';
+        }
+      })
+      .catch(error => {
+        console.log(error);
+        return '0';
+      });
+  }
+  onAllReserved(teacherId) {
+    var add = address.postAllReserved();
+    console.log(add);
+
+    return axios
+      .post(add, {
+        teacherId: teacherId,
+      })
+      .then(res => {
+        console.log('onAllQuestion', res.data.Data.questions);
+        console.log('onAllQuestion', res.data);
+        if (res.data.Status === 1) {
+          return res.data.Data.questions;
+        } else {
+          return '0';
+        }
+      })
+      .catch(error => {
+        console.log(error);
+        return '0';
+      });
+  }
+  onPostReserved(teacherId, groupCode, crsId) {
+    var add = address.postReserved();
+
+    if (crsId === null) {
+      add = address.postReservedGroupBase();
+    } else {
+      add = address.postReserved();
+    }
     console.log(add);
     return axios
       .post(add, {
-        teacherId: e,
+        teacherId: teacherId,
+        groupCode: groupCode,
+        crsId: crsId,
       })
       .then(res => {
         console.log(res.data.Data);
         console.log(res.data);
+        if (res.data.Status === 1) {
+          return res.data.Data;
+        } else {
+          return '0';
+        }
+      })
+      .catch(error => {
+        console.log(error);
+        return '0';
+      });
+  }
+  onQuestionCourseBase(teacherId, groupCode, crsId) {
+    var add = address.postReserved();
+    console.log(add);
+    return axios
+      .post(add, {
+        teacherId: teacherId,
+        groupCode: groupCode,
+        crsId: crsId,
+      })
+      .then(res => {
+        console.log(res.data.Data);
+        console.log(res.data);
+        if (res.data.Status === 1) {
+          return res.data.Data;
+        } else {
+          return '0';
+        }
+      })
+      .catch(error => {
+        console.log(error);
+        return '0';
+      });
+  }
+
+  onAllNo() {
+    var add = address.postAllNo();
+
+    console.log(add);
+
+    return axios
+      .post(add)
+      .then(res => {
+        console.log('onAllNo', res.data.Data.questions);
+        console.log('onAllNo', res.data);
+        if (res.data.Status === 1) {
+          return res.data.Data.questions;
+        } else {
+          return '0';
+        }
+      })
+      .catch(error => {
+        console.log(error);
+        return '0';
+      });
+  }
+  onNoAnsweredQuestionCourseBase(teacherId, groupCode, crsId) {
+    var add = '';
+
+    console.log('crsId', crsId);
+    if (crsId === null) {
+      add = address.postNoQuestionGroupBase();
+    } else {
+      add = address.postGetNoAnsweredQuestionCourseBase();
+    }
+    console.log(add);
+
+    return axios
+      .post(add, {
+        teacherId: teacherId,
+        groupCode: groupCode,
+        crsId: crsId,
+      })
+      .then(res => {
+        console.log('onNoAnsweredQuestionCourseBase', res.data.Data);
+        console.log('onNoAnsweredQuestionCourseBase', res.data);
         if (res.data.Status === 1) {
           return res.data.Data;
         } else {

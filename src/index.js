@@ -16,6 +16,8 @@ import {createBottomTabNavigator} from 'react-navigation-tabs';
 import RegisterScreen from './screen/Register/RegisterScreen';
 import PerformanceScreen from './screen/PerformanceTech/PerformanceScreen';
 import PopUp from './screen/Home/popUp';
+import FullScreenImage from './screen/FullScreenImage';
+import Page from './components/recorderPlayer';
 
 const ProfileStack = createStackNavigator(
   {
@@ -147,6 +149,7 @@ const homeStack = createStackNavigator(
   {
     Register: {screen: RegisterScreen},
     Home: {screen: bottomTab},
+    FullScreenImage: {screen: FullScreenImage},
     CaptureModal: {
       screen: PopUp,
       navigationOptions: {

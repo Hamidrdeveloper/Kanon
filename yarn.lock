@@ -2196,6 +2196,11 @@ domexception@^1.0.1:
   dependencies:
     webidl-conversions "^4.0.2"
 
+dooboolab-welcome@^1.1.1:
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/dooboolab-welcome/-/dooboolab-welcome-1.2.0.tgz#295818ce85a8e97dc90c0ec0510b4008e2d722dc"
+  integrity sha512-XgEbjJHAsKLge/e8jtuHsv84Ovg1Gx0GvnOTOmOlVGV1643nduTAkT3fyo/mxKbzvyXBr47RHaJAY4R2toI0UA==
+
 ecc-jsbn@~0.1.1:
   version "0.1.2"
   resolved "https://registry.yarnpkg.com/ecc-jsbn/-/ecc-jsbn-0.1.2.tgz#3a83a904e54353287874c564b7549386849a98c9"
@@ -5221,6 +5226,13 @@ react-native-animatable@1.3.3:
   dependencies:
     prop-types "^15.7.2"
 
+react-native-audio-recorder-player@^2.5.1:
+  version "2.5.1"
+  resolved "https://registry.yarnpkg.com/react-native-audio-recorder-player/-/react-native-audio-recorder-player-2.5.1.tgz#c57f33ec8920b2be182ab6d305da5fa4b9324c8a"
+  integrity sha512-qXE7/LLPdgoDNd88yv+uqmkBj8EOQa/yU2CUYCtC5bfeNQPiH1cVEbxfxGY+0hUawtd5uR2XxKM+Y5tUJOGzMQ==
+  dependencies:
+    dooboolab-welcome "^1.1.1"
+
 react-native-axios@^0.17.1:
   version "0.17.1"
   resolved "https://registry.yarnpkg.com/react-native-axios/-/react-native-axios-0.17.1.tgz#44292950aa07ceee2e4bd349106ff773bef81f8f"
@@ -5237,6 +5249,16 @@ react-native-gesture-handler@^1.6.0:
     hoist-non-react-statics "^2.3.1"
     invariant "^2.2.4"
     prop-types "^15.7.2"
+
+react-native-image-pan-zoom@^2.1.12:
+  version "2.1.12"
+  resolved "https://registry.yarnpkg.com/react-native-image-pan-zoom/-/react-native-image-pan-zoom-2.1.12.tgz#eb98bf56fb5610379bdbfdb63219cc1baca98fd2"
+  integrity sha512-BF66XeP6dzuANsPmmFsJshM2Jyh/Mo1t8FsGc1L9Q9/sVP8MJULDabB1hms+eAoqgtyhMr5BuXV3E1hJ5U5H6Q==
+
+react-native-image-picker@^2.3.1:
+  version "2.3.1"
+  resolved "https://registry.yarnpkg.com/react-native-image-picker/-/react-native-image-picker-2.3.1.tgz#1977b65e07793d2c0b2d1976fb675c5f75ad7f11"
+  integrity sha512-c/a2h7/T7yBo5KlNQhcSn4xf4+6Li6LfJ59+GZT1ZzzWrj/6X8DiJ/TJBOlOZMC5tJriZKuRkWSsr74k6z+brw==
 
 react-native-iphone-x-helper@^1.0.3, react-native-iphone-x-helper@^1.2.1:
   version "1.2.1"
