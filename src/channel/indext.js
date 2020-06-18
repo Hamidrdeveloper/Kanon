@@ -270,4 +270,102 @@ export default class Channel {
         return '0';
       });
   }
+
+  postDeleteReserveQuestion(teacherId, questionId) {
+    var add = address.DeleteReserveQuestion();
+
+    console.log(add);
+
+    return axios
+      .post(add, {
+        teacherId: teacherId,
+        questionId: questionId,
+      })
+      .then(res => {
+        console.log('postDeleteReserveQuestion', res);
+        if (res.data.Status === 1) {
+          return res.data.Data;
+        } else {
+          return '0';
+        }
+      })
+      .catch(error => {
+        console.log(error);
+        return '0';
+      });
+  }
+  postInsertAnswer(answerText, SumSbjId, questionId, teacherId, SumObjId) {
+    var add = address.InsertAnswer();
+
+    console.log(add);
+
+    return axios
+      .post(add, {
+        teacherId: teacherId,
+        questionId: questionId,
+        answerText: answerText,
+        SumObjId: SumObjId,
+        SumSbjId: SumSbjId,
+      })
+      .then(res => {
+        console.log('postDeleteReserveQuestion', res);
+        if (res.data.Status === 1) {
+          return res.data.Data;
+        } else {
+          return '0';
+        }
+      })
+      .catch(error => {
+        console.log(error);
+        return '0';
+      });
+  }
+  postSetAnswerFilePath2(voiceFileName, imageFileName, questionId, teacherId) {
+    var add = address.SetAnswerFilePath2();
+
+    console.log(add);
+
+    return axios
+      .post(add, {
+        teacherId: teacherId,
+        questionId: questionId,
+        voiceFileName: voiceFileName,
+        imageFileName: imageFileName,
+      })
+      .then(res => {
+        console.log('postDeleteReserveQuestion', res);
+        if (res.data.Status === 1) {
+          return res.data.Data;
+        } else {
+          return '0';
+        }
+      })
+      .catch(error => {
+        console.log(error);
+        return '0';
+      });
+  }
+  postAnswerUpload(teacherId, questionId) {
+    var add = address.AnswerUpload();
+
+    console.log(add);
+
+    return axios
+      .post(add, {
+        teacherId: teacherId,
+        questionId: questionId,
+      })
+      .then(res => {
+        console.log('postDeleteReserveQuestion', res);
+        if (res.data.Status === 1) {
+          return res.data.Data;
+        } else {
+          return '0';
+        }
+      })
+      .catch(error => {
+        console.log(error);
+        return '0';
+      });
+  }
 }

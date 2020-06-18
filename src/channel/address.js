@@ -41,9 +41,21 @@ const address = {
   postReserved: e => {
     return `${API_BASE}/teacher/GetReservedQuestionCourseBase`;
   },
-  
+
   postReservedGroupBase: e => {
     return `${API_BASE}/teacher/GetReservedQuestionGroupBase`;
+  },
+  DeleteReserveQuestion: e => {
+    return `${API_BASE}/teacher/DeleteReserveQuestion`;
+  },
+  SetAnswerFilePath2: e => {
+    return `${API_BASE}/Teacher/SetAnswerFilePath2`;
+  },
+  InsertAnswer: e => {
+    return `${API_BASE}/Teacher/InsertAnswer`;
+  },
+  AnswerUpload: e => {
+    return `http://appservice.kanoon.ir/CupApi/AnswerUpload`;
   },
 };
 

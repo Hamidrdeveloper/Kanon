@@ -107,6 +107,16 @@ function _onCourse(e) {
     });
   };
 }
+function _onDeleteReserveQuestion(teacherId, questionId) {
+  return dispatch => {
+    return channel
+      .postDeleteReserveQuestion(teacherId, questionId)
+      .then(data => {
+        console.log('dispatch', data);
+        return dispatch({});
+      });
+  };
+}
 
 export default {
   _onAnsweredQuestionBySort,
@@ -118,4 +128,5 @@ export default {
   _onAllAnsweredQuestion,
   _onAllNoAnswered,
   _onAllAnsweredReserved,
+  _onDeleteReserveQuestion,
 };

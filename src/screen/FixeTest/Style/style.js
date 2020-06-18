@@ -129,6 +129,13 @@ export default StyleSheet.create({
     marginLeft: 10,
     tintColor: Res.Color.primers,
   },
+  cardModelPop: {
+    width: '100%',
+    height: '100%',
+    borderTopLeftRadius: 30,
+    borderTopRightRadius: 30,
+    paddingTop: 15,
+  },
   textHeder: {
     fontSize: 28,
     color: Res.Color.primers,

@@ -9,7 +9,7 @@ import {
   ImageBackground,
   ScrollView,
 } from 'react-native';
-import {Card} from 'react-native-paper';
+import {Card, Modal} from 'react-native-paper';
 import Carousel, {getInputRangeFromIndexes} from 'react-native-snap-carousel';
 import background from '../../../assets/images/abstract.png';
 import PropTypes from 'prop-types';
@@ -24,6 +24,7 @@ import FixAction from '../../action/FixAction';
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import PopUp from './popUp';
 
 let screenWidth = Dimensions.get('window').width;
 class FixeScreen extends React.Component {
@@ -37,6 +38,8 @@ class FixeScreen extends React.Component {
   state = {
     stepOne: 1,
     groupId: '',
+    isModalVisible: false,
+    detail: '',
   };
   _filterSort(data, indext) {
     return data.groupName;
@@ -106,13 +109,14 @@ class FixeScreen extends React.Component {
     this.setState({
       stepOne: e,
     });
-    if (this.state.stepOne == 1) {
+
+    if (e == 1) {
       this.props._onAllNoAnswered();
     }
-    if (this.state.stepOne == 2) {
+    if (e == 2) {
       this.props._onAllAnsweredReserved(48);
     }
-    if (this.state.stepOne == 3) {
+    if (e == 3) {
       this.props._onAllAnsweredQuestion(48);
     }
   }
@@ -124,6 +128,15 @@ class FixeScreen extends React.Component {
     const {state, goBack} = this.props.navigation;
 
     goBack(null);
+  };
+  deleteReserved(e) {
+    this.props._onDeleteReserveQuestion(48, e.Id);
+  }
+  _hideTabBar = e => {
+    this.setState({
+      isModalVisible: !this.state.isModalVisible,
+      detail: e,
+    });
   };
   renderGridItem(item, index) {
     let {
@@ -161,23 +174,27 @@ class FixeScreen extends React.Component {
                 <Text style={date}>{'1398/08/24'}</Text>
               </View>
             </View>
-            <View style={viewItemRow}>
+            <View style={[viewItemRow, {marginTop: 15}]}>
               <View style={viewDetail}>
                 <Text style={detail}>{item.ProblemText}</Text>
               </View>
-              <View style={buttonItem}>
-                <Text style={textButton}>
-                  {this.state.stepOne == 2 ? 'بازخورد سوال' : 'برسی سوال'}
-                </Text>
-              </View>
+              <TouchableOpacity
+                style={[buttonItem]}
+                onPress={() => this._hideTabBar(item)}>
+                <View>
+                  <Text style={textButton}>
+                    {this.state.stepOne == 2 ? 'بازخورد سوال' : 'برسی سوال'}
+                  </Text>
+                </View>
+              </TouchableOpacity>
             </View>
           </View>
           {this.state.stepOne == 2 ? (
-            <Icon
-              name="close"
-              size={14}
+            <TouchableOpacity
               style={{position: 'absolute', marginLeft: 15, marginTop: 8}}
-            />
+              onPress={() => this.deleteReserved(item)}>
+              <Icon name="close" size={14} />
+            </TouchableOpacity>
           ) : null}
         </Card>
       </TouchableOpacity>
@@ -200,6 +217,7 @@ class FixeScreen extends React.Component {
       textCardButton,
       viewFullCardButton,
       textCardButtonGray,
+      cardModelPop,
     } = style;
     return (
       <View style={viewFull}>
@@ -302,6 +320,16 @@ class FixeScreen extends React.Component {
             </Card>
           </View>
         </ImageBackground>
+        <Modal visible={this.state.isModalVisible} >
+          <View style={{height: '100%', justifyContent: 'flex-end'}}>
+            <View style={cardModelPop}>
+              <PopUp
+                dataPro={this.state.detail}
+                navigation={this.props.navigation}
+              />
+            </View>
+          </View>
+        </Modal>
       </View>
     );
   }
