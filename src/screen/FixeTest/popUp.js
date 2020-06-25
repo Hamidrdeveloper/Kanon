@@ -11,6 +11,7 @@ import {
   TextInput,
   PermissionsAndroid,
 } from 'react-native';
+
 import Res from '../../Color/color';
 import ImagePicker from 'react-native-image-picker';
 
@@ -27,16 +28,92 @@ import {FlatList} from 'react-native-gesture-handler';
 import Fixed from '../FixeTest/FixeScreen';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import Recorder from '../../components/recorderPlayer';
+import Player from '../../components/Player';
+import FixAction from '../../action/FixAction';
+import DATA from '../../model/Data';
 let screenWidth = Dimensions.get('window').width;
 class PopUp extends React.Component {
   state = {
     isModalVisible: false,
+    isModalPlayer: false,
+    voice: '',
+    answerText: '',
+    SumSbjId: 0,
+    questionId: '',
+    teacherId: '',
+    SumObjId: 0,
+    voiceFileName: 'test',
+    imageFileName: 'test',
+  };
+  componentDidMount() {
+    let {dataPro} = this.props;
+
+    this.setState({
+      questionId: dataPro.Id,
+    });
+  }
+  _requestQuestion = e => {
+    let {
+      answerText,
+      SumSbjId,
+      questionId,
+      teacherId,
+      SumObjId,
+      voiceFileName,
+      imageFileName,
+    } = this.state;
+    FixAction._onPostSaveReserved(48, questionId);
+    // FixAction._onPostInsertAnswer(
+    //   answerText,
+    //   SumSbjId,
+    //   questionId,
+    //   48,
+    //   SumObjId,
+    // ).then(data => {
+    //   console.log('answerId', data.answerId);
+    //   FixAction._onPostAnswerUpload(
+    //     data.answerId,
+    //     DATA.file.image,
+    //     DATA.file.voice,
+    //   ).then(data => {
+    //     FixAction._onPstSetAnswerFilePath2(
+    //       voiceFileName,
+    //       imageFileName,
+    //       questionId,
+    //       48,
+    //     ).then(data => {
+    //       this.setState({
+    //         isModalVisible: false,
+    //       });
+    //     });
+    //   });
+    // });
   };
 
   _openScreen() {
     let {navigation} = this.props;
     navigation.navigate('Home');
   }
+  _ShowModalPlyer = e => {
+    var voice = [
+      {
+        title: 'Stressed Out',
+        artist: 'Twenty One Pilots',
+        albumArtUrl:
+          'http://36.media.tumblr.com/14e9a12cd4dca7a3c3c4fe178b607d27/tumblr_nlott6SmIh1ta3rfmo1_1280.jpg',
+        audioUrl: e,
+      },
+    ];
+    this.setState({
+      voice: voice,
+      isModalPlayer: !this.state.isModalPlayer,
+    });
+  };
+  _hideModalPlyer = () => {
+    this.setState({
+      isModalPlayer: !this.state.isModalPlayer,
+    });
+  };
   _hideModalMenu = () => {
     this.props.changeState(false);
   };
@@ -67,6 +144,7 @@ class PopUp extends React.Component {
       } else {
         const source = {uri: response.uri};
         console.log('Response = ', source);
+        DATA.file.image = response;
       }
     });
   };
@@ -80,6 +158,7 @@ class PopUp extends React.Component {
       isModalVisible: false,
     });
   };
+
   render() {
     let {
       textTitlePopUp,
@@ -97,6 +176,7 @@ class PopUp extends React.Component {
       imageCard,
     } = style;
     let {dataPro} = this.props;
+
     return (
       <View
         style={{
@@ -150,12 +230,15 @@ class PopUp extends React.Component {
           </View>
 
           <View style={{width: '100%'}}>
-            <Text style={[datePopUp, {fontSize: 18}]}>
+            <Text style={[datePopUp, {fontSize: 13}]}>
               {dataPro.ProblemText}
             </Text>
           </View>
           <View style={[viewItemRow, {paddingLeft: 8}]}>
-            <Icon name="play" size={30} />
+            <TouchableOpacity
+              onPress={() => this._ShowModalPlyer(dataPro.ProblemVoicePath)}>
+              <Icon name="play" size={30} />
+            </TouchableOpacity>
             <TouchableOpacity
               onPress={() => this.onShowImage(dataPro.ProblemImagePath)}>
               <Icon name="file-photo-o" size={30} style={{marginLeft: 15}} />
@@ -164,7 +247,7 @@ class PopUp extends React.Component {
         </Card>
         <Card
           style={{
-            height: '67%',
+            height: 350,
             borderRadius: 15,
             padding: 8,
             marginTop: 8,
@@ -209,8 +292,22 @@ class PopUp extends React.Component {
                 borderRadius: 10,
                 alignSelf: 'center',
                 backgroundColor: Res.Color.grayLight,
-              }}
-            />
+              }}>
+              <TextInput
+                style={{
+                  width: '100%',
+                  height: '100%',
+                  textAlign: 'right',
+                  textAlignVertical: 'top',
+                  padding: 8,
+                }}
+                onChangeText={e =>
+                  this.setState({
+                    answerText: e,
+                  })
+                }
+              />
+            </View>
             <View
               style={[
                 viewItemRow,
@@ -238,30 +335,29 @@ class PopUp extends React.Component {
 
               <TouchableOpacity
                 style={{width: '50%', height: 50}}
-                onPress={this._hideTabBar}>
+                onPress={this._requestQuestion}>
                 <View style={[buttonItem, {width: '100%', height: 50}]}>
                   <Text style={textButton}>{'ثبت پاسخ'}</Text>
                 </View>
               </TouchableOpacity>
             </View>
           </View>
-          <View
-            style={{
-              position: 'absolute',
-              bottom: 0,
-              backgroundColor: '#000',
-              alignItems: 'center',
-              justifyContent: 'center',
-              width: '100%',
-            }}>
-            <Modal
-              visible={this.state.isModalVisible}
-              onDismiss={this._hideTabBar}>
-              <View style={{width: '100%', height: '100%', paddingBottom: 100}}>
-                <Recorder />
-              </View>
-            </Modal>
-          </View>
+
+          <Modal
+            style={{position: 'absolute', bottom: 0}}
+            visible={this.state.isModalVisible}
+            onDismiss={this._hideTabBar}>
+            <View style={{width: '100%', height: '100%'}}>
+              <Recorder />
+            </View>
+          </Modal>
+
+          <Modal
+            style={{position: 'absolute', bottom: 0}}
+            visible={this.state.isModalPlayer}
+            onDismiss={this._hideModalPlyer}>
+            <Player tracks={this.state.voice} />
+          </Modal>
         </Card>
         <TouchableOpacity
           style={{

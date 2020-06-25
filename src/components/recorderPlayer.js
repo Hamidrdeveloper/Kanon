@@ -19,12 +19,14 @@ import {ratio, screenWidth} from './utils/Styles';
 
 import {Button, Card} from 'react-native-paper';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import DATA from '../model/Data';
 
 const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
-    alignItems: 'center',
+
     width: '100%',
+    height: '100%',
   },
   titleTxt: {
     marginTop: 100 * ratio,
@@ -169,6 +171,8 @@ class Recorder extends Component {
             width: '100%',
             flexDirection: 'row',
             height: 68,
+            position: 'absolute',
+            bottom: 0,
           }}>
           <View
             style={{
@@ -220,10 +224,13 @@ class Recorder extends Component {
 
   onStartRecord = async () => {
     requestCameraPermission;
+    var date = new Date();
 
     const path = Platform.select({
       ios: 'hello.m4a',
-      android: 'sdcard/hello.mp4',
+      android: `sdcard/hello+${date.getDate() +
+        date.getMinutes() +
+        date.getTime()}.mp4`,
     });
     const audioSet: AudioSet = {
       AudioEncoderAndroid: AudioEncoderAndroidType.AAC,
@@ -251,7 +258,15 @@ class Recorder extends Component {
     this.setState({
       recordSecs: 0,
     });
+    var date = new Date();
     console.log(result);
+    DATA.file.voice = {
+      uri: result,
+      type: 'Video/mp4',
+      name: `sdcard/hello+${date.getDate() +
+        date.getMinutes() +
+        date.getTime()}.mp4`,
+    };
   };
 
   onStartPlay = async () => {

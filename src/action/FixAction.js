@@ -118,15 +118,59 @@ function _onDeleteReserveQuestion(teacherId, questionId) {
   };
 }
 
+function _onPostInsertAnswer(
+  answerText,
+  SumSbjId,
+  questionId,
+  teacherId,
+  SumObjId,
+) {
+  return channel
+    .postInsertAnswer(answerText, SumSbjId, questionId, teacherId, SumObjId)
+    .then(data => {
+      console.log('dispatch', data);
+      return data;
+    });
+}
+function _onPostSaveReserved(teacherId, questionId) {
+  return channel.postSaveReserved(teacherId, questionId).then(data => {
+    console.log('dispatch', data);
+    return data;
+  });
+}
+function _onPstSetAnswerFilePath2(
+  voiceFileName,
+  imageFileName,
+  questionId,
+  teacherId,
+) {
+  return channel
+    .postSetAnswerFilePath2(voiceFileName, imageFileName, questionId, teacherId)
+    .then(data => {
+      console.log('dispatch', data);
+      return data;
+    });
+}
+function _onPostAnswerUpload(answerId, image, voice) {
+  return channel.postAnswerUpload(answerId, image, voice).then(data => {
+    console.log('dispatch', data);
+    return data;
+  });
+}
+
 export default {
   _onAnsweredQuestionBySort,
   _onGroups,
   _onCourse,
+  _onPostInsertAnswer,
+  _onPstSetAnswerFilePath2,
   _onAnsweredQuestionCourseBase,
   _onReservedQuestionCourseBase,
   _onNoAnsweredQuestionCourseBase,
   _onAllAnsweredQuestion,
   _onAllNoAnswered,
+  _onPostAnswerUpload,
   _onAllAnsweredReserved,
   _onDeleteReserveQuestion,
+  _onPostSaveReserved
 };

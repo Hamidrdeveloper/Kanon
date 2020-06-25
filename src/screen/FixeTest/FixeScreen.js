@@ -138,6 +138,12 @@ class FixeScreen extends React.Component {
       detail: e,
     });
   };
+  _hideTabBarMode = e => {
+    this.setState({
+      isModalVisible: !this.state.isModalVisible,
+  
+    });
+  };
   renderGridItem(item, index) {
     let {
       textTitle,
@@ -320,7 +326,8 @@ class FixeScreen extends React.Component {
             </Card>
           </View>
         </ImageBackground>
-        <Modal visible={this.state.isModalVisible} >
+        <Modal visible={this.state.isModalVisible}
+          onDismiss={this._hideTabBarMode}> 
           <View style={{height: '100%', justifyContent: 'flex-end'}}>
             <View style={cardModelPop}>
               <PopUp

@@ -297,7 +297,18 @@ export default class Channel {
   postInsertAnswer(answerText, SumSbjId, questionId, teacherId, SumObjId) {
     var add = address.InsertAnswer();
 
-    console.log(add);
+    console.log(
+      add +
+        answerText +
+        '' +
+        SumSbjId +
+        '' +
+        questionId +
+        '' +
+        teacherId +
+        '' +
+        SumObjId,
+    );
 
     return axios
       .post(add, {
@@ -345,18 +356,34 @@ export default class Channel {
         return '0';
       });
   }
-  postAnswerUpload(teacherId, questionId) {
-    var add = address.AnswerUpload();
-
-    console.log(add);
-
-    return axios
-      .post(add, {
-        teacherId: teacherId,
-        questionId: questionId,
-      })
+  postAnswerUpload(answerId, image, voice) {
+    var add = address.AnswerUpload(answerId);
+    console.log('postAnswerUpload', add);
+    let data = new FormData();
+    data.append('photo', {
+      uri: image.uri,
+      type: image.type,
+      name: image.fileName,
+    });
+    data.append('file', {
+      uri: voice.uri,
+      type: voice.type,
+      name: voice.fileName,
+    });
+    console.log(voice);
+    // console.log(image);
+    return axios({
+      url: add,
+      method: 'POST',
+      data: data,
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'multipart/form-data',
+        Authorization: 'Basic YnJva2VyOmJyb2tlcl8xMjM=',
+      },
+    })
       .then(res => {
-        console.log('postDeleteReserveQuestion', res);
+        console.log('postAnswerUpload', res);
         if (res.data.Status === 1) {
           return res.data.Data;
         } else {
@@ -368,4 +395,32 @@ export default class Channel {
         return '0';
       });
   }
+  postSaveReserved(teacherId, questionId) {
+    var add = address.postSaveReserved();
+    console.log('postSaveReserved', add);
+    // console.log(image);
+    return axios
+      .post(add, {
+        teacherId: teacherId,
+        questionId: questionId,
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'multipart/form-data',
+          Authorization: 'Basic YnJva2VyOmJyb2tlcl8xMjM=',
+        },
+      })
+      .then(res => {
+        console.log('postSaveReserved', res);
+        if (res.data.Status === 1) {
+          return res.data.Data;
+        } else {
+          return '0';
+        }
+      })
+      .catch(error => {
+        console.log(error);
+        return '0';
+      });
+  }
+  
 }
