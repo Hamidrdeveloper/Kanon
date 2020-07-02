@@ -23,12 +23,25 @@ import {FlatList} from 'react-native-gesture-handler';
 import LoginAction from '../../action/LoginAction';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import Res from '../../Color/color';
+import {UserData} from '../../model/userData';
 
 let screenWidth = Dimensions.get('window').width;
 class RegisterScreen extends React.Component {
   state = {
     nationalCode: '',
   };
+  componentDidMount() {
+    let {navigation} = this.props;
+
+    AsyncStorage.multiGet(['userid', 'dataUser']).then(data => {
+      console.log("",JSON.parse(data[1][1]));
+      if (data[0][1] != null) {
+        UserData.jsonData = JSON.parse(data[1][1]);
+        console.log("", UserData.jsonData );
+        navigation.navigate('Home');
+      }
+    });
+  }
 
   onLogin = e => {
     let {navigation} = this.props;
@@ -36,8 +49,8 @@ class RegisterScreen extends React.Component {
     LoginAction._onLogin(this.state.nationalCode).then(data => {
       if (data !== '0') {
         console.log(data.Rid);
-        AsyncStorage.setItem('userid', data.Rid+"");
-    
+       
+
         navigation.navigate('Home');
       }
     });

@@ -1,6 +1,7 @@
 import axios from 'react-native-axios';
 import address from './address';
 import {UserData} from '../model/userData';
+import { AsyncStorage } from 'react-native';
 
 export default class Channel {
   constructor(options) {
@@ -18,6 +19,11 @@ export default class Channel {
         console.log(res.data.Data.teacherInfo);
         if (res.data.Status === 1) {
           UserData.jsonData = res.data.Data;
+
+          AsyncStorage.multiSet([
+            ['userid', res.data.Data.teacherInfo.Rid + ''],
+            ['dataUser', JSON.stringify(UserData.jsonData) + ''],
+          ]);
           return res.data.Data.teacherInfo;
         } else {
           return '0';
@@ -422,5 +428,4 @@ export default class Channel {
         return '0';
       });
   }
-  
 }
