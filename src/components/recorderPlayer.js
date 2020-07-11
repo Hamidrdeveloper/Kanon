@@ -16,8 +16,9 @@ import {
 } from 'react-native';
 import React, {Component} from 'react';
 import {ratio, screenWidth} from './utils/Styles';
+import PropTypes from 'prop-types';
 
-import {Button, Card} from 'react-native-paper';
+import {Button, Card, TouchableRipple} from 'react-native-paper';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import DATA from '../model/Data';
 
@@ -112,9 +113,7 @@ const requestCameraPermission = async () => {
       },
     );
     if (granted === PermissionsAndroid.RESULTS.GRANTED) {
-      console.log('You can use the camera');
     } else {
-      console.log('Camera permission denied');
     }
   } catch (err) {
     console.warn(err);
@@ -129,7 +128,6 @@ const requestCameraPermission = async () => {
       },
     );
     if (granted === PermissionsAndroid.RESULTS.GRANTED) {
-      console.log('You can use the camera');
     } else {
       console.log('Camera permission denied');
     }
@@ -149,6 +147,7 @@ class Recorder extends Component {
       currentDurationSec: 0,
       playTime: '00:00:00',
       duration: '00:00:00',
+      isRecorded: false,
     };
 
     this.audioRecorderPlayer = new AudioRecorderPlayer();
@@ -182,18 +181,22 @@ class Recorder extends Component {
               justifyContent: 'center',
               height: 68,
             }}>
-            <TouchableOpacity
-              onPress={this.onStartRecord}
+            <TouchableRipple
+              onPress={this.checkRecorded}
               style={{position: 'absolute', left: 15}}>
-              <Icon name="check" size={19} color="green" />
-            </TouchableOpacity>
+              {this.state.isRecorded == false ? (
+                <Icon name="microphone" size={19} color="green" />
+              ) : (
+                <Icon name="check" size={19} color="green" />
+              )}
+            </TouchableRipple>
 
             <Text style={styles.txtRecordCounter}>{this.state.recordTime}</Text>
-            <TouchableOpacity
+            <TouchableRipple
               style={{position: 'absolute', right: 15}}
               onPress={this.onStopRecord}>
               <Icon name="trash-o" size={19} color="red" />
-            </TouchableOpacity>
+            </TouchableRipple>
           </View>
         </Card>
       </View>
@@ -221,19 +224,30 @@ class Recorder extends Component {
       console.log(`subSecs: ${subSecs}`);
     }
   };
-
+  checkRecorded = e => {
+    this.setState({
+      isRecorded: !this.state.isRecorded,
+    });
+    console.log(this.state.isRecorded+"")
+    if (this.state.isRecorded === false) {
+      this.onStartRecord();
+    } else {
+      this.onStopRecord();
+    }
+  };
   onStartRecord = async () => {
     requestCameraPermission;
+
     var date = new Date();
 
     const path = Platform.select({
       ios: 'hello.m4a',
       android: `sdcard/hello+${date.getDate() +
         date.getMinutes() +
-        date.getTime()}.mp4`,
+        date.getTime()}.mp3`,
     });
     const audioSet: AudioSet = {
-      AudioEncoderAndroid: AudioEncoderAndroidType.AAC,
+      AudioEncoderAndroid: AudioEncoderAndroidType.DEFAULT,
       AudioSourceAndroid: AudioSourceAndroidType.MIC,
       AVEncoderAudioQualityKeyIOS: AVEncoderAudioQualityIOSType.high,
       AVNumberOfChannelsKeyIOS: 2,
@@ -262,18 +276,19 @@ class Recorder extends Component {
     console.log(result);
     DATA.file.voice = {
       uri: result,
-      type: 'Video/mp4',
+      type: 'audio/mp3',
       name: `sdcard/hello+${date.getDate() +
         date.getMinutes() +
-        date.getTime()}.mp4`,
+        date.getTime()}.mp3`,
     };
+    this.props.hideRecorded();
   };
 
   onStartPlay = async () => {
     console.log('onStartPlay');
     const path = Platform.select({
       ios: 'hello.m4a',
-      android: 'sdcard/hello.mp4',
+      android: 'sdcard/hello.3gpp',
     });
     const msg = await this.audioRecorderPlayer.startPlayer(path);
     this.audioRecorderPlayer.setVolume(1.0);
@@ -302,6 +317,9 @@ class Recorder extends Component {
     console.log('onStopPlay');
     this.audioRecorderPlayer.stopPlayer();
     this.audioRecorderPlayer.removePlayBackListener();
+  };
+  static propTypes = {
+    hideRecorded: PropTypes.any,
   };
 }
 

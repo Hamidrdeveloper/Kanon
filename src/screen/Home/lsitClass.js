@@ -8,7 +8,7 @@ import {
   ImageBackground,
   Button,
 } from 'react-native';
-import {Card, Modal} from 'react-native-paper';
+import {Card, Modal, TouchableRipple} from 'react-native-paper';
 import Carousel, {getInputRangeFromIndexes} from 'react-native-snap-carousel';
 import background from '../../../assets/images/abstract.png';
 import alarm from '../../../assets/images/alarm.png';
@@ -109,7 +109,7 @@ class ListClass extends React.Component {
       cardModelPerformance,
     } = style;
     return (
-      <TouchableOpacity activeOpacity={1}>
+      <TouchableRipple activeOpacity={1}>
         <Card
           style={{
             flexWrap: 'wrap',
@@ -137,7 +137,9 @@ class ListClass extends React.Component {
             </View>
             <View style={{width: 5}} />
           </View>
-          <Text style={detail}>{item.ProblemText}</Text>
+          <Text style={detail} numberOfLines={9}>
+            {item.ProblemText}
+          </Text>
           <TouchableOpacity
             activeOpacity={10}
             onPress={() => this._hideTabBar(item)}>
@@ -146,7 +148,7 @@ class ListClass extends React.Component {
             </View>
           </TouchableOpacity>
         </Card>
-      </TouchableOpacity>
+      </TouchableRipple>
     );
   }
 

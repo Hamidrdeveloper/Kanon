@@ -15,7 +15,7 @@ import {
 import Res from '../../Color/color';
 import ImagePicker from 'react-native-image-picker';
 
-import {Card, Modal} from 'react-native-paper';
+import {Card, Modal, TouchableRipple} from 'react-native-paper';
 import Carousel, {getInputRangeFromIndexes} from 'react-native-snap-carousel';
 import background from '../../../assets/images/abstract.png';
 import PropTypes from 'prop-types';
@@ -31,6 +31,7 @@ import Recorder from '../../components/recorderPlayer';
 import Player from '../../components/Player';
 import FixAction from '../../action/FixAction';
 import DATA from '../../model/Data';
+import Dropdown from '../../components/drop';
 let screenWidth = Dimensions.get('window').width;
 class PopUp extends React.Component {
   state = {
@@ -62,32 +63,30 @@ class PopUp extends React.Component {
       voiceFileName,
       imageFileName,
     } = this.state;
-    FixAction._onPostSaveReserved(48, questionId);
-    // FixAction._onPostInsertAnswer(
-    //   answerText,
-    //   SumSbjId,
-    //   questionId,
-    //   48,
-    //   SumObjId,
-    // ).then(data => {
-    //   console.log('answerId', data.answerId);
-    //   FixAction._onPostAnswerUpload(
-    //     data.answerId,
-    //     DATA.file.image,
-    //     DATA.file.voice,
-    //   ).then(data => {
-    //     FixAction._onPstSetAnswerFilePath2(
-    //       voiceFileName,
-    //       imageFileName,
-    //       questionId,
-    //       48,
-    //     ).then(data => {
-    //       this.setState({
-    //         isModalVisible: false,
-    //       });
-    //     });
-    //   });
-    // });
+    // FixAction._onPostSaveReserved(48, questionId);
+    FixAction._onPostInsertAnswer(
+      answerText,
+      SumSbjId,
+      questionId,
+      48,
+      SumObjId,
+    ).then(data => {
+      console.log('answerId', data.answerId);
+      FixAction._onPostAnswerUpload(
+        data.answerId,
+        DATA.file.image,
+        DATA.file.voice,
+      ).then(data => {
+        FixAction._onPstSetAnswerFilePath2(
+          voiceFileName,
+          imageFileName,
+          questionId,
+          48,
+        ).then(data => {
+          this.props.hidePopUp();
+        });
+      });
+    });
   };
 
   _openScreen() {
@@ -158,6 +157,35 @@ class PopUp extends React.Component {
       isModalVisible: false,
     });
   };
+  _filterSort(data, indext) {
+    return data.SbjName;
+  }
+  filterSort(data, indext) {
+    return data.SbjName;
+  }
+  _filterName(data, indext) {
+    return data;
+  }
+  _filterSortCourse(data, indext) {
+    return data.ObjName;
+  }
+  _filterNameCourse(data, indext) {
+    return data;
+  }
+  _selectCourse = data => {
+    console.log(data.CrsId + '++' + this.state.groupId);
+
+    return data;
+  };
+  _selectGroups = data => {
+    console.log(data.groupCode);
+    this.props.onFunObject(data.subjectId);
+    this.setState({
+      groupId: data.groupCode,
+    });
+
+    return data;
+  };
 
   render() {
     let {
@@ -193,7 +221,7 @@ class PopUp extends React.Component {
             borderRadius: 15,
             padding: 8,
           }}>
-          <TouchableOpacity
+          <TouchableRipple
             style={{
               width: '100%',
               height: 50,
@@ -214,7 +242,7 @@ class PopUp extends React.Component {
                 backgroundColor: Res.Color.grayLight,
               }}
             />
-          </TouchableOpacity>
+          </TouchableRipple>
 
           <View style={viewItemRow}>
             <Text style={[textTitlePopUp, {fontSize: 22}]}>
@@ -230,19 +258,23 @@ class PopUp extends React.Component {
           </View>
 
           <View style={{width: '100%'}}>
-            <Text style={[datePopUp, {fontSize: 13}]}>
+            <Text style={[datePopUp, {fontSize: 13}]} numberOfLines={5}>
               {dataPro.ProblemText}
             </Text>
           </View>
           <View style={[viewItemRow, {paddingLeft: 8}]}>
-            <TouchableOpacity
+            <TouchableRipple
               onPress={() => this._ShowModalPlyer(dataPro.ProblemVoicePath)}>
               <Icon name="play" size={30} />
-            </TouchableOpacity>
-            <TouchableOpacity
+            </TouchableRipple>
+            <TouchableRipple
               onPress={() => this.onShowImage(dataPro.ProblemImagePath)}>
               <Icon name="file-photo-o" size={30} style={{marginLeft: 15}} />
-            </TouchableOpacity>
+            </TouchableRipple>
+            <TouchableRipple
+              onPress={() => this.onShowText(dataPro.ProblemText)}>
+              <Icon name="text-height" size={30} style={{marginLeft: 15}} />
+            </TouchableRipple>
           </View>
         </Card>
         <Card
@@ -259,19 +291,31 @@ class PopUp extends React.Component {
                 viewItemRow,
                 {justifyContent: 'space-between', marginTop: 12},
               ]}>
-              <TouchableOpacity
+              <TouchableRipple
                 style={{width: '50%', height: 50}}
                 onPress={this._hideTabBar}>
-                <View
+                  <View
                   style={[
                     buttonItem,
                     {width: '100%', height: 50, marginTop: 0},
                   ]}>
-                  <Text style={textButton}>{'انتخاب مبحث'}</Text>
+                  {this.props.object != null ? (
+                    <Dropdown
+                      textDefault={'انتخاب مبحث'}
+                      data={this.props.object.lessons}
+                      textStyle={{color: '#fff', paddingRight: 10}}
+                      iconStyle={{color: '#fff', marginLeft: 8}}
+                      onChangeText={this._selectCourse}
+                      labelExtractor={this._filterSortCourse}
+                      valueExtractor={this._filterName}
+                    />
+                  ) : (
+                    <Text style={textButton}>{'انتخاب مبحث'}</Text>
+                  )}
                 </View>
-              </TouchableOpacity>
+              </TouchableRipple>
               <View style={{width: 10}} />
-              <TouchableOpacity
+              <TouchableRipple
                 style={{width: '50%', height: 50}}
                 onPress={this._hideTabBar}>
                 <View
@@ -279,9 +323,21 @@ class PopUp extends React.Component {
                     buttonItem,
                     {width: '100%', height: 50, marginTop: 0},
                   ]}>
-                  <Text style={textButton}>{'انتخاب فصل'}</Text>
+                  {this.props.subject != null ? (
+                    <Dropdown
+                      textDefault={'انتخاب فصل'}
+                      data={this.props.subject.lessons}
+                      textStyle={{color: '#fff', paddingRight: 10}}
+                      iconStyle={{color: '#fff', marginLeft: 8}}
+                      onChangeText={this._selectGroups}
+                      labelExtractor={this._filterSort}
+                      valueExtractor={this._filterName}
+                    />
+                  ) : (
+                    <Text style={textButton}>{'انتخاب فصل'}</Text>
+                  )}
                 </View>
-              </TouchableOpacity>
+              </TouchableRipple>
             </View>
             <View
               style={{
@@ -322,24 +378,24 @@ class PopUp extends React.Component {
               ]}>
               <View style={[{width: '50%', height: 50}]}>
                 <View style={[viewItemRow, {paddingLeft: 8}]}>
-                  <TouchableOpacity onPress={this.onRecord}>
+                  <TouchableRipple onPress={this.onRecord}>
                     <Icon name="microphone" size={30} />
-                  </TouchableOpacity>
-                  <TouchableOpacity onPress={this.onImagePicker}>
+                  </TouchableRipple>
+                  <TouchableRipple onPress={this.onImagePicker}>
                     <Icon name="camera" size={30} style={{marginLeft: 15}} />
-                  </TouchableOpacity>
+                  </TouchableRipple>
                 </View>
               </View>
 
               <View style={{width: 10}} />
 
-              <TouchableOpacity
+              <TouchableRipple
                 style={{width: '50%', height: 50}}
                 onPress={this._requestQuestion}>
                 <View style={[buttonItem, {width: '100%', height: 50}]}>
                   <Text style={textButton}>{'ثبت پاسخ'}</Text>
                 </View>
-              </TouchableOpacity>
+              </TouchableRipple>
             </View>
           </View>
 
@@ -348,7 +404,7 @@ class PopUp extends React.Component {
             visible={this.state.isModalVisible}
             onDismiss={this._hideTabBar}>
             <View style={{width: '100%', height: '100%'}}>
-              <Recorder />
+              <Recorder hideRecorded={this._hideTabBar} />
             </View>
           </Modal>
 
@@ -379,6 +435,10 @@ class PopUp extends React.Component {
     changeState: PropTypes.func,
     dataPro: PropTypes.any,
     navigation: PropTypes.any,
+    hidePopUp: PropTypes.any,
+    object: PropTypes.any,
+    subject: PropTypes.any,
+    onFunObject: PropTypes.func,
   };
 }
 

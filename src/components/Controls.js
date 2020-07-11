@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 
 import {View, Text, StyleSheet, Image, TouchableOpacity} from 'react-native';
+import { TouchableRipple } from 'react-native-paper';
 
 const Controls = ({
   paused,
@@ -15,54 +16,54 @@ const Controls = ({
   forwardDisabled,
 }) => (
   <View style={styles.container}>
-    <TouchableOpacity activeOpacity={0.0} onPress={onPressShuffle}>
+    <TouchableRipple activeOpacity={0.0} onPress={onPressShuffle}>
       <Image
         style={{tintColor: '#000'}}
         style={[styles.secondaryControl, shuffleOn ? [] : styles.off]}
         source={require('../../assets/images/ic_shuffle_white.png')}
       />
-    </TouchableOpacity>
+    </TouchableRipple>
     <View style={{width: 40}} />
-    <TouchableOpacity onPress={onBack}>
+    <TouchableRipple onPress={onBack}>
       <Image
         style={{tintColor: '#000'}}
         source={require('../../assets/images/ic_skip_previous_white_36pt.png')}
       />
-    </TouchableOpacity>
+    </TouchableRipple>
     <View style={{width: 20}} />
     {!paused ? (
-      <TouchableOpacity onPress={onPressPause}>
+      <TouchableRipple onPress={onPressPause}>
         <View style={styles.playButton}>
           <Image
             style={{tintColor: '#000'}}
             source={require('../../assets/images/ic_pause_white_48pt.png')}
           />
         </View>
-      </TouchableOpacity>
+      </TouchableRipple>
     ) : (
-      <TouchableOpacity onPress={onPressPlay}>
+      <TouchableRipple onPress={onPressPlay}>
         <View style={styles.playButton}>
           <Image
             style={{tintColor: '#000'}}
             source={require('../../assets/images/ic_play_arrow_white_48pt.png')}
           />
         </View>
-      </TouchableOpacity>
+      </TouchableRipple>
     )}
     <View style={{width: 20}} />
-    <TouchableOpacity onPress={onForward} disabled={forwardDisabled}>
+    <TouchableRipple onPress={onForward} disabled={forwardDisabled}>
       <Image
         style={{tintColor: '#000',}}
         source={require('../../assets/images/ic_skip_next_white_36pt.png')}
       />
-    </TouchableOpacity>
+    </TouchableRipple>
     <View style={{width: 40}} />
-    <TouchableOpacity activeOpacity={0.0} onPress={onPressRepeat}>
+    <TouchableRipple activeOpacity={0.0} onPress={onPressRepeat}>
       <Image
         style={[styles.secondaryControl, repeatOn ? [] : styles.off]}
         source={require('../../assets/images/ic_repeat_white.png')}
       />
-    </TouchableOpacity>
+    </TouchableRipple>
   </View>
 );
 

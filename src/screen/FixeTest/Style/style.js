@@ -115,7 +115,6 @@ export default StyleSheet.create({
     flex: 1,
     height: 55,
     marginTop: 20,
-
   },
   imageBottom: {
     width: '100%',
@@ -128,6 +127,14 @@ export default StyleSheet.create({
     height: 25,
     marginLeft: 10,
     tintColor: Res.Color.primers,
+  },
+  viewActivityIndicator: {
+    position: 'absolute',
+    alignItems: 'center',
+    alignSelf: 'center',
+    height: '100%',
+    width: '100%',
+    paddingTop:50
   },
   cardModelPop: {
     width: '100%',
@@ -170,7 +177,7 @@ export default StyleSheet.create({
     flexDirection: 'row',
     width: '100%',
   },
-  flatListStyle: { marginBottom: 60},
+  flatListStyle: {marginBottom: 60},
   viewDetail: {
     paddingLeft: 100,
     width: '100%',
@@ -207,7 +214,7 @@ export default StyleSheet.create({
     backgroundColor: '#fff',
     borderRadius: 30,
     textAlign: 'center',
-    
+
     fontSize: 12,
     padding: 8,
     fontFamily: 'BYekanBold',
@@ -220,7 +227,7 @@ export default StyleSheet.create({
     color: '#fff',
     borderRadius: 30,
     textAlign: 'center',
-    
+
     fontSize: 14,
     fontFamily: 'BYekanBold',
     textAlignVertical: 'center',

@@ -8,8 +8,10 @@ import {
   Image,
   ImageBackground,
   ScrollView,
+  FlatList,
+  ActivityIndicator,
 } from 'react-native';
-import {Card, Modal} from 'react-native-paper';
+import {Card, Modal, TouchableRipple} from 'react-native-paper';
 import Carousel, {getInputRangeFromIndexes} from 'react-native-snap-carousel';
 import background from '../../../assets/images/abstract.png';
 import PropTypes from 'prop-types';
@@ -18,13 +20,15 @@ import backgroundC from '../../../assets/images/abstract2.png';
 import back from '../../../assets/images/back.png';
 import circle from '../../../assets/images/circaleBack.png';
 import style from './Style/style';
-import {FlatList} from 'react-native-gesture-handler';
+
 import Dropdown from '../../components/drop';
 import FixAction from '../../action/FixAction';
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import PopUp from './popUp';
+import FullScreenText from '../../components/textFull';
+import FullScreenImage from '../../components/FullScreenImage';
 
 let screenWidth = Dimensions.get('window').width;
 class FixeScreen extends React.Component {
@@ -40,6 +44,10 @@ class FixeScreen extends React.Component {
     groupId: '',
     isModalVisible: false,
     detail: '',
+    isModalPopTextFull: false,
+    dataTextItem: '',
+    isModalPopImageFull: false,
+    dataImageItem: '',
   };
   _filterSort(data, indext) {
     return data.groupName;
@@ -100,12 +108,15 @@ class FixeScreen extends React.Component {
 
   componentDidMount() {
     this.props.navigation.setParams({tabBarVisible: false});
-    this.props._onGroups();
-    this.props._onAllNoAnswered();
+    setTimeout(() => {
+      this.props._onGroups();
+      this.props._onAllNoAnswered();
+    }, 1000);
+
     // this.props._onNoAnsweredQuestionCourseBase(48, 27, 3273);
     // this.props._onReservedQuestionCourseBase(48, 27, 3273);
   }
-  _onStepList(e) {
+  _onStepList = e => {
     this.setState({
       stepOne: e,
     });
@@ -119,7 +130,7 @@ class FixeScreen extends React.Component {
     if (e == 3) {
       this.props._onAllAnsweredQuestion(48);
     }
-  }
+  };
   componentWillUpdate() {
     console.log('Groups', this.props.dataGroups);
   }
@@ -133,6 +144,8 @@ class FixeScreen extends React.Component {
     this.props._onDeleteReserveQuestion(48, e.Id);
   }
   _hideTabBar = e => {
+    this.props._onGetSubject(e.SumCrsId);
+
     this.setState({
       isModalVisible: !this.state.isModalVisible,
       detail: e,
@@ -141,7 +154,31 @@ class FixeScreen extends React.Component {
   _hideTabBarMode = e => {
     this.setState({
       isModalVisible: !this.state.isModalVisible,
-  
+    });
+  };
+  _openModalMenu() {
+    this._hideModalMenu(true);
+  }
+  _openModalTextFull = e => {
+    this.setState({
+      isModalPopTextFull: !this.state.isModalPopTextFull,
+      dataTextItem: e,
+    });
+  };
+  _hideModalTextFull = e => {
+    this.setState({
+      isModalPopTextFull: !this.state.isModalPopTextFull,
+    });
+  };
+  _openModalImageFull = e => {
+    this.setState({
+      isModalPopImageFull: !this.state.isModalPopTextFull,
+      dataImageItem: e,
+    });
+  };
+  _hideModalImageFull = e => {
+    this.setState({
+      isModalPopImageFull: !this.state.isModalPopImageFull,
     });
   };
   renderGridItem(item, index) {
@@ -161,7 +198,7 @@ class FixeScreen extends React.Component {
       imageCard,
     } = style;
     return (
-      <TouchableOpacity activeOpacity={1}>
+      <TouchableRipple activeOpacity={1}>
         <Card
           style={{
             width: '100%',
@@ -184,7 +221,7 @@ class FixeScreen extends React.Component {
               <View style={viewDetail}>
                 <Text style={detail}>{item.ProblemText}</Text>
               </View>
-              <TouchableOpacity
+              <TouchableRipple
                 style={[buttonItem]}
                 onPress={() => this._hideTabBar(item)}>
                 <View>
@@ -192,18 +229,18 @@ class FixeScreen extends React.Component {
                     {this.state.stepOne == 2 ? 'بازخورد سوال' : 'برسی سوال'}
                   </Text>
                 </View>
-              </TouchableOpacity>
+              </TouchableRipple>
             </View>
           </View>
           {this.state.stepOne == 2 ? (
-            <TouchableOpacity
+            <TouchableRipple
               style={{position: 'absolute', marginLeft: 15, marginTop: 8}}
               onPress={() => this.deleteReserved(item)}>
               <Icon name="close" size={14} />
-            </TouchableOpacity>
+            </TouchableRipple>
           ) : null}
         </Card>
-      </TouchableOpacity>
+      </TouchableRipple>
     );
   }
   render() {
@@ -224,6 +261,7 @@ class FixeScreen extends React.Component {
       viewFullCardButton,
       textCardButtonGray,
       cardModelPop,
+      viewActivityIndicator,
     } = style;
     return (
       <View style={viewFull}>
@@ -231,9 +269,9 @@ class FixeScreen extends React.Component {
           <ScrollView
             style={{marginBottom: 15, paddingRight: 15, paddingLeft: 15}}>
             <View style={viewHeder}>
-              <TouchableOpacity onPress={this.onBack} style={buttonBack}>
+              <TouchableRipple onPress={this.onBack} style={buttonBack}>
                 <Image source={back} style={buttonBack} />
-              </TouchableOpacity>
+              </TouchableRipple>
 
               <Text style={textHeder}>رفع اشکال</Text>
             </View>
@@ -279,7 +317,8 @@ class FixeScreen extends React.Component {
           <View style={viewFullCardButton}>
             <Card style={cardButton}>
               <View style={viewCardButton}>
-                <TouchableOpacity
+                <TouchableRipple
+                  activeOpacity={0.9}
                   style={{position: 'absolute', left: 8}}
                   onPress={() => {
                     this._onStepList(1);
@@ -292,9 +331,10 @@ class FixeScreen extends React.Component {
                     }>
                     پاسخ داده نشده
                   </Text>
-                </TouchableOpacity>
+                </TouchableRipple>
                 <View style={{width: 15}} />
-                <TouchableOpacity
+                <TouchableRipple
+                  activeOpacity={0.9}
                   onPress={() => {
                     this._onStepList(2);
                   }}>
@@ -306,9 +346,10 @@ class FixeScreen extends React.Component {
                     }>
                     سوالات رزرو شده
                   </Text>
-                </TouchableOpacity>
+                </TouchableRipple>
                 <View style={{width: 15}} />
-                <TouchableOpacity
+                <TouchableRipple
+                  activeOpacity={0.9}
                   style={{position: 'absolute', right: 8}}
                   onPress={() => {
                     this._onStepList(3);
@@ -321,20 +362,53 @@ class FixeScreen extends React.Component {
                     }>
                     پاسخ داده شده
                   </Text>
-                </TouchableOpacity>
+                </TouchableRipple>
               </View>
             </Card>
           </View>
         </ImageBackground>
-        <Modal visible={this.state.isModalVisible}
-          onDismiss={this._hideTabBarMode}> 
+        <Modal
+          visible={this.state.isModalVisible}
+          onDismiss={this._hideTabBarMode}>
           <View style={{height: '100%', justifyContent: 'flex-end'}}>
             <View style={cardModelPop}>
               <PopUp
                 dataPro={this.state.detail}
                 navigation={this.props.navigation}
+                hidePopUp={this._hideTabBarMode}
+                subject={this.props.dataGetSubject}
+                object={this.props.dataGetObject}
+                onFunObject={this.props._onGetObject}
               />
             </View>
+          </View>
+        </Modal>
+        <View style={viewActivityIndicator}>
+          <ActivityIndicator
+            animating={this.props.isLoadedCourse}
+            color={'#000'}
+          />
+        </View>
+        <Modal
+          visible={this.state.isModalPopTextFull}
+          onDismiss={this._hideModalTextFull}>
+          <View style={{height: '100%', justifyContent: 'flex-end'}}>
+            <Card style={{cardModelPop}}>
+              <FullScreenText dataList={this.state.dataTextItem} />
+            </Card>
+          </View>
+        </Modal>
+        <Modal
+          visible={this.state.isModalPopImageFull}
+          onDismiss={this._hideModalImageFull}>
+          <View
+            style={{
+              height: '100%',
+              justifyContent: 'flex-end',
+              backgroundColor: '#fff',
+              width: '100%',
+            }}>
+            <FullScreenImage dataList={this.state.dataImageItem} />
           </View>
         </Modal>
       </View>
@@ -350,7 +424,9 @@ function mapStateTop(state) {
     dataGroups: state.Fixe.dataGroups,
     dataCourse: state.Fixe.dataCourse,
     dataCourseBase: state.Fixe.dataCourseBase,
-    isLoaded: state.Fixe.isLoaded,
+    isLoadedCourse: state.Fixe.isLoadedCourse,
+    dataGetSubject: state.Home.dataGetSubject,
+    dataGetObject: state.Home.dataGetObject,
   };
 }
 function mapDispatchToProps(dispatch) {

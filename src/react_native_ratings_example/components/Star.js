@@ -1,5 +1,6 @@
 import React, {PureComponent} from 'react';
 import {StyleSheet, Animated, TouchableOpacity} from 'react-native';
+import { TouchableRipple } from 'react-native-paper';
 
 const STAR_IMAGE = require( '../images/airbnb-star.png' );
 const STAR_SELECTED_IMAGE = require( '../images/airbnb-star-selected.png' );
@@ -42,7 +43,7 @@ export default class Star extends PureComponent {
     const starSource = fill && selectedColor === null ? STAR_SELECTED_IMAGE : STAR_IMAGE;
 
     return (
-      <TouchableOpacity activeOpacity={1} onPress={this.spring.bind( this )} disabled={isDisabled}>
+      <TouchableRipple activeOpacity={1} onPress={this.spring.bind( this )} disabled={isDisabled}>
         <Animated.Image
           source={starSource}
           style={[
@@ -56,7 +57,7 @@ export default class Star extends PureComponent {
             starStyle
           ]}
         />
-      </TouchableOpacity>
+      </TouchableRipple>
     );
   }
 }

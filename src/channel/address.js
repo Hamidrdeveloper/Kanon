@@ -44,7 +44,12 @@ const address = {
   postSaveReserved: e => {
     return `${API_BASE}/teacher/ReserveQuestion`;
   },
-
+  postGetSubject: e => {
+    return `${API_BASE}/teacher/GetSubject`;
+  },
+  postGetObject: e => {
+    return `${API_BASE}/teacher/GetObject`;
+  },
   
   postReservedGroupBase: e => {
     return `${API_BASE}/teacher/GetReservedQuestionGroupBase`;

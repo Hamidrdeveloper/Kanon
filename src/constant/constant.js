@@ -14,3 +14,13 @@ export const AnsweredQuestionCourseBase = {
   RESENT: 'AnsweredQuestionCourseBase.RESENT',
   LOG: 'AnsweredQuestionCourseBase.LOG',
 }
+export const GetSubject = {
+  LIST: 'GetSubject.LIST',
+  RESENT: 'GetSubject.RESENT',
+  LOG: 'GetSubject.LOG',
+}
+export const GetObject = {
+  LIST: 'GetObject.LIST',
+  RESENT: 'GetObject.RESENT',
+  LOG: 'GetObject.LOG',
+}

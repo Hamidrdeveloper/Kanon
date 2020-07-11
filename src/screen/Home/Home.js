@@ -9,7 +9,7 @@ import {
   Button,
   AsyncStorage,
 } from 'react-native';
-import {Card, Modal} from 'react-native-paper';
+import {Card, Modal, TouchableRipple} from 'react-native-paper';
 import Carousel, {getInputRangeFromIndexes} from 'react-native-snap-carousel';
 import background from '../../../assets/images/abstract.png';
 import alarm from '../../../assets/images/alarm.png';
@@ -28,7 +28,9 @@ import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import PropTypes from 'prop-types';
 import {UserData} from '../../model/userData';
-import Recorder from '../../components/recorderPlayer'
+import Recorder from '../../components/recorderPlayer';
+import FullScreenText from '../../components/textFull';
+import FullScreenImage from '../../components/FullScreenImage';
 let screenWidth = Dimensions.get('window').width;
 class HomeScreen extends React.Component {
   state = {
@@ -40,6 +42,10 @@ class HomeScreen extends React.Component {
     isModalPerformance: false,
     isModalNotify: false,
     isModalPopUpMenu: false,
+    isModalPopTextFull: false,
+    dataTextItem: '',
+    isModalPopImageFull: false,
+    dataImageItem: '',
   };
 
   static navigationOptions = ({navigation}) => {
@@ -112,6 +118,8 @@ class HomeScreen extends React.Component {
     });
   };
   _hideTabBarItem = (e, data) => {
+    this.props._onGetSubject(data.SumCrsId)
+
     this.props.navigation.setParams({tabBarVisible: !this.state.tabBarVisible});
     console.log('_hideTabBarItem', data);
     this.setState({
@@ -158,6 +166,28 @@ class HomeScreen extends React.Component {
   _openModalMenu() {
     this._hideModalMenu(true);
   }
+  _openModalTextFull = e => {
+    this.setState({
+      isModalPopTextFull: !this.state.isModalPopTextFull,
+      dataTextItem: e,
+    });
+  };
+  _hideModalTextFull = e => {
+    this.setState({
+      isModalPopTextFull: !this.state.isModalPopTextFull,
+    });
+  };
+  _openModalImageFull = e => {
+    this.setState({
+      isModalPopImageFull: !this.state.isModalPopTextFull,
+      dataImageItem: e,
+    });
+  };
+  _hideModalImageFull = e => {
+    this.setState({
+      isModalPopImageFull: !this.state.isModalPopImageFull,
+    });
+  };
   componentDidMount() {
     AsyncStorage.getItem('userid').then(data => {
       console.log(data);
@@ -192,15 +222,15 @@ class HomeScreen extends React.Component {
                 paddingLeft: 15,
                 paddingRight: 15,
               }}>
-              <TouchableOpacity
+              <TouchableRipple
                 activeOpacity={10}
                 onPress={() => this._openModalNotify()}>
                 <Image
                   source={alarm}
                   style={{width: 25, height: 25, tintColor: '#ffff'}}
                 />
-              </TouchableOpacity>
-              <TouchableOpacity
+              </TouchableRipple>
+              <TouchableRipple
                 activeOpacity={10}
                 style={{
                   width: 20,
@@ -219,7 +249,7 @@ class HomeScreen extends React.Component {
                     tintColor: '#ffff',
                   }}
                 />
-              </TouchableOpacity>
+              </TouchableRipple>
             </View>
             <Image
               source={{
@@ -243,7 +273,7 @@ class HomeScreen extends React.Component {
                 UserData.jsonData.teacherInfo.LastName}
             </Text>
 
-            <TouchableOpacity
+            <TouchableRipple
               activeOpacity={10}
               onPress={() => {
                 this._openPerformance();
@@ -251,7 +281,7 @@ class HomeScreen extends React.Component {
               <Card style={viewLine}>
                 <Text style={textPerformance}>مشاهده ی گزارش عملکرد 5/5</Text>
               </Card>
-            </TouchableOpacity>
+            </TouchableRipple>
             <ListClass
               hideTabBar={this._hideTabBarItem}
               AQ_data={this.props.data}
@@ -265,6 +295,12 @@ class HomeScreen extends React.Component {
                     changeState={this._hideTabBar}
                     dataPro={this.state.detail}
                     navigation={this.props.navigation}
+                    hidePopUp={this._hideTabBar}
+                    openModalTextFull={this._openModalTextFull}
+                    openModalImageFull={this._openModalImageFull}
+                    subject={this.props.dataGetSubject}
+                    object={this.props.dataGetObject}
+                    onFunObject={this.props._onGetObject}
                   />
                 </View>
               </View>
@@ -307,10 +343,29 @@ class HomeScreen extends React.Component {
               </View>
             </Modal>
           </ImageBackground>
+          <Modal
+            visible={this.state.isModalPopTextFull}
+            onDismiss={this._hideModalTextFull}>
+            <View style={{height: '100%', justifyContent: 'flex-end'}}>
+              <Card style={{cardModelPop}}>
+                <FullScreenText dataList={this.state.dataTextItem} />
+              </Card>
+            </View>
+          </Modal>
+          <Modal
+            visible={this.state.isModalPopImageFull}
+            onDismiss={this._hideModalImageFull}>
+            <View
+              style={{
+                height: '100%',
+                justifyContent: 'flex-end',
+                backgroundColor: '#fff',
+                width: '100%',
+              }}>
+              <FullScreenImage dataList={this.state.dataImageItem} />
+            </View>
+          </Modal>
         </View>
-      
-
-       
       </View>
     );
   }
@@ -322,6 +377,8 @@ function mapStateTop(state) {
   return {
     data: state.Home.data,
     isLoaded: state.Home.isLoaded,
+    dataGetSubject: state.Home.dataGetSubject,
+    dataGetObject: state.Home.dataGetObject,
   };
 }
 function mapDispatchToProps(dispatch) {

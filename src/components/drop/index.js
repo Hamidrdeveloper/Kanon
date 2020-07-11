@@ -20,6 +20,7 @@ import Icon from 'react-native-vector-icons/AntDesign';
 
 import DropdownItem from '../item';
 import styles from './styles';
+import {TouchableRipple} from 'react-native-paper';
 
 export default class Dropdown extends PureComponent {
   static defaultProps = {
@@ -67,7 +68,15 @@ export default class Dropdown extends PureComponent {
     itemColor: 'rgba(0, 0, 0, .54)',
     baseColor: 'rgba(0, 0, 0, .38)',
     textdefult: 'City',
-
+    iconStyle: {marginLeft: 8},
+    textStyle: {
+      textColor: '#fff',
+      color: '#000',
+      textAlign: 'right',
+      width: '100%',
+      fontFamily: 'BYekanBold',
+      fontSize: 17,
+    },
     itemCount: 4,
     itemPadding: 8,
 
@@ -134,9 +143,9 @@ export default class Dropdown extends PureComponent {
     disabledItemColor: PropTypes.string,
     baseColor: PropTypes.string,
     textDefault: PropTypes.string,
-
+    textStyle: Text.propTypes.style,
     itemTextStyle: Text.propTypes.style,
-
+    iconStyle: Text.propTypes.style,
     itemCount: PropTypes.number,
     itemPadding: PropTypes.number,
 
@@ -476,6 +485,7 @@ export default class Dropdown extends PureComponent {
       labelExtractor,
       dropdownOffset,
       textDefault,
+      textStyle,
       renderAccessory = this.renderAccessory,
     } = this.props;
 
@@ -503,14 +513,7 @@ export default class Dropdown extends PureComponent {
         defaultValue={textDefault}
         labelHeight={dropdownOffset.top - Platform.select({ios: 1, android: 2})}
         {...props}
-        style={{
-          textColor: '#000',
-          color: '#000',
-          textAlign: 'right',
-          width: '100%',
-          fontFamily: 'BYekanBold',
-          fontSize: 17,
-        }}
+        style={textStyle}
         value={title}
         editable={false}
         onChangeText={undefined}
@@ -656,6 +659,7 @@ export default class Dropdown extends PureComponent {
       testID,
       nativeID,
       accessible,
+      iconStyle,
       accessibilityLabel,
 
       supportedOrientations,
@@ -726,7 +730,7 @@ export default class Dropdown extends PureComponent {
         onLayout={this.onLayout}
         ref={this.updateContainerRef}
         style={containerStyle}>
-        <TouchableOpacity {...touchableProps}>
+        <TouchableRipple {...touchableProps}>
           <View
             style={{
               width: '100%',
@@ -734,7 +738,7 @@ export default class Dropdown extends PureComponent {
               alignItems: 'center',
               justifyContent: 'flex-start',
             }}>
-            <Icon name="down" size={15} style={{marginLeft: 8}} />
+            <Icon name="down" size={15} style={iconStyle} />
             <View
               pointerEvents="box-only"
               style={{width: '85%', paddingRight: 5}}>
@@ -742,7 +746,7 @@ export default class Dropdown extends PureComponent {
               {this.renderRipple()}
             </View>
           </View>
-        </TouchableOpacity>
+        </TouchableRipple>
 
         <Modal
           visible={modal}

@@ -15,7 +15,7 @@ import {
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
 import PropTypes from 'prop-types';
-import {Card} from 'react-native-paper';
+import {Card, TouchableRipple} from 'react-native-paper';
 import Carousel, {getInputRangeFromIndexes} from 'react-native-snap-carousel';
 import background from '../../../assets/images/abstract.png';
 
@@ -72,7 +72,7 @@ class PerformanceScreen extends React.Component {
     return (
       <View style={{width: '100%', height: '100%'}}>
         <Card style={viewForm}>
-          <TouchableOpacity
+          <TouchableRipple
             activeOpacity={10}
             style={{
               position: 'absolute',
@@ -95,7 +95,7 @@ class PerformanceScreen extends React.Component {
               }}>
               <Icon name="remove" size={20} color="#000" />
             </View>
-          </TouchableOpacity>
+          </TouchableRipple>
 
           <View style={imageCard}>
             <Card.Cover

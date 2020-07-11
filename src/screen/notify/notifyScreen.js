@@ -2,7 +2,7 @@
 import React from 'react';
 import {View, Text, Dimensions, TouchableOpacity} from 'react-native';
 import PropTypes from 'prop-types';
-import {Card} from 'react-native-paper';
+import {Card, TouchableRipple} from 'react-native-paper';
 
 import style from './Style/style';
 import Icon from 'react-native-vector-icons/FontAwesome';
@@ -19,7 +19,7 @@ class NotifyScreen extends React.Component {
     return (
       <View style={{width: '100%', height: '100%'}}>
         <Card style={viewForm}>
-          <TouchableOpacity
+          <TouchableRipple
             activeOpacity={10}
             style={{
               width: 20,
@@ -29,7 +29,7 @@ class NotifyScreen extends React.Component {
             <View style={closeButton}>
               <Icon name="remove" size={12} color="#000" />
             </View>
-          </TouchableOpacity>
+          </TouchableRipple>
           <View>
             <Text style={detail}>موضوع نوتیفیکیشن :</Text>
             <View style={cardBottom} />

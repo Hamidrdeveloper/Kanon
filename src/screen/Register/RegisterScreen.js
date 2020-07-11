@@ -11,7 +11,7 @@ import {
   TextInput,
   AsyncStorage,
 } from 'react-native';
-import {Card} from 'react-native-paper';
+import {Card, TouchableRipple, Button} from 'react-native-paper';
 import Carousel, {getInputRangeFromIndexes} from 'react-native-snap-carousel';
 import background from '../../../assets/images/abstract.png';
 
@@ -29,31 +29,43 @@ let screenWidth = Dimensions.get('window').width;
 class RegisterScreen extends React.Component {
   state = {
     nationalCode: '',
+    isLogin: false,
   };
   componentDidMount() {
     let {navigation} = this.props;
 
     AsyncStorage.multiGet(['userid', 'dataUser']).then(data => {
-      console.log("",JSON.parse(data[1][1]));
+      console.log('', JSON.parse(data[1][1]));
       if (data[0][1] != null) {
         UserData.jsonData = JSON.parse(data[1][1]);
-        console.log("", UserData.jsonData );
-        navigation.navigate('Home');
+        console.log('', UserData.jsonData);
+        // navigation.navigate('Home');
       }
     });
   }
 
   onLogin = e => {
+    this.setState({
+      isLogin: true,
+    });
     let {navigation} = this.props;
 
-    LoginAction._onLogin(this.state.nationalCode).then(data => {
-      if (data !== '0') {
-        console.log(data.Rid);
-       
+    LoginAction._onLogin(this.state.nationalCode)
+      .then(data => {
+        if (data !== '0') {
+          console.log(data.Rid);
 
-        navigation.navigate('Home');
-      }
-    });
+          navigation.navigate('Home');
+          this.setState({
+            isLogin: false,
+          });
+        }
+      })
+      .catch(error => {
+        this.setState({
+          isLogin: false,
+        });
+      });
   };
   onChangeTextUser(e) {
     this.setState({
@@ -90,6 +102,7 @@ class RegisterScreen extends React.Component {
           style={viewFull}> */}
         <KeyboardAwareScrollView
           contentContainerStyle={{flexGrow: 1}}
+          keyboardShouldPersistTaps="handled"
           enableOnAndroid={true}
           style={{width: '100%', height: '100%'}}>
           <View style={viewRegister}>
@@ -116,14 +129,15 @@ class RegisterScreen extends React.Component {
                 </Card>
               </View>
               <View style={viewFullCardButton}>
-                <TouchableOpacity
-                  activeOpacity={10}
+                <Button
+                  loading={this.state.isLogin}
                   style={buttonItem}
+                  color={'#fff'}
+                  labelStyle={textButton}
+                  contentStyle={{width: '100%', height: 50}}
                   onPress={() => this.onLogin()}>
-                  <View>
-                    <Text style={textButton}>{'ثبت نام'}</Text>
-                  </View>
-                </TouchableOpacity>
+                  {'ثبت نام'}
+                </Button>
                 <View style={buttonLogin}>
                   <Text style={textButtonLogin}>{'ورود'}</Text>
                 </View>

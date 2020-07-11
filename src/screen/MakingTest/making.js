@@ -42,7 +42,7 @@ class Making extends React.Component {
       textButton,
     } = style;
     return (
-      <TouchableOpacity activeOpacity={1}>
+      <TouchableRipple activeOpacity={1}>
         <Card
           style={{
             width: (screenWidth + 50) / 2,
@@ -73,7 +73,7 @@ class Making extends React.Component {
             <Text style={textButton}>{'برسی سوال'}</Text>
           </View>
         </Card>
-      </TouchableOpacity>
+      </TouchableRipple>
     );
   }
   render() {

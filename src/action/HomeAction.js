@@ -1,10 +1,9 @@
 import Channel from '../channel/indext';
-import {AnsweredQuestion} from '../constant/constant';
+import {AnsweredQuestion, GetSubject, GetObject} from '../constant/constant';
 var channel = new Channel();
 function _onAnsweredQuestion(e) {
   return dispatch => {
-    return channel.onPostAnsweredQuestion(e).then(data => {
-      console.log('dispatch', data);
+    return channel.onAllNo(e).then(data => {
       return dispatch({
         type: AnsweredQuestion.LIST,
         data: data,
@@ -12,5 +11,25 @@ function _onAnsweredQuestion(e) {
     });
   };
 }
-
-export default {_onAnsweredQuestion};
+function _onGetSubject(e) {
+  return dispatch => {
+    return channel.postGetSubject(e).then(data => {
+      console.log(data)
+      return dispatch({
+        type: GetSubject.LIST,
+        data: data,
+      });
+    });
+  };
+}
+function _onGetObject(e) {
+  return dispatch => {
+    return channel.postGetObject(e).then(data => {
+      return dispatch({
+        type: GetObject.LIST,
+        data: data,
+      });
+    });
+  };
+}
+export default {_onAnsweredQuestion, _onGetSubject, _onGetObject};

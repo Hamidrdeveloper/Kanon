@@ -98,10 +98,6 @@ export default StyleSheet.create({
   },
   // eslint-disable-next-line no-dupe-keys
   textButton: {
-    width: '100%',
-    height: '100%',
-    textAlign: 'center',
-    textAlignVertical: 'center',
     fontSize: 25,
     color: '#fff',
     fontFamily: 'BYekanBold',

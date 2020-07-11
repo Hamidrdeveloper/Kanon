@@ -1,28 +1,27 @@
-import {AnsweredQuestionBySort, AnsweredQuestionCourseBase} from '../constant/constant';
+import {
+  AnsweredQuestionBySort,
+  AnsweredQuestionCourseBase,
+} from '../constant/constant';
 import createReducer from '../utils/createReducer';
 
 const initialState = {
-  isLoaded: false,
+  isLoaded: true,
   recent: [],
   List: [],
   Log: '',
 };
 const actionHandler = {
   [AnsweredQuestionBySort.LIST]: (state, action) => {
-
-    return {isLoaded: true, data: action.data};
+    return {isLoaded: false, data: action.data};
   },
   [AnsweredQuestionBySort.GROUPS]: (state, action) => {
-
-    return {isLoadedGroups: true, dataGroups: action.data};
+    return {isLoadedGroups: false, dataGroups: action.data};
   },
   [AnsweredQuestionBySort.COURSE]: (state, action) => {
-
-    return {isLoadedCourse: true, dataCourse: action.data};
+    return {isLoadedCourseSort: false, dataCourse: action.data};
   },
   [AnsweredQuestionCourseBase.LIST]: (state, action) => {
-
-    return {isLoadedCourse: true, dataCourseBase: action.data};
+    return {isLoadedCourse: action.isLoadedCourse, dataCourseBase: action.data};
   },
 };
 export default createReducer(initialState, actionHandler);

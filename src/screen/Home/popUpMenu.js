@@ -13,7 +13,7 @@ import {
 import Res from '../../Color/color';
 import PropTypes from 'prop-types';
 
-import {Card} from 'react-native-paper';
+import {Card, TouchableRipple} from 'react-native-paper';
 import Carousel, {getInputRangeFromIndexes} from 'react-native-snap-carousel';
 import background from '../../../assets/images/abstract.png';
 
@@ -113,7 +113,7 @@ class PopUpMenu extends React.Component {
             <Icon name="info-circle" size={15} />
           </View>
           <View style={lineService} />
-          <TouchableOpacity
+          <TouchableRipple
           activeOpacity={10}
             style={{
               width: 50,
@@ -132,7 +132,7 @@ class PopUpMenu extends React.Component {
                 backgroundColor: Res.Color.grayLight,
               }}
             />
-          </TouchableOpacity>
+          </TouchableRipple>
         </View>
       </View>
     );
