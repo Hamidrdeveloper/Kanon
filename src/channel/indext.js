@@ -10,6 +10,7 @@ export default class Channel {
   }
   onPostLogin(e) {
     var add = address.postLogin();
+   
     return axios
       .post(add, {
         nationalCode: e,
@@ -17,7 +18,7 @@ export default class Channel {
       .then(res => {
         if (res.data.Status === 1) {
           UserData.jsonData = res.data.Data;
-
+        
           AsyncStorage.multiSet([
             ['userid', res.data.Data.teacherInfo.Rid + ''],
             ['dataUser', JSON.stringify(UserData.jsonData) + ''],
@@ -28,6 +29,7 @@ export default class Channel {
         }
       })
       .catch(error => {
+       
         return '0';
       });
   }
@@ -39,7 +41,12 @@ export default class Channel {
       .post(add)
       .then(res => {
         if (res.data.Status === 1) {
-          return res.data.Data;
+          var arr = [{groupCode: 0, groupName: 'همه مقاطع'}];
+          res.data.Data.forEach(element => {
+            arr.push(element);
+          });
+
+          return arr;
         } else {
           return '0';
         }
@@ -57,7 +64,12 @@ export default class Channel {
       })
       .then(res => {
         if (res.data.Status === 1) {
-          return res.data.Data.lessons;
+        
+          var arr = [{CourseId: 0, CrsId: 0, CrsName: 'همه دروس'}];
+          res.data.Data.lessons.forEach(element => {
+            arr.push(element);
+          });
+          return arr;
         } else {
           return '0';
         }
@@ -247,6 +259,8 @@ export default class Channel {
       })
       .then(res => {
         if (res.data.Status === 1) {
+          Toast.show('با موفقت  لفو شد');
+
           return res.data.Data;
         } else {
           return '0';
@@ -259,18 +273,6 @@ export default class Channel {
   postInsertAnswer(answerText, SumSbjId, questionId, teacherId, SumObjId) {
     var add = address.InsertAnswer();
 
-    console.log(
-      add +
-        answerText +
-        '' +
-        SumSbjId +
-        '' +
-        questionId +
-        '' +
-        teacherId +
-        '' +
-        SumObjId,
-    );
 
     return axios
       .post(add, {
@@ -328,7 +330,7 @@ export default class Channel {
       type: voice.type,
       name: voice.name,
     });
-    console.log('data', data);
+    
 
     return axios({
       url: add,
@@ -367,6 +369,7 @@ export default class Channel {
       })
       .then(res => {
         if (res.data.Status === 1) {
+          Toast.show('با موفقت  رزرو شد');
           return res.data.Data;
         } else {
           return '0';
@@ -377,8 +380,8 @@ export default class Channel {
       });
   }
   postGetSubject(questionId) {
-    var add = address.postGetSubject()
-    console.log("postGetSubject",add+""+questionId)
+    var add = address.postGetSubject();
+    
     //   g(image);
     return axios
       .post(add, {
@@ -391,7 +394,7 @@ export default class Channel {
       })
       .then(res => {
         if (res.data.Status === 1) {
-          return res.data.Data;
+          return res.data.Data.lessons;
         } else {
           return '0';
         }
@@ -414,7 +417,7 @@ export default class Channel {
       })
       .then(res => {
         if (res.data.Status === 1) {
-          return res.data.Data;
+          return res.data.Data.lessons;
         } else {
           return '0';
         }

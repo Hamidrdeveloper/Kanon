@@ -10,6 +10,7 @@ import {
   ScrollView,
   FlatList,
   ActivityIndicator,
+  BackHandler,
 } from 'react-native';
 import {Card, Modal, TouchableRipple} from 'react-native-paper';
 import Carousel, {getInputRangeFromIndexes} from 'react-native-snap-carousel';
@@ -29,6 +30,7 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import PopUp from './popUp';
 import FullScreenText from '../../components/textFull';
 import FullScreenImage from '../../components/FullScreenImage';
+import {UserData} from '../../model/userData';
 
 let screenWidth = Dimensions.get('window').width;
 class FixeScreen extends React.Component {
@@ -41,13 +43,14 @@ class FixeScreen extends React.Component {
   };
   state = {
     stepOne: 1,
-    groupId: '',
+    groupId: 0,
     isModalVisible: false,
     detail: '',
     isModalPopTextFull: false,
     dataTextItem: '',
     isModalPopImageFull: false,
     dataImageItem: '',
+    CrsId: 0,
   };
   _filterSort(data, indext) {
     return data.groupName;
@@ -62,60 +65,108 @@ class FixeScreen extends React.Component {
     return data;
   }
   _selectGroups = data => {
-    console.log(data.groupCode);
+  
     this.setState({
       groupId: data.groupCode,
     });
-    this.props._onCourse(data.groupCode);
-    if (this.state.stepOne == 1) {
-      this.props._onNoAnsweredQuestionCourseBase(48, data.groupCode, null);
-    }
-    if (this.state.stepOne == 2) {
-      this.props._onReservedQuestionCourseBase(48, data.groupCode, null);
-    }
-
-    if (this.state.stepOne == 3) {
-      this.props._onAnsweredQuestionCourseBase(48, data.groupCode, null);
-    }
+    this.props._onCourse(this.state.groupId);
+    setTimeout(() => {
+      this._onGetData();
+    }, 100);
     return data;
   };
   _selectCourse = data => {
-    console.log(data.CrsId + '++' + this.state.groupId);
-
-    if (this.state.stepOne === 1) {
-      this.props._onNoAnsweredQuestionCourseBase(
-        48,
-        this.state.groupId,
-        data.CrsId,
-      );
-    }
-    if (this.state.stepOne == 2) {
-      this.props._onReservedQuestionCourseBase(
-        48,
-        this.state.groupId,
-        data.CrsId,
-      );
-    }
-    if (this.state.stepOne === 3) {
-      this.props._onAnsweredQuestionCourseBase(
-        48,
-        this.state.groupId,
-        data.CrsId,
-      );
-    }
+   
+    this.setState({
+      CrsId: data.CrsId,
+    });
+    this._onGetData();
     return data;
   };
-
+  handleBackButton=e=>{
+    this.props.navigation.goBack(null);  }
   componentDidMount() {
+   
     this.props.navigation.setParams({tabBarVisible: false});
     setTimeout(() => {
       this.props._onGroups();
       this.props._onAllNoAnswered();
     }, 1000);
 
-    // this.props._onNoAnsweredQuestionCourseBase(48, 27, 3273);
-    // this.props._onReservedQuestionCourseBase(48, 27, 3273);
+    // this.props._onNoAnsweredQuestionCourseBase( UserData.jsonData.teacherInfo.Rid , 27, 3273);
+    // this.props._onReservedQuestionCourseBase( UserData.jsonData.teacherInfo.Rid , 27, 3273);
   }
+  _onGetData = e => {
+    if (this.state.groupId === 0) {
+      this.setState({
+        groupId: 0,
+      });
+
+      if (this.state.stepOne == 1) {
+        this.props._onAllNoAnswered();
+      }
+      if (this.state.stepOne == 2) {
+        this.props._onAllAnsweredReserved(UserData.jsonData.teacherInfo.Rid);
+      }
+      if (this.state.stepOne == 3) {
+        this.props._onAllAnsweredQuestion(UserData.jsonData.teacherInfo.Rid);
+      }
+    } else {
+      if (this.state.CrsId === 0) {
+        // this.props._onCourse(this.state.groupId);
+        this.setState({
+          CrsId: 0,
+        });
+        if (this.state.stepOne == 1) {
+          this.props._onNoAnsweredQuestionCourseBase(
+            UserData.jsonData.teacherInfo.Rid,
+            this.state.groupId,
+            null,
+          );
+        }
+        if (this.state.stepOne == 2) {
+          this.props._onReservedQuestionCourseBase(
+            UserData.jsonData.teacherInfo.Rid,
+            this.state.groupId,
+            null,
+          );
+        }
+
+        if (this.state.stepOne == 3) {
+          this.props._onAnsweredQuestionCourseBase(
+            UserData.jsonData.teacherInfo.Rid,
+            this.state.groupId,
+            null,
+          );
+        }
+      } else {
+        this.setState({
+          CrsId: this.state.CrsId,
+        });
+        if (this.state.stepOne === 1) {
+          this.props._onNoAnsweredQuestionCourseBase(
+            UserData.jsonData.teacherInfo.Rid,
+            this.state.groupId,
+            this.state.CrsId,
+          );
+        }
+        if (this.state.stepOne == 2) {
+          this.props._onReservedQuestionCourseBase(
+            UserData.jsonData.teacherInfo.Rid,
+            this.state.groupId,
+            this.state.CrsId,
+          );
+        }
+        if (this.state.stepOne === 3) {
+          this.props._onAnsweredQuestionCourseBase(
+            UserData.jsonData.teacherInfo.Rid,
+            this.state.groupId,
+            this.state.CrsId,
+          );
+        }
+      }
+    }
+  };
   _onStepList = e => {
     this.setState({
       stepOne: e,
@@ -125,14 +176,14 @@ class FixeScreen extends React.Component {
       this.props._onAllNoAnswered();
     }
     if (e == 2) {
-      this.props._onAllAnsweredReserved(48);
+      this.props._onAllAnsweredReserved(UserData.jsonData.teacherInfo.Rid);
     }
     if (e == 3) {
-      this.props._onAllAnsweredQuestion(48);
+      this.props._onAllAnsweredQuestion(UserData.jsonData.teacherInfo.Rid);
     }
   };
   componentWillUpdate() {
-    console.log('Groups', this.props.dataGroups);
+    
   }
 
   onBack = e => {
@@ -141,15 +192,31 @@ class FixeScreen extends React.Component {
     goBack(null);
   };
   deleteReserved(e) {
-    this.props._onDeleteReserveQuestion(48, e.Id);
+    FixAction._onDeleteReserveQuestion(
+      UserData.jsonData.teacherInfo.Rid,
+      e.Id,
+    ).then(res => {
+      this._onGetData();
+    });
   }
   _hideTabBar = e => {
-    this.props._onGetSubject(e.SumCrsId);
 
-    this.setState({
-      isModalVisible: !this.state.isModalVisible,
-      detail: e,
-    });
+    if (this.state.stepOne === 1 || this.state.stepOne === 2) {
+      this.props._onGetSubject(e.SumCrsId);
+      if (this.state.stepOne != 2) {
+        FixAction._onPostSaveReserved(
+          UserData.jsonData.teacherInfo.Rid,
+          e.Id,
+        ).then(res => {
+          this._onGetData();
+        });
+      }
+
+      this.setState({
+        isModalVisible: !this.state.isModalVisible,
+        detail: e,
+      });
+    }
   };
   _hideTabBarMode = e => {
     this.setState({
@@ -226,7 +293,7 @@ class FixeScreen extends React.Component {
                 onPress={() => this._hideTabBar(item)}>
                 <View>
                   <Text style={textButton}>
-                    {this.state.stepOne == 2 ? 'بازخورد سوال' : 'برسی سوال'}
+                    {this.state.stepOne == 3 ? 'بازخورد سوال' : 'برسی سوال'}
                   </Text>
                 </View>
               </TouchableRipple>
@@ -376,9 +443,12 @@ class FixeScreen extends React.Component {
                 dataPro={this.state.detail}
                 navigation={this.props.navigation}
                 hidePopUp={this._hideTabBarMode}
+                openModalTextFull={this._openModalTextFull}
+                openModalImageFull={this._openModalImageFull}
                 subject={this.props.dataGetSubject}
                 object={this.props.dataGetObject}
                 onFunObject={this.props._onGetObject}
+                changeState={this._hideTabBarMode}
               />
             </View>
           </View>

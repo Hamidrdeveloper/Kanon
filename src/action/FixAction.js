@@ -137,13 +137,9 @@ function _onCourse(e) {
   };
 }
 function _onDeleteReserveQuestion(teacherId, questionId) {
-  return dispatch => {
-    return channel
-      .postDeleteReserveQuestion(teacherId, questionId)
-      .then(data => {
-        return dispatch({});
-      });
-  };
+  return channel.postDeleteReserveQuestion(teacherId, questionId).then(data => {
+    return data;
+  });
 }
 
 function _onPostInsertAnswer(
@@ -182,10 +178,9 @@ function _onPostAnswerUpload(answerId, image, voice) {
   });
 }
 function _onGetSubject(e) {
-  console.log("_onGetSubject")
+
   return dispatch => {
     return channel.postGetSubject(e).then(data => {
-     
       return dispatch({
         type: GetSubject.LIST,
         data: data,
@@ -221,5 +216,4 @@ export default {
   _onPostSaveReserved,
   _onGetObject,
   _onGetSubject,
-
 };

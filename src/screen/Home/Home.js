@@ -8,6 +8,8 @@ import {
   ImageBackground,
   Button,
   AsyncStorage,
+  Alert,
+  BackHandler,
 } from 'react-native';
 import {Card, Modal, TouchableRipple} from 'react-native-paper';
 import Carousel, {getInputRangeFromIndexes} from 'react-native-snap-carousel';
@@ -31,6 +33,7 @@ import {UserData} from '../../model/userData';
 import Recorder from '../../components/recorderPlayer';
 import FullScreenText from '../../components/textFull';
 import FullScreenImage from '../../components/FullScreenImage';
+import FixAction from '../../action/FixAction';
 let screenWidth = Dimensions.get('window').width;
 class HomeScreen extends React.Component {
   state = {
@@ -111,17 +114,17 @@ class HomeScreen extends React.Component {
     };
   }
   _openPopUp = () => {
-    let {navigation} = this.props;
     this._hideTabBar();
-    this.setState({
-      isModalVisible: true,
-    });
   };
   _hideTabBarItem = (e, data) => {
-    this.props._onGetSubject(data.SumCrsId)
-
+    this.props._onGetSubject(data.SumCrsId);
+    FixAction._onPostSaveReserved(UserData.jsonData.teacherInfo.Rid, e.Id).then(
+      res => {
+        this.props._onAnsweredQuestion(UserData.jsonData.teacherInfo.Rid);
+      },
+    );
     this.props.navigation.setParams({tabBarVisible: !this.state.tabBarVisible});
-    console.log('_hideTabBarItem', data);
+  
     this.setState({
       tabBarVisible: !this.state.tabBarVisible,
       isModalVisible: !this.state.isModalVisible,
@@ -152,6 +155,14 @@ class HomeScreen extends React.Component {
       isModalPopUpMenu: e,
       tabBarVisible: !e,
     });
+  };
+  handleBackButton = (e) => {
+    if(e=1){
+      
+      return true;
+    }
+  
+    return true;
   };
   _openTabBar() {
     this._hideTabBar(true);
@@ -189,6 +200,7 @@ class HomeScreen extends React.Component {
     });
   };
   componentDidMount() {
+
     AsyncStorage.getItem('userid').then(data => {
       console.log(data);
       var userId = data;
@@ -338,7 +350,10 @@ class HomeScreen extends React.Component {
               onDismiss={this._hideModalMenu}>
               <View style={{height: '100%', justifyContent: 'flex-end'}}>
                 <Card style={cardModelPop}>
-                  <PopUpMenu changeState={this._hideModalMenu} />
+                  <PopUpMenu
+                    changeState={this._hideModalMenu}
+                    navigation={this.props.navigation}
+                  />
                 </Card>
               </View>
             </Modal>

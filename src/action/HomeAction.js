@@ -14,7 +14,7 @@ function _onAnsweredQuestion(e) {
 function _onGetSubject(e) {
   return dispatch => {
     return channel.postGetSubject(e).then(data => {
-      console.log(data)
+    
       return dispatch({
         type: GetSubject.LIST,
         data: data,

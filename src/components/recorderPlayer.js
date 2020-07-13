@@ -116,7 +116,7 @@ const requestCameraPermission = async () => {
     } else {
     }
   } catch (err) {
-    console.warn(err);
+
   }
   try {
     const granted = await PermissionsAndroid.request(

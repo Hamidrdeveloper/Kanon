@@ -19,6 +19,7 @@ import {Card, Modal, TouchableRipple} from 'react-native-paper';
 import Carousel, {getInputRangeFromIndexes} from 'react-native-snap-carousel';
 import background from '../../../assets/images/abstract.png';
 import PropTypes from 'prop-types';
+import Toast from 'react-native-simple-toast';
 
 import backgroundC from '../../../assets/images/abstract2.png';
 import back from '../../../assets/images/back.png';
@@ -32,6 +33,7 @@ import Player from '../../components/Player';
 import FixAction from '../../action/FixAction';
 import DATA from '../../model/Data';
 import Dropdown from '../../components/drop';
+import {UserData} from '../../model/userData';
 let screenWidth = Dimensions.get('window').width;
 class PopUp extends React.Component {
   state = {
@@ -63,50 +65,57 @@ class PopUp extends React.Component {
       voiceFileName,
       imageFileName,
     } = this.state;
-    // FixAction._onPostSaveReserved(48, questionId);
-    FixAction._onPostInsertAnswer(
-      answerText,
-      SumSbjId,
-      questionId,
-      48,
-      SumObjId,
-    ).then(data => {
-      console.log('answerId', data.answerId);
-      FixAction._onPostAnswerUpload(
-        data.answerId,
-        DATA.file.image,
-        DATA.file.voice,
+    // FixAction._onPostSaveReserved( UserData.jsonData.teacherInfo.Rid , questionId);
+    if (answerText.length > 0) {
+      FixAction._onPostInsertAnswer(
+        answerText,
+        SumSbjId,
+        questionId,
+        UserData.jsonData.teacherInfo.Rid,
+        SumObjId,
       ).then(data => {
-        FixAction._onPstSetAnswerFilePath2(
-          voiceFileName,
-          imageFileName,
-          questionId,
-          48,
+     
+        FixAction._onPostAnswerUpload(
+          data.answerId,
+          DATA.file.image,
+          DATA.file.voice,
         ).then(data => {
-          this.props.hidePopUp();
+          FixAction._onPstSetAnswerFilePath2(
+            voiceFileName,
+            imageFileName,
+            questionId,
+            UserData.jsonData.teacherInfo.Rid,
+          ).then(data => {
+            this.props.hidePopUp();
+          });
         });
       });
-    });
+    } else {
+      Toast.show('متن خالی است');
+    }
   };
-
   _openScreen() {
     let {navigation} = this.props;
     navigation.navigate('Home');
   }
   _ShowModalPlyer = e => {
-    var voice = [
-      {
-        title: 'Stressed Out',
-        artist: 'Twenty One Pilots',
-        albumArtUrl:
-          'http://36.media.tumblr.com/14e9a12cd4dca7a3c3c4fe178b607d27/tumblr_nlott6SmIh1ta3rfmo1_1280.jpg',
-        audioUrl: e,
-      },
-    ];
-    this.setState({
-      voice: voice,
-      isModalPlayer: !this.state.isModalPlayer,
-    });
+    if (e.length > 10) {
+      var voice = [
+        {
+          title: 'Stressed Out',
+          artist: 'Twenty One Pilots',
+          albumArtUrl:
+            'http://36.media.tumblr.com/14e9a12cd4dca7a3c3c4fe178b607d27/tumblr_nlott6SmIh1ta3rfmo1_1280.jpg',
+          audioUrl: e,
+        },
+      ];
+      this.setState({
+        voice: voice,
+        isModalPlayer: !this.state.isModalPlayer,
+      });
+    } else {
+      Toast.show('فایل برای گوش دادن وجود ندارد');
+    }
   };
   _hideModalPlyer = () => {
     this.setState({
@@ -117,9 +126,15 @@ class PopUp extends React.Component {
     this.props.changeState(false);
   };
   onShowImage = e => {
-    this.props.navigation.navigate('FullScreenImage', {
-      dataList: e,
-    });
+ 
+    if (e.length > 10) {
+      this.props.openModalImageFull(e);
+    } else {
+      Toast.show('فایل برای نمایش دادن وجود ندارد');
+    }
+  };
+  onShowText = e => {
+    this.props.openModalTextFull(e);
   };
   onImagePicker = () => {
     const options = {
@@ -173,15 +188,17 @@ class PopUp extends React.Component {
     return data;
   }
   _selectCourse = data => {
-    console.log(data.CrsId + '++' + this.state.groupId);
-
+    console.log(data.objectId + '++' + this.state.groupId);
+    this.setState({
+      SumObjId: data.objectId,
+    });
     return data;
   };
   _selectGroups = data => {
-    console.log(data.groupCode);
+    console.log(data.subjectId);
     this.props.onFunObject(data.subjectId);
     this.setState({
-      groupId: data.groupCode,
+      SumSbjId: data.subjectId,
     });
 
     return data;
@@ -294,7 +311,7 @@ class PopUp extends React.Component {
               <TouchableRipple
                 style={{width: '50%', height: 50}}
                 onPress={this._hideTabBar}>
-                  <View
+                <View
                   style={[
                     buttonItem,
                     {width: '100%', height: 50, marginTop: 0},
@@ -302,7 +319,7 @@ class PopUp extends React.Component {
                   {this.props.object != null ? (
                     <Dropdown
                       textDefault={'انتخاب مبحث'}
-                      data={this.props.object.lessons}
+                      data={this.props.object}
                       textStyle={{color: '#fff', paddingRight: 10}}
                       iconStyle={{color: '#fff', marginLeft: 8}}
                       onChangeText={this._selectCourse}
@@ -326,7 +343,7 @@ class PopUp extends React.Component {
                   {this.props.subject != null ? (
                     <Dropdown
                       textDefault={'انتخاب فصل'}
-                      data={this.props.subject.lessons}
+                      data={this.props.subject}
                       textStyle={{color: '#fff', paddingRight: 10}}
                       iconStyle={{color: '#fff', marginLeft: 8}}
                       onChangeText={this._selectGroups}
@@ -416,9 +433,11 @@ class PopUp extends React.Component {
           </Modal>
         </Card>
         <TouchableOpacity
+        activeOpacity={0.9}
           style={{
             width: 100,
-            height: 50,
+            height: 260,
+          
 
             position: 'absolute',
             top: 0,

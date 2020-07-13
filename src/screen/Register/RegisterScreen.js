@@ -30,6 +30,7 @@ class RegisterScreen extends React.Component {
   state = {
     nationalCode: '',
     isLogin: false,
+    success: false,
   };
   componentDidMount() {
     let {navigation} = this.props;
@@ -39,7 +40,14 @@ class RegisterScreen extends React.Component {
       if (data[0][1] != null) {
         UserData.jsonData = JSON.parse(data[1][1]);
         console.log('', UserData.jsonData);
-        // navigation.navigate('Home');
+        navigation.navigate('Home');
+        this.setState({
+          success: true,
+        });
+      } else {
+        this.setState({
+          success: true,
+        });
       }
     });
   }
@@ -58,6 +66,7 @@ class RegisterScreen extends React.Component {
           navigation.navigate('Home');
           this.setState({
             isLogin: false,
+            success: true,
           });
         }
       })
@@ -92,60 +101,61 @@ class RegisterScreen extends React.Component {
     } = style;
     return (
       <View style={{width: '100%', height: '100%'}}>
-        <Image
-          style={{width: '100%', height: '100%', position: 'absolute'}}
-          source={background}
-          resizeMode="stretch"
-        />
-        {/* <ImageBackground
-          resizeMode="stretch"
-          style={viewFull}> */}
-        <KeyboardAwareScrollView
-          contentContainerStyle={{flexGrow: 1}}
-          keyboardShouldPersistTaps="handled"
-          enableOnAndroid={true}
-          style={{width: '100%', height: '100%'}}>
-          <View style={viewRegister}>
-            <View style={viewForm}>
-              <Text style={textTitle}>کانون فرهنگی آموزش</Text>
-              <Text style={detail}>اپلیکیشن دبیران</Text>
-              <View style={{width: '85%', marginTop: '18%'}}>
-                <Text style={titleRegister}>کدملی</Text>
-              </View>
+        {this.state.success == true ? (
+          <View style={{width: '100%', height: '100%'}}>
+            <Image
+              style={{width: '100%', height: '100%', position: 'absolute'}}
+              source={background}
+              resizeMode="stretch"
+            />
 
-              <View style={viewFullCardButton}>
-                <Card style={cardButton}>
-                  <TextInput
-                    style={{
-                      textAlign: 'center',
-                      textAlignVertical: 'center',
-                      fontSize: 16,
-                      color: Res.Color.primers,
-                      fontFamily: 'BYekanBold',
-                    }}
-                    maxLength={11}
-                    onChangeText={text => this.onChangeTextUser(text)}
-                  />
-                </Card>
-              </View>
-              <View style={viewFullCardButton}>
-                <Button
-                  loading={this.state.isLogin}
-                  style={buttonItem}
-                  color={'#fff'}
-                  labelStyle={textButton}
-                  contentStyle={{width: '100%', height: 50}}
-                  onPress={() => this.onLogin()}>
-                  {'ثبت نام'}
-                </Button>
-                <View style={buttonLogin}>
-                  <Text style={textButtonLogin}>{'ورود'}</Text>
+            <KeyboardAwareScrollView
+              contentContainerStyle={{flexGrow: 1}}
+              keyboardShouldPersistTaps="handled"
+              enableOnAndroid={true}
+              style={{width: '100%', height: '100%'}}>
+              <View style={viewRegister}>
+                <View style={viewForm}>
+                  <Text style={textTitle}>کانون فرهنگی آموزش</Text>
+                  <Text style={detail}>اپلیکیشن دبیران</Text>
+                  <View style={{width: '85%', marginTop: '18%'}}>
+                    <Text style={titleRegister}>کدملی</Text>
+                  </View>
+
+                  <View style={viewFullCardButton}>
+                    <Card style={cardButton}>
+                      <TextInput
+                        style={{
+                          textAlign: 'center',
+                          textAlignVertical: 'center',
+                          fontSize: 16,
+                          color: Res.Color.primers,
+                          fontFamily: 'BYekanBold',
+                        }}
+                        maxLength={11}
+                        onChangeText={text => this.onChangeTextUser(text)}
+                      />
+                    </Card>
+                  </View>
+                  <View style={viewFullCardButton}>
+                    <Button
+                      loading={this.state.isLogin}
+                      style={buttonItem}
+                      color={'#fff'}
+                      labelStyle={textButton}
+                      contentStyle={{width: '100%', height: 50}}
+                      onPress={() => this.onLogin()}>
+                      {'ثبت نام'}
+                    </Button>
+                    <View style={buttonLogin}>
+                      <Text style={textButtonLogin}>{'ورود'}</Text>
+                    </View>
+                  </View>
                 </View>
               </View>
-            </View>
+            </KeyboardAwareScrollView>
           </View>
-        </KeyboardAwareScrollView>
-        {/* </ImageBackground> */}
+        ) : null}
       </View>
     );
   }

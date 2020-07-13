@@ -34,6 +34,7 @@ import FixAction from '../../action/FixAction';
 import DATA from '../../model/Data';
 import Toast from 'react-native-simple-toast';
 import Dropdown from '../../components/drop';
+import {UserData} from '../../model/userData';
 let screenWidth = Dimensions.get('window').width;
 class PopUp extends React.Component {
   state = {
@@ -54,7 +55,6 @@ class PopUp extends React.Component {
     this.setState({
       questionId: dataPro.Id,
     });
-    console.log('subject', this.props.subject.lessons[0]);
   }
   _requestQuestion = e => {
     let {
@@ -66,13 +66,13 @@ class PopUp extends React.Component {
       voiceFileName,
       imageFileName,
     } = this.state;
-    // FixAction._onPostSaveReserved(48, questionId);
-    if (answerText != null) {
+    // FixAction._onPostSaveReserved( UserData.jsonData.teacherInfo.Rid , questionId);
+    if (answerText.length > 0) {
       FixAction._onPostInsertAnswer(
         answerText,
         SumSbjId,
         questionId,
-        48,
+        UserData.jsonData.teacherInfo.Rid,
         SumObjId,
       ).then(data => {
         console.log('answerId', data.answerId);
@@ -85,7 +85,7 @@ class PopUp extends React.Component {
             voiceFileName,
             imageFileName,
             questionId,
-            48,
+            UserData.jsonData.teacherInfo.Rid,
           ).then(data => {
             this.props.hidePopUp();
           });
@@ -100,7 +100,7 @@ class PopUp extends React.Component {
     navigation.navigate('Home');
   }
   _ShowModalPlyer = e => {
-    if (e != null) {
+    if (e.length > 10) {
       var voice = [
         {
           title: 'Stressed Out',
@@ -127,7 +127,8 @@ class PopUp extends React.Component {
     this.props.changeState(false);
   };
   onShowImage = e => {
-    if (e != null) {
+    console.log('onShowImage', e);
+    if (e.length > 10) {
       this.props.openModalImageFull(e);
     } else {
       Toast.show('فایل برای نمایش دادن وجود ندارد');
@@ -317,7 +318,7 @@ class PopUp extends React.Component {
                   {this.props.object != null ? (
                     <Dropdown
                       textDefault={'انتخاب مبحث'}
-                      data={this.props.object.lessons}
+                      data={this.props.object}
                       textStyle={{color: '#fff', paddingRight: 10}}
                       iconStyle={{color: '#fff', marginLeft: 8}}
                       onChangeText={this._selectCourse}
@@ -341,7 +342,7 @@ class PopUp extends React.Component {
                   {this.props.subject != null ? (
                     <Dropdown
                       textDefault={'انتخاب فصل'}
-                      data={this.props.subject.lessons}
+                      data={this.props.subject}
                       textStyle={{color: '#fff', paddingRight: 10}}
                       iconStyle={{color: '#fff', marginLeft: 8}}
                       onChangeText={this._selectGroups}
@@ -431,9 +432,11 @@ class PopUp extends React.Component {
           </Modal>
         </Card>
         <TouchableOpacity
+        activeOpacity={0.9}
           style={{
             width: 100,
-            height: 50,
+            height: 260,
+          
 
             position: 'absolute',
             top: 0,
@@ -453,8 +456,8 @@ class PopUp extends React.Component {
     openModalTextFull: PropTypes.any,
     openModalImageFull: PropTypes.any,
     hidePopUp: PropTypes.any,
-    object: PropTypes.any,
-    subject: PropTypes.any,
+    object: PropTypes.array,
+    subject: PropTypes.array,
     onFunObject: PropTypes.func,
   };
 }

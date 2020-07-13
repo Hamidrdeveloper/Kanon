@@ -9,6 +9,7 @@ import {
   ImageBackground,
   ScrollView,
   TextInput,
+  AsyncStorage,
 } from 'react-native';
 import Res from '../../Color/color';
 import PropTypes from 'prop-types';
@@ -33,6 +34,19 @@ class PopUpMenu extends React.Component {
   }
   _hideModalMenu = () => {
     this.props.changeState(false);
+  };
+  state = {
+    flag: true,
+  };
+  signOut = e => {
+    console.log('Register');
+    this.props.navigation.goBack(null);
+    let keys = ['userid', 'dataUser'];
+    AsyncStorage.multiRemove(keys, err => {
+      // keys k1 & k2 removed, if they existed
+      // do most stuff after removal (if you want)
+      console.log('AsyncStorage', err);
+    });
   };
   render() {
     let {
@@ -64,7 +78,6 @@ class PopUpMenu extends React.Component {
               paddingRight: 30,
             },
           ]}>
-         
           <Text style={textTitlePopUpMenu}>{'فارسی نهم'}</Text>
           <View style={viewFullCardButton}>
             <View style={cardButton}>
@@ -101,11 +114,14 @@ class PopUpMenu extends React.Component {
             <Icon name="phone" size={15} />
           </View>
           <View style={lineService} />
-          <View style={viewIconService}>
-            <Text style={textServicePopUpMenu}>خروج از حساب</Text>
-            <View style={{width: 8}} />
-            <Icon name="sign-out" size={15} />
-          </View>
+          <TouchableRipple onPress={() => this.signOut()}>
+            <View style={viewIconService}>
+              <Text style={textServicePopUpMenu}>خروج از حساب</Text>
+              <View style={{width: 8}} />
+              <Icon name="sign-out" size={15} />
+            </View>
+          </TouchableRipple>
+
           <View style={lineService} />
           <View style={viewIconService}>
             <Text style={textServicePopUpMenu}>درباره ما</Text>
@@ -114,7 +130,7 @@ class PopUpMenu extends React.Component {
           </View>
           <View style={lineService} />
           <TouchableRipple
-          activeOpacity={10}
+            activeOpacity={10}
             style={{
               width: 50,
               height: 50,
@@ -139,6 +155,7 @@ class PopUpMenu extends React.Component {
   }
   static propsType = {
     changeState: PropTypes.func,
+    navigation: PropTypes.any,
   };
 }
 

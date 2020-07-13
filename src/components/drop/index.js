@@ -506,7 +506,7 @@ export default class Dropdown extends PureComponent {
 
     title = title == null || typeof title === 'string' ? title : String(title);
     title = title == '[object Object]' ? textDefault : title;
-    console.log('title', title);
+
     return (
       <TextInput
         allowFontScaling={false}
@@ -633,7 +633,10 @@ export default class Dropdown extends PureComponent {
       <DropdownItem index={index} {...props}>
         <Text
           allowFontScaling={false}
-          style={[styles.item, {fontSize: 9}]}
+          style={[
+            styles.item,
+            {fontSize: 15, width: '100%', textAlign: 'center'},
+          ]}
           numberOfLines={1}>
           {title}
         </Text>
@@ -763,7 +766,7 @@ export default class Dropdown extends PureComponent {
               <FlatList
                 ref={this.updateScrollRef}
                 data={data}
-                style={styles.scroll}
+                style={[styles.scroll, {width: '100%'}]}
                 showsVerticalScrollIndicator={false}
                 renderItem={this.renderItem}
                 keyExtractor={this.keyExtractor}
