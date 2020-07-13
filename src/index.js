@@ -149,6 +149,7 @@ const bottomTab = createBottomTabNavigator(
 const homeStack = createStackNavigator(
   {
     Register: {screen: RegisterScreen},
+    Register2: {screen: RegisterScreen},
     Home: {screen: bottomTab},
     CaptureModal: {
       screen: PopUp,
@@ -164,6 +165,8 @@ const homeStack = createStackNavigator(
     },
   },
   {
+    initialRouteName: 'Register',
+
     mode: 'modal',
     headerMode: null,
     headerLeft: null,

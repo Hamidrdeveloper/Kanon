@@ -25,13 +25,15 @@ export default class Channel {
           ]);
           return res.data.Data.teacherInfo;
         } else {
-          return '0';
+          return '';
         }
       })
       .catch(error => {
        
-        return '0';
+        return '';
       });
+
+      
   }
 
   onPostGroups(e) {

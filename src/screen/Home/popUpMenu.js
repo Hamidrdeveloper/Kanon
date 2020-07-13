@@ -10,6 +10,8 @@ import {
   ScrollView,
   TextInput,
   AsyncStorage,
+  BackHandler,
+  NativeModules,
 } from 'react-native';
 import Res from '../../Color/color';
 import PropTypes from 'prop-types';
@@ -26,7 +28,9 @@ import {FlatList} from 'react-native-gesture-handler';
 import Fixed from '../FixeTest/FixeScreen';
 import {AirbnbRating} from '../../react_native_ratings_example';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import { StackActions } from 'react-navigation';
 let screenWidth = Dimensions.get('window').width;
+import RNRestart from 'react-native-restart'; // Import package from node modules
 class PopUpMenu extends React.Component {
   _openScreen() {
     let {navigation} = this.props;
@@ -40,13 +44,14 @@ class PopUpMenu extends React.Component {
   };
   signOut = e => {
     console.log('Register');
-    this.props.navigation.goBack(null);
+ 
     let keys = ['userid', 'dataUser'];
     AsyncStorage.multiRemove(keys, err => {
       // keys k1 & k2 removed, if they existed
       // do most stuff after removal (if you want)
       console.log('AsyncStorage', err);
     });
+    RNRestart.Restart();
   };
   render() {
     let {

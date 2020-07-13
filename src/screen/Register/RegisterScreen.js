@@ -11,6 +11,8 @@ import {
   TextInput,
   AsyncStorage,
 } from 'react-native';
+import Toast from 'react-native-simple-toast';
+
 import {Card, TouchableRipple, Button} from 'react-native-paper';
 import Carousel, {getInputRangeFromIndexes} from 'react-native-snap-carousel';
 import background from '../../../assets/images/abstract.png';
@@ -24,6 +26,7 @@ import LoginAction from '../../action/LoginAction';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import Res from '../../Color/color';
 import {UserData} from '../../model/userData';
+import {StackActions} from 'react-navigation';
 
 let screenWidth = Dimensions.get('window').width;
 class RegisterScreen extends React.Component {
@@ -40,7 +43,14 @@ class RegisterScreen extends React.Component {
       if (data[0][1] != null) {
         UserData.jsonData = JSON.parse(data[1][1]);
         console.log('', UserData.jsonData);
-        navigation.navigate('Home');
+        const pushAction = StackActions.replace({
+          routeName: 'Home',
+          params: {
+            myUserId: 9,
+          },
+        });
+
+        navigation.dispatch(pushAction);
         this.setState({
           success: true,
         });
@@ -63,11 +73,23 @@ class RegisterScreen extends React.Component {
         if (data !== '0') {
           console.log(data.Rid);
 
-          navigation.navigate('Home');
+          const pushAction = StackActions.replace({
+            routeName: 'Home',
+            params: {
+              myUserId: 9,
+            },
+          });
+
+          navigation.dispatch(pushAction);
           this.setState({
             isLogin: false,
             success: true,
           });
+        } else {
+          this.setState({
+            isLogin: false,
+          });
+          Toast.show('کد ملی اشتباه است');
         }
       })
       .catch(error => {
@@ -75,6 +97,11 @@ class RegisterScreen extends React.Component {
           isLogin: false,
         });
       });
+    setTimeout(() => {
+      this.setState({
+        isLogin: false,
+      });
+    }, 6000);
   };
   onChangeTextUser(e) {
     this.setState({
