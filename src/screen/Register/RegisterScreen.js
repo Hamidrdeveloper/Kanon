@@ -10,6 +10,7 @@ import {
   ScrollView,
   TextInput,
   AsyncStorage,
+  Linking,
 } from 'react-native';
 import Toast from 'react-native-simple-toast';
 
@@ -63,6 +64,9 @@ class RegisterScreen extends React.Component {
   }
 
   onLogin = e => {
+    if(this.state.nationalCode.length>9){
+
+   
     this.setState({
       isLogin: true,
     });
@@ -70,7 +74,7 @@ class RegisterScreen extends React.Component {
 
     LoginAction._onLogin(this.state.nationalCode)
       .then(data => {
-        if (data !== '0') {
+        if (data == 1) {
           console.log(data.Rid);
 
           const pushAction = StackActions.replace({
@@ -102,11 +106,13 @@ class RegisterScreen extends React.Component {
         isLogin: false,
       });
     }, 6000);
+  }
   };
   onChangeTextUser(e) {
     this.setState({
       nationalCode: e,
     });
+    
   }
   render() {
     let {
@@ -143,21 +149,27 @@ class RegisterScreen extends React.Component {
               style={{width: '100%', height: '100%'}}>
               <View style={viewRegister}>
                 <View style={viewForm}>
-                  <Text style={textTitle}>کانون فرهنگی آموزش</Text>
-                  <Text style={detail}>اپلیکیشن دبیران</Text>
+                  <Text allowFontScaling={false} style={textTitle}>کانون فرهنگی آموزش</Text>
+                  <Text allowFontScaling={false} style={detail}>اپلیکیشن دبیران</Text>
                   <View style={{width: '85%', marginTop: '18%'}}>
-                    <Text style={titleRegister}>کدملی</Text>
+                    <Text allowFontScaling={false} style={titleRegister}>کدملی</Text>
                   </View>
 
                   <View style={viewFullCardButton}>
                     <Card style={cardButton}>
                       <TextInput
+                      
+                      allowFontScaling={false}
+                      textContentType="telephoneNumber"
+                       keyboardType="decimal-pad"
                         style={{
                           textAlign: 'center',
                           textAlignVertical: 'center',
+                          width:`100%`,
+                          height:50,
                           fontSize: 16,
                           color: Res.Color.primers,
-                          fontFamily: 'BYekanBold',
+                         
                         }}
                         maxLength={11}
                         onChangeText={text => this.onChangeTextUser(text)}
@@ -166,16 +178,23 @@ class RegisterScreen extends React.Component {
                   </View>
                   <View style={viewFullCardButton}>
                     <Button
-                      loading={this.state.isLogin}
+                    loading={this.state.isLogin}
                       style={buttonItem}
                       color={'#fff'}
-                      labelStyle={textButton}
+                      labelStyle={[textButton,{alignItems:'center',justifyContent:'center'}]}
                       contentStyle={{width: '100%', height: 50}}
-                      onPress={() => this.onLogin()}>
-                      {'ثبت نام'}
+                      onPress={() => this.onLogin()}
+                     
+                     >
+                     
+                      <Text  allowFontScaling={false} style={[textButton,{alignItems:'center',justifyContent:'center',width:`100%`,height:`100%`}]}>{'ورود'}</Text>
                     </Button>
                     <View style={buttonLogin}>
-                      <Text style={textButtonLogin}>{'ورود'}</Text>
+                    <TouchableRipple
+                     onPress={ ()=>{ Linking.openURL('http://kanoonihaweb.kanoon.ir/poshtibanweb/problemposhtibanreg')}} >
+                    <Text allowFontScaling={false} style={textButtonLogin}>{'ثبت نام'}</Text>
+
+                    </TouchableRipple>
                     </View>
                   </View>
                 </View>

@@ -31,6 +31,7 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import { StackActions } from 'react-navigation';
 let screenWidth = Dimensions.get('window').width;
 import RNRestart from 'react-native-restart'; // Import package from node modules
+import { UserData } from '../../model/userData';
 class PopUpMenu extends React.Component {
   _openScreen() {
     let {navigation} = this.props;
@@ -81,9 +82,12 @@ class PopUpMenu extends React.Component {
               alignItems: 'center',
               paddingLeft: 30,
               paddingRight: 30,
+              top:15,
             },
           ]}>
-          <Text style={textTitlePopUpMenu}>{'فارسی نهم'}</Text>
+          <Text allowFontScaling={false} style={textTitlePopUpMenu}>{UserData.jsonData.teacherInfo.FirstName +
+                '' +
+                UserData.jsonData.teacherInfo.LastName}</Text>
           <View style={viewFullCardButton}>
             <View style={cardButton}>
               <View style={viewTextRating}>
@@ -114,33 +118,37 @@ class PopUpMenu extends React.Component {
             }}
           />
           <View style={viewIconService}>
-            <Text style={textServicePopUpMenu}>ارتباط با ما</Text>
+            <Text allowFontScaling={false} style={textServicePopUpMenu}>ارتباط با ما</Text>
             <View style={{width: 8}} />
             <Icon name="phone" size={15} />
           </View>
           <View style={lineService} />
           <TouchableRipple onPress={() => this.signOut()}>
             <View style={viewIconService}>
-              <Text style={textServicePopUpMenu}>خروج از حساب</Text>
+              <Text allowFontScaling={false} style={textServicePopUpMenu}>خروج از حساب</Text>
               <View style={{width: 8}} />
-              <Icon name="sign-out" size={15} />
+              <Icon allowFontScaling={false} name="sign-out" size={15} />
             </View>
           </TouchableRipple>
 
           <View style={lineService} />
           <View style={viewIconService}>
-            <Text style={textServicePopUpMenu}>درباره ما</Text>
+            <Text allowFontScaling={false} style={textServicePopUpMenu}>درباره ما</Text>
             <View style={{width: 8}} />
             <Icon name="info-circle" size={15} />
           </View>
           <View style={lineService} />
-          <TouchableRipple
+         
+        </View>
+        <TouchableRipple
             activeOpacity={10}
             style={{
               width: 50,
               height: 50,
               position: 'absolute',
+              alignSelf:'center',
               top: 0,
+           
             }}
             onPress={() => {
               this._hideModalMenu();
@@ -149,12 +157,12 @@ class PopUpMenu extends React.Component {
               style={{
                 width: 50,
                 height: 4,
+                top:10,
                 borderRadius: 8,
                 backgroundColor: Res.Color.grayLight,
               }}
             />
           </TouchableRipple>
-        </View>
       </View>
     );
   }

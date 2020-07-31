@@ -48,6 +48,8 @@ class PopUp extends React.Component {
     SumObjId: 0,
     voiceFileName: 'test',
     imageFileName: 'test',
+    textButton:'رزرو کردن',
+    flagButton:0
   };
   componentDidMount() {
     let {dataPro} = this.props;
@@ -66,6 +68,22 @@ class PopUp extends React.Component {
       voiceFileName,
       imageFileName,
     } = this.state;
+    if(this.state.flagButton==0){
+      FixAction._onPostSaveReserved(
+          UserData.jsonData.teacherInfo.Rid,
+          questionId,
+        ).then(res => {
+          // this._onGetData();
+          this.setState({
+            flagButton:1,
+            textButton:"ثبت پاسخ"
+          })
+        });
+        // this._onGetData();
+   
+    }else{
+    
+   
     // FixAction._onPostSaveReserved( UserData.jsonData.teacherInfo.Rid , questionId);
     if (answerText.length > 0) {
       FixAction._onPostInsertAnswer(
@@ -87,13 +105,18 @@ class PopUp extends React.Component {
             questionId,
             UserData.jsonData.teacherInfo.Rid,
           ).then(data => {
-            this.props.hidePopUp();
+            this._hideModalMenu();
+            this.setState({
+              flagButton:0,
+              textButton:"رزرو کردن"
+            })
           });
         });
       });
     } else {
       Toast.show('متن خالی است');
     }
+  }
   };
   _openScreen() {
     let {navigation} = this.props;
@@ -124,6 +147,7 @@ class PopUp extends React.Component {
     });
   };
   _hideModalMenu = () => {
+ 
     this.props.changeState(false);
   };
   onShowImage = e => {
@@ -220,223 +244,28 @@ class PopUp extends React.Component {
       imageCard,
     } = style;
     let {dataPro} = this.props;
-
+    
     return (
       <View
-        style={{
-          height: '100%',
-          width: '100%',
+      style={{
+        height: '100%',
+        width: '100%',
 
-          justifyContent: 'flex-end',
-          backgroundColor: 'transparent',
-          padding: 15,
+        justifyContent: 'flex-end',
+        backgroundColor: 'transparent',
+        padding: 15,
+      }}>
+      <Card
+        style={{
+          width: '100%',
+          borderRadius: 15,
+          padding: 8,
         }}>
-        <Card
+        <TouchableRipple
           style={{
             width: '100%',
-            borderRadius: 15,
-            padding: 8,
-          }}>
-          <TouchableRipple
-            style={{
-              width: '100%',
-              height: 50,
-              alignItems: 'center',
-
-              position: 'absolute',
-              top: 0,
-              alignSelf: 'center',
-            }}
-            onPress={() => {
-              this._hideModalMenu();
-            }}>
-            <View
-              style={{
-                width: 50,
-                height: 4,
-                borderRadius: 8,
-                backgroundColor: Res.Color.grayLight,
-              }}
-            />
-          </TouchableRipple>
-
-          <View style={viewItemRow}>
-            <Text style={[textTitlePopUp, {fontSize: 22}]}>
-              {dataPro.CrsName}
-            </Text>
-
-            <View>
-              <Text style={datePopUp}>{dataPro.questionType}</Text>
-              <Text style={datePopUp}>
-                {dataPro.persianDate.substring(0, 10)}
-              </Text>
-            </View>
-          </View>
-
-          <View style={{width: '100%'}}>
-            <Text style={[datePopUp, {fontSize: 13}]} numberOfLines={5}>
-              {dataPro.ProblemText}
-            </Text>
-          </View>
-          <View style={[viewItemRow, {paddingLeft: 8}]}>
-            <TouchableRipple
-              onPress={() => this._ShowModalPlyer(dataPro.ProblemVoicePath)}>
-              <Icon name="play" size={30} />
-            </TouchableRipple>
-            <TouchableRipple
-              onPress={() => this.onShowImage(dataPro.ProblemImagePath)}>
-              <Icon name="file-photo-o" size={30} style={{marginLeft: 15}} />
-            </TouchableRipple>
-            <TouchableRipple
-              onPress={() => this.onShowText(dataPro.ProblemText)}>
-              <Icon name="text-height" size={30} style={{marginLeft: 15}} />
-            </TouchableRipple>
-          </View>
-        </Card>
-        <Card
-          style={{
-            height: 350,
-            borderRadius: 15,
-            padding: 8,
-            marginTop: 8,
+            height: 50,
             alignItems: 'center',
-          }}>
-          <View style={viewItem}>
-            <View
-              style={[
-                viewItemRow,
-                {justifyContent: 'space-between', marginTop: 12},
-              ]}>
-              <TouchableRipple
-                style={{width: '50%', height: 50}}
-                onPress={this._hideTabBar}>
-                <View
-                  style={[
-                    buttonItem,
-                    {width: '100%', height: 50, marginTop: 0},
-                  ]}>
-                  {this.props.object != null ? (
-                    <Dropdown
-                      textDefault={'انتخاب مبحث'}
-                      data={this.props.object}
-                      textStyle={{color: '#fff', paddingRight: 10}}
-                      iconStyle={{color: '#fff', marginLeft: 8}}
-                      onChangeText={this._selectCourse}
-                      labelExtractor={this._filterSortCourse}
-                      valueExtractor={this._filterName}
-                    />
-                  ) : (
-                    <Text style={textButton}>{'انتخاب مبحث'}</Text>
-                  )}
-                </View>
-              </TouchableRipple>
-              <View style={{width: 10}} />
-              <TouchableRipple
-                style={{width: '50%', height: 50}}
-                onPress={this._hideTabBar}>
-                <View
-                  style={[
-                    buttonItem,
-                    {width: '100%', height: 50, marginTop: 0},
-                  ]}>
-                  {this.props.subject != null ? (
-                    <Dropdown
-                      textDefault={'انتخاب فصل'}
-                      data={this.props.subject}
-                      textStyle={{color: '#fff', paddingRight: 10}}
-                      iconStyle={{color: '#fff', marginLeft: 8}}
-                      onChangeText={this._selectGroups}
-                      labelExtractor={this._filterSort}
-                      valueExtractor={this._filterName}
-                    />
-                  ) : (
-                    <Text style={textButton}>{'انتخاب فصل'}</Text>
-                  )}
-                </View>
-              </TouchableRipple>
-            </View>
-            <View
-              style={{
-                width: '100%',
-                height: '50%',
-                position: 'absolute',
-                marginTop: 83,
-                borderRadius: 10,
-                alignSelf: 'center',
-                backgroundColor: Res.Color.grayLight,
-              }}>
-              <TextInput
-                style={{
-                  width: '100%',
-                  height: '100%',
-                  textAlign: 'right',
-                  textAlignVertical: 'top',
-                  padding: 8,
-                }}
-                onChangeText={e =>
-                  this.setState({
-                    answerText: e,
-                  })
-                }
-              />
-            </View>
-            <View
-              style={[
-                viewItemRow,
-                {
-                  position: 'absolute',
-                  bottom: 0,
-                  width: '100%',
-                  paddingLeft: 15,
-                  paddingBottom: 15,
-                  marginBottom: 15,
-                },
-              ]}>
-              <View style={[{width: '50%', height: 50}]}>
-                <View style={[viewItemRow, {paddingLeft: 8}]}>
-                  <TouchableRipple onPress={this.onRecord}>
-                    <Icon name="microphone" size={30} />
-                  </TouchableRipple>
-                  <TouchableRipple onPress={this.onImagePicker}>
-                    <Icon name="camera" size={30} style={{marginLeft: 15}} />
-                  </TouchableRipple>
-                </View>
-              </View>
-
-              <View style={{width: 10}} />
-
-              <TouchableRipple
-                style={{width: '50%', height: 50}}
-                onPress={this._requestQuestion}>
-                <View style={[buttonItem, {width: '100%', height: 50}]}>
-                  <Text style={textButton}>{'ثبت پاسخ'}</Text>
-                </View>
-              </TouchableRipple>
-            </View>
-          </View>
-
-          <Modal
-            style={{position: 'absolute', bottom: 0}}
-            visible={this.state.isModalVisible}
-            onDismiss={this._hideTabBar}>
-            <View style={{width: '100%', height: '100%'}}>
-              <Recorder hideRecorded={this._hideTabBar} />
-            </View>
-          </Modal>
-
-          <Modal
-            style={{position: 'absolute', bottom: 0}}
-            visible={this.state.isModalPlayer}
-            onDismiss={this._hideModalPlyer}>
-            <Player tracks={this.state.voice} />
-          </Modal>
-        </Card>
-        <TouchableOpacity
-        activeOpacity={0.9}
-          style={{
-            width: 100,
-            height: 260,
-          
 
             position: 'absolute',
             top: 0,
@@ -444,9 +273,232 @@ class PopUp extends React.Component {
           }}
           onPress={() => {
             this._hideModalMenu();
-          }}
-        />
-      </View>
+          }}>
+          <View
+            style={{
+              width: 50,
+              height: 4,
+              borderRadius: 8,
+              backgroundColor: Res.Color.grayLight,
+            }}
+          />
+        </TouchableRipple>
+
+        <View style={viewItemRow}>
+        <View style={{flexDirection:'row',height:50,width:`100%`,alignItems:'center'}}>
+        <Text allowFontScaling={false} style={[textTitlePopUp, {fontSize: 20}]}>
+            {dataPro.CrsName}
+          </Text>
+          <Text allowFontScaling={false} style={[datePopUp,{left:0,position:'absolute',top:12,fontSize:14}]}>{dataPro.questionType}</Text>
+        </View>
+        <Text allowFontScaling={false} style={[datePopUp,{top:0,position:'absolute',fontSize: 11,}]}>
+        {dataPro.persianDate.substring(0, 10)}
+            </Text>
+          {/* <View style={{top:7,height:60}}>
+          <Text style={[datePopUp,{top:0,position:'absolute',fontSize: 11,}]}>
+              {dataPro.persianDate.substring(0, 10)}
+            </Text>
+           
+          
+          </View> */}
+        </View>
+
+        <View style={{width: '100%'}}>
+         
+          {dataPro.ProblemText.split(/\r\n|\r|\n/).length>5||dataPro.ProblemText.length>300?
+          <View>
+          <Text allowFontScaling={false} style={[datePopUp, {fontSize: 13,}]}  numberOfLines={5}>
+            {dataPro.ProblemText}
+          </Text>
+          <Text  allowFontScaling={false} onPress={() => this.onShowText(dataPro.ProblemText)}style={[datePopUp, {fontSize: 13,color:Res.Color.primersButton}]} >
+            {"نمایش بیشتر"}
+          </Text>
+          </View>  
+          : <Text style={[datePopUp, {fontSize: 13,}]} >
+            {dataPro.ProblemText}
+          </Text>}
+        </View>
+        <View style={[viewItemRow, {paddingLeft: 8}]}>
+          <TouchableRipple
+            onPress={() => this._ShowModalPlyer(dataPro.ProblemVoicePath)}>
+            <Icon name="play" size={30} color={dataPro.ProblemVoicePath.length>15?Res.Color.primersButton:Res.Color.grayLight} />
+          </TouchableRipple>
+          <TouchableRipple
+            onPress={() => this.onShowImage(dataPro.ProblemImagePath)}>
+            <Icon name="file-photo-o" size={30} color={dataPro.ProblemImagePath.length>15?Res.Color.primersButton:Res.Color.grayLight}  style={{marginLeft: 15}} />
+          </TouchableRipple>
+         
+        </View>
+      </Card>
+      <Card
+        style={{
+          height: 350,
+          width: '100%',
+          borderRadius: 15,
+          padding: 8,
+          marginTop: 8,
+          alignItems: 'center',
+        }}>
+        <View style={[viewItem,{ width: '100%',}]}>
+          <View
+            style={[
+              viewItemRow,
+              {justifyContent: 'space-between', marginTop: 12, width: '100%',},
+            ]}>
+            <TouchableRipple
+              style={{width: '50%', height: 50}}
+              onPress={this._hideTabBar}>
+              <View
+                style={[
+                  buttonItem,
+                  {width: '100%', height: 50, marginTop: 0},
+                ]}>
+                {this.props.object != null ? (
+                  <Dropdown
+                    textDefault={'انتخاب مبحث'}
+                    data={this.props.object}
+                    textStyle={{color: '#fff', paddingRight: 10}}
+                    iconStyle={{color: '#fff', marginLeft: 8}}
+                    onChangeText={this._selectCourse}
+                    labelExtractor={this._filterSortCourse}
+                    valueExtractor={this._filterName}
+                  />
+                ) : (
+                  <Text style={textButton}>{'انتخاب مبحث'}</Text>
+                )}
+              </View>
+            </TouchableRipple>
+            <View style={{width: 10}} />
+            <TouchableRipple
+              style={{width: '50%', height: 50}}
+              onPress={this._hideTabBar}>
+              <View
+                style={[
+                  buttonItem,
+                  {width: '100%', height: 50, marginTop: 0},
+                ]}>
+                {this.props.subject != null ? (
+                  <Dropdown
+                    textDefault={'انتخاب فصل'}
+                    data={this.props.subject}
+                    textStyle={{color: '#fff', paddingRight: 10}}
+                    iconStyle={{color: '#fff', marginLeft: 8}}
+                    onChangeText={this._selectGroups}
+                    labelExtractor={this._filterSort}
+                    valueExtractor={this._filterName}
+                  />
+                ) : (
+                  <Text style={textButton}>{'انتخاب فصل'}</Text>
+                )}
+              </View>
+            </TouchableRipple>
+          </View>
+          <View
+           style={{
+              
+              height: '50%',
+              marginTop:10,
+             
+              borderRadius: 10,
+            
+            
+            }}>
+          <View
+            style={{
+              width: `100%`,
+              height: '100%',
+              marginTop:10,
+             
+              borderRadius: 10,
+            
+              backgroundColor: Res.Color.grayLight,
+            }}>
+            <TextInput
+            allowFontScaling={false}
+              style={{
+                width: '100%',
+                height: '100%',
+                textAlign: 'right',
+                textAlignVertical: 'top',
+                padding: 8,
+              }}
+              onChangeText={e =>
+                this.setState({
+                  answerText: e,
+                })
+              }
+            />
+          </View>
+          </View>
+         
+          <View
+            style={[
+              viewItemRow,
+              {
+             
+                marginTop:15,
+                width: '100%',
+               
+              
+                
+               
+              },
+            ]}>
+            <View style={[{width: '50%', height: 50}]}>
+              <View style={[viewItemRow, {paddingLeft: 8}]}>
+                <TouchableRipple onPress={this.onRecord}>
+                  <Icon name="microphone" size={30} />
+                </TouchableRipple>
+                <TouchableRipple onPress={this.onImagePicker}>
+                  <Icon name="camera" size={30} style={{marginLeft: 15}} />
+                </TouchableRipple>
+              </View>
+            </View>
+
+            <View style={{width: 10}} />
+
+            <TouchableRipple
+                style={{width: '50%', height: 50}}
+                onPress={this._requestQuestion}>
+                <View style={[buttonItem, {width: '100%', height: 50}]}>
+                  <Text style={textButton}>{this.state.textButton}</Text>
+                </View>
+              </TouchableRipple>
+          </View>
+        </View>
+
+        <Modal
+          style={{position: 'absolute', bottom: 0}}
+          visible={this.state.isModalVisible}
+          onDismiss={this._hideTabBar}>
+          <View style={{width: '100%', height: '100%'}}>
+            <Recorder hideRecorded={this._hideTabBar} />
+          </View>
+        </Modal>
+
+        <Modal
+          style={{position: 'absolute', bottom: 0}}
+          visible={this.state.isModalPlayer}
+          onDismiss={this._hideModalPlyer}>
+          <Player tracks={this.state.voice} />
+        </Modal>
+      </Card>
+      <TouchableOpacity
+      activeOpacity={0.9}
+        style={{
+          width: 100,
+          height: 260,
+        
+
+          position: 'absolute',
+          top: 0,
+          alignSelf: 'center',
+        }}
+        onPress={() => {
+          this._hideModalMenu();
+        }}
+      />
+    </View>
     );
   }
   static propsType = {

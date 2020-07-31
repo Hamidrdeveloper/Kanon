@@ -17,6 +17,8 @@ export default StyleSheet.create({
     right: 0,
     position: 'absolute',
     paddingRight: 15,
+    width:`87%`,
+ 
   },
   textTitlePopUpMenu: {
     width: '100%',
@@ -46,18 +48,21 @@ export default StyleSheet.create({
     color: Res.Color.primers,
     fontFamily: 'BYekanBold',
   },
-  textTitle: {textAlign: 'center', fontFamily: 'BYekan', fontSize: hp(3)},
+  textTitle: {textAlign: 'center', fontFamily: 'BYekan', fontSize: hp(2.6)},
   date: {textAlign: 'center', fontFamily: 'BYekan', fontSize: hp(2)},
   viewCircle: {
+    paddingLeft:8,
+    paddingRight:8,
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'center',
+    justifyContent: 'space-between',
   },
   datePopUp: {fontFamily: 'BYekanBold', fontSize: 15, color: Res.Color.primers},
   viewItemRow: {
     width: '100%',
     flexDirection: 'row',
     height: 50,
+    paddingTop:10,
     alignItems: 'flex-end',
   },
   viewItemRowII: {
@@ -77,7 +82,7 @@ export default StyleSheet.create({
     width: 65,
     height: 65,
     borderRadius: 100,
-    backgroundColor: '#d3d3d3',
+    backgroundColor: Res.Color.greenL,
     alignItems: 'center',
     justifyContent: 'center',
   },
@@ -90,7 +95,7 @@ export default StyleSheet.create({
     color: '#c6c6c6',
   },
   buttonItem: {
-    backgroundColor: '#333648',
+    backgroundColor: Res.Color.primersButton,
     borderRadius: 30,
     width: 100,
     height: 40,
@@ -141,7 +146,7 @@ export default StyleSheet.create({
     width: wp(50),
     height: hp(4),
     elevation: 5,
-    backgroundColor: Res.Color.grayLight,
+    backgroundColor: "#fff",
     borderRadius: 50,
     alignSelf: 'center',
     marginTop: 15,
@@ -151,7 +156,7 @@ export default StyleSheet.create({
     height: '100%',
     borderTopLeftRadius: 30,
     borderTopRightRadius: 30,
-    paddingTop: 15,
+    
   },
   textPerformance: {
     color: '#000',

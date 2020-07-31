@@ -208,6 +208,22 @@ export default StyleSheet.create({
     width: 25,
     justifyContent: 'center',
   },
+  textNumRankItem:{
+  borderWidth:1,
+  borderColor:Res.Color.gray,
+  borderRadius:100,
+  color:Res.Color.gray,
+width:20,
+height:20,
+textAlign:'center',
+textAlignVertical:'center'
+  },
+  viewRankItem:{
+    padding:8,
+  flexDirection:'row-reverse',
+  width:`100%`,
+  
+  },
   textRating: {
     height: '100%',
 

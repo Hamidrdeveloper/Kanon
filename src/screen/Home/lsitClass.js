@@ -6,10 +6,10 @@ import {
   TouchableOpacity,
   Image,
   ImageBackground,
-  Button,
+
 } from 'react-native';
-import {Card, Modal, TouchableRipple} from 'react-native-paper';
-import Carousel, {getInputRangeFromIndexes} from 'react-native-snap-carousel';
+import {Card, Modal, TouchableRipple,Button} from 'react-native-paper';
+import Carousel from 'react-native-snap-carousel';
 import background from '../../../assets/images/abstract.png';
 import alarm from '../../../assets/images/alarm.png';
 import menu from '../../../assets/images/menu.png';
@@ -20,6 +20,19 @@ import PerformanceScreen from '../PerformanceTech/PerformanceScreen';
 import Res from '../../Color/color';
 import NotifyScreen from '../notify/notifyScreen';
 import PropTypes from 'prop-types';
+import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
+const { width: viewportWidth, height: viewportHeight } = Dimensions.get('window');
+
+
+    
+  
+const val =(75 * viewportWidth) 
+const val2 =(2 * viewportWidth) / 100
+const slideHeight = viewportHeight * 0.36;
+const slideWidth = Math.round(val);
+const itemHorizontalMargin =Math.round(val2);
+export const sliderWidth = viewportWidth;
+export const itemWidth = slideWidth + itemHorizontalMargin * 2;
 let screenWidth = Dimensions.get('window').width;
 class ListClass extends React.Component {
   state = {
@@ -36,61 +49,61 @@ class ListClass extends React.Component {
       tabBarVisible: true,
     };
   };
-  _scrollInterpolator(index, carouselProps) {
-    const range = [3, 2, 1, 0, -1];
-    const inputRange = getInputRangeFromIndexes(range, index, carouselProps);
-    const outputRange = range;
+  // _scrollInterpolator(index, carouselProps) {
+  //   const range = [3, 2, 1, 0, -1];
+  //   const inputRange = getInputRangeFromIndexes(range, index, carouselProps);
+  //   const outputRange = range;
 
-    return {inputRange, outputRange};
-  }
+  //   return {inputRange, outputRange};
+  // }
 
-  _animatedStyles(index, animatedValue, carouselProps) {
-    const translateProp = 'translateY';
-    const translatePropX = 'translateX';
+  // _animatedStyles(index, animatedValue, carouselProps) {
+  //   const translateProp = 'translateY';
+  //   const translatePropX = 'translateX';
 
-    return {
-      zIndex: carouselProps.data.length - index,
-      opacity: animatedValue.interpolate({
-        inputRange: [2, 3],
-        outputRange: [1, 0],
-      }),
-      transform: [
-        {
-          rotate: animatedValue.interpolate({
-            inputRange: [-1, 0, 1, 2, 3],
-            outputRange: ['0deg', '0deg', '0deg', '0deg', '0deg'],
-            extrapolate: 'default',
-          }),
-        },
-        {
-          [translateProp]: animatedValue.interpolate({
-            inputRange: [-1, 0, 1, 2, 3],
-            outputRange: [
-              20,
-              0,
-              20, // centered
-              20, // centered
-              20, // centered
-            ],
-            extrapolate: 'default',
-          }),
-        },
-        {
-          [translatePropX]: animatedValue.interpolate({
-            inputRange: [-1, 0, 1, 2, 3],
-            outputRange: [
-              -20,
-              0,
-              20, // centered
-              20, // centered
-              20, // centered
-            ],
-            extrapolate: 'default',
-          }),
-        },
-      ],
-    };
-  }
+  //   return {
+  //     zIndex: carouselProps.data.length - index,
+  //     opacity: animatedValue.interpolate({
+  //       inputRange: [2, 3],
+  //       outputRange: [1, 0],
+  //     }),
+  //     transform: [
+  //       {
+  //         rotate: animatedValue.interpolate({
+  //           inputRange: [-1, 0, 1, 2, 3],
+  //           outputRange: ['0deg', '0deg', '0deg', '0deg', '0deg'],
+  //           extrapolate: 'default',
+  //         }),
+  //       },
+  //       {
+  //         [translateProp]: animatedValue.interpolate({
+  //           inputRange: [-1, 0, 1, 2, 3],
+  //           outputRange: [
+  //             20,
+  //             0,
+  //             20, // centered
+  //             20, // centered
+  //             20, // centered
+  //           ],
+  //           extrapolate: 'default',
+  //         }),
+  //       },
+  //       {
+  //         [translatePropX]: animatedValue.interpolate({
+  //           inputRange: [-1, 0, 1, 2, 3],
+  //           outputRange: [
+  //             -20,
+  //             0,
+  //             20, // centered
+  //             20, // centered
+  //             20, // centered
+  //           ],
+  //           extrapolate: 'default',
+  //         }),
+  //       },
+  //     ],
+  //   };
+  // }
 
   _hideTabBar = e => {
     this.props.hideTabBar(false, e);
@@ -111,42 +124,52 @@ class ListClass extends React.Component {
     return (
       <TouchableRipple activeOpacity={1}>
         <Card
+        elevation={8}
           style={{
             flexWrap: 'wrap',
+            width:250,
             borderRadius: 15,
+            paddingRight:8,
+            paddingLeft:8,
             paddingBottom: 15,
+            margin:1,
+            height: hp('50%'), // 50% of height device screen
+
           }}>
-          <Text style={textTitle}>{item.CrsName}</Text>
-          <Text style={date} maxLength="5">
+          <Text allowFontScaling={false} style={date} maxLength="5">
             {item.persianDate.substring(0, 10)}
           </Text>
-          <View style={viewCircle}>
-            <View style={{width: 5}} />
+          <Text allowFontScaling={false} style={textTitle}>{item.CrsName}</Text>
+          <View style={{height:8}}/>
+          <View style={[viewCircle,{width:`100%`}]}>
+         
             <View style={viewCircleII}>
-              <Text style={circleTitle}>{item.GroupName}</Text>
+              <Text allowFontScaling={false} style={circleTitle}>{item.GroupName}</Text>
             </View>
-            <View style={{width: 5}} />
+    
             <View style={viewCircleII}>
-              <Text style={circleTitle}>
+              <Text allowFontScaling={false} style={circleTitle}>
                 {item.questionType + '\n' + item.persianDate.substring(0, 10)}
               </Text>
             </View>
-            <View style={{width: 5}} />
+           
             <View style={viewCircleII}>
-              <Text style={circleTitle}>{'نیم سال'}</Text>
+              <Text allowFontScaling={false} style={circleTitle}>{'نیم سال'}</Text>
             </View>
-            <View style={{width: 5}} />
+           
           </View>
-          <Text style={detail} numberOfLines={9}>
+          <Text allowFontScaling={false} style={detail} numberOfLines={5}>
             {item.ProblemText}
           </Text>
-          <TouchableOpacity
-            activeOpacity={10}
+          <TouchableRipple
+            style={[buttonItem,{position:'absolute',bottom:0,alignSelf:'center',alignItems:'center'}]}
+            labelStyle={textButton}
             onPress={() => this._hideTabBar(item)}>
-            <View style={buttonItem}>
-              <Text style={textButton}>{'برسی سوال'}</Text>
-            </View>
-          </TouchableOpacity>
+          <Text allowFontScaling={false} style={textButton}>{'برسی سوال'}</Text>
+             
+         
+          </TouchableRipple>
+         
         </Card>
       </TouchableRipple>
     );
@@ -162,17 +185,23 @@ class ListClass extends React.Component {
       cardModelPop,
       cardModelPerformance,
     } = style;
+
     return (
-      <View style={[viewFull]}>
+      <View style={[viewFull,{alignItems:'center',paddingTop:20}]}>
         <Carousel
           data={this.props.AQ_data}
-          marginTop={30}
-          horizontal={true}
-          layout={'default'}
-          scrollInterpolator={this._scrollInterpolator}
-          slideInterpolatedStyle={this._animatedStyles}
-          sliderWidth={screenWidth}
-          itemWidth={(screenWidth + 60) / 2}
+          sliderWidth={250}
+                  itemWidth={250}
+                  containerCustomStyle={{
+        overflow: 'visible'}}
+                  contentContainerCustomStyle={{width: itemWidth,
+        height: `100%`,
+        
+    
+        paddingHorizontal: itemHorizontalMargin,
+        paddingBottom: 18}}
+                 
+                 
           renderItem={(item, index) => this.renderGridItem(item, index)}
         />
       </View>

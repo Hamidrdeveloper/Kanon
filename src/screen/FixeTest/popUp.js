@@ -50,10 +50,12 @@ class PopUp extends React.Component {
   };
   componentDidMount() {
     let {dataPro} = this.props;
-
-    this.setState({
-      questionId: dataPro.Id,
-    });
+    setTimeout(()=>{
+      this.setState({
+        questionId: dataPro.Id,
+      });
+    },200)
+  
   }
   _requestQuestion = e => {
     let {
@@ -188,14 +190,14 @@ class PopUp extends React.Component {
     return data;
   }
   _selectCourse = data => {
-    console.log(data.objectId + '++' + this.state.groupId);
+    // console.log(data.objectId + '++' + this.state.groupId);
     this.setState({
       SumObjId: data.objectId,
     });
     return data;
   };
   _selectGroups = data => {
-    console.log(data.subjectId);
+    // console.log(data.subjectId);
     this.props.onFunObject(data.subjectId);
     this.setState({
       SumSbjId: data.subjectId,
@@ -221,7 +223,9 @@ class PopUp extends React.Component {
       imageCard,
     } = style;
     let {dataPro} = this.props;
-
+     var text= "hahsdas\n adsadasdasdasd\n"
+    //  console.log( dataPro.ProblemText.split(/\r\n|\r|\n/).length+"")
+    
     return (
       <View
         style={{
@@ -262,51 +266,65 @@ class PopUp extends React.Component {
           </TouchableRipple>
 
           <View style={viewItemRow}>
-            <Text style={[textTitlePopUp, {fontSize: 22}]}>
+          <View style={{flexDirection:'row',height:50,width:`100%`,alignItems:'center'}}>
+          <Text allowFontScaling={false} style={[textTitlePopUp, {fontSize: 20}]}>
               {dataPro.CrsName}
             </Text>
-
-            <View>
-              <Text style={datePopUp}>{dataPro.questionType}</Text>
-              <Text style={datePopUp}>
+            <Text allowFontScaling={false} style={[datePopUp,{left:0,position:'absolute',top:12,fontSize:14}]}>{dataPro.questionType}</Text>
+          </View>
+          <Text allowFontScaling={false} style={[datePopUp,{top:0,position:'absolute',fontSize: 11,}]}>
                 {dataPro.persianDate.substring(0, 10)}
               </Text>
-            </View>
+            {/* <View style={{top:7,height:60}}>
+            <Text style={[datePopUp,{top:0,position:'absolute',fontSize: 11,}]}>
+                {dataPro.persianDate.substring(0, 10)}
+              </Text>
+             
+            
+            </View> */}
           </View>
 
           <View style={{width: '100%'}}>
-            <Text style={[datePopUp, {fontSize: 13}]} numberOfLines={5}>
+           
+            {dataPro.ProblemText.split(/\r\n|\r|\n/).length>5||dataPro.ProblemText.length>300?
+            <View>
+            <Text allowFontScaling={false} style={[datePopUp, {fontSize: 13,}]}  numberOfLines={5}>
               {dataPro.ProblemText}
             </Text>
+            <Text  allowFontScaling={false}  onPress={() => this.onShowText(dataPro.ProblemText)}style={[datePopUp, {fontSize: 13,color:Res.Color.primersButton}]} >
+              {"نمایش بیشتر"}
+            </Text>
+            </View>  
+            : <Text allowFontScaling={false} style={[datePopUp, {fontSize: 13,}]} >
+              {dataPro.ProblemText}
+            </Text>}
           </View>
           <View style={[viewItemRow, {paddingLeft: 8}]}>
             <TouchableRipple
               onPress={() => this._ShowModalPlyer(dataPro.ProblemVoicePath)}>
-              <Icon name="play" size={30} />
+              <Icon name="play" size={30} color={dataPro.ProblemVoicePath.length>15?Res.Color.primersButton:Res.Color.grayLight} />
             </TouchableRipple>
             <TouchableRipple
               onPress={() => this.onShowImage(dataPro.ProblemImagePath)}>
-              <Icon name="file-photo-o" size={30} style={{marginLeft: 15}} />
+              <Icon name="file-photo-o" size={30} color={dataPro.ProblemImagePath.length>15?Res.Color.primersButton:Res.Color.grayLight}  style={{marginLeft: 15}} />
             </TouchableRipple>
-            <TouchableRipple
-              onPress={() => this.onShowText(dataPro.ProblemText)}>
-              <Icon name="text-height" size={30} style={{marginLeft: 15}} />
-            </TouchableRipple>
+           
           </View>
         </Card>
         <Card
           style={{
             height: 350,
+            width: '100%',
             borderRadius: 15,
             padding: 8,
             marginTop: 8,
             alignItems: 'center',
           }}>
-          <View style={viewItem}>
+          <View style={[viewItem,{ width: '100%',}]}>
             <View
               style={[
                 viewItemRow,
-                {justifyContent: 'space-between', marginTop: 12},
+                {justifyContent: 'space-between', marginTop: 12, width: '100%',},
               ]}>
               <TouchableRipple
                 style={{width: '50%', height: 50}}
@@ -357,16 +375,27 @@ class PopUp extends React.Component {
               </TouchableRipple>
             </View>
             <View
-              style={{
-                width: '100%',
+             style={{
+                
                 height: '50%',
-                position: 'absolute',
-                marginTop: 83,
+                marginTop:10,
+               
                 borderRadius: 10,
-                alignSelf: 'center',
+              
+              
+              }}>
+            <View
+              style={{
+                width: `100%`,
+                height: '100%',
+                marginTop:10,
+               
+                borderRadius: 10,
+              
                 backgroundColor: Res.Color.grayLight,
               }}>
               <TextInput
+              allowFontScaling={false}
                 style={{
                   width: '100%',
                   height: '100%',
@@ -381,16 +410,19 @@ class PopUp extends React.Component {
                 }
               />
             </View>
+            </View>
+           
             <View
               style={[
                 viewItemRow,
                 {
-                  position: 'absolute',
-                  bottom: 0,
+               
+                  marginTop:15,
                   width: '100%',
-                  paddingLeft: 15,
-                  paddingBottom: 15,
-                  marginBottom: 15,
+                 
+                
+                  
+                 
                 },
               ]}>
               <View style={[{width: '50%', height: 50}]}>
@@ -409,8 +441,8 @@ class PopUp extends React.Component {
               <TouchableRipple
                 style={{width: '50%', height: 50}}
                 onPress={this._requestQuestion}>
-                <View style={[buttonItem, {width: '100%', height: 50}]}>
-                  <Text style={textButton}>{'ثبت پاسخ'}</Text>
+                <View style={[buttonItem, {width: '100%', height: 50, marginTop: 0}]}>
+                  <Text allowFontScaling={false} style={textButton}>{'ثبت پاسخ'}</Text>
                 </View>
               </TouchableRipple>
             </View>

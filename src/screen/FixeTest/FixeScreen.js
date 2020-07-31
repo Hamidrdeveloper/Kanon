@@ -31,16 +31,13 @@ import PopUp from './popUp';
 import FullScreenText from '../../components/textFull';
 import FullScreenImage from '../../components/FullScreenImage';
 import {UserData} from '../../model/userData';
+import Res from '../../Color/color';
+import OptimizedFlatList from '../../components/Optimize/OptimizedFlatList';
+import RankQuTeacher from './RankQuTeacher';
 
 let screenWidth = Dimensions.get('window').width;
 class FixeScreen extends React.Component {
-  static navigationOptions = ({navigation}) => {
-    const {params} = navigation.state;
-
-    return {
-      tabBarVisible: false,
-    };
-  };
+  
   state = {
     stepOne: 1,
     groupId: 0,
@@ -51,7 +48,14 @@ class FixeScreen extends React.Component {
     isModalPopImageFull: false,
     dataImageItem: '',
     CrsId: 0,
+    isModalRankQuTeacher: false,
+    rank:0
+    
   };
+  constructor(props) {
+    super(props);
+    this._hideTabBar =  this._hideTabBar.bind();
+}
   _filterSort(data, indext) {
     return data.groupName;
   }
@@ -64,15 +68,15 @@ class FixeScreen extends React.Component {
   _filterNameCourse(data, indext) {
     return data;
   }
-  _selectGroups = data => {
-  
+  _selectGroups = (data,index) => {
+   console.log(this.props.dataGroups[index].groupCode)
     this.setState({
-      groupId: data.groupCode,
+      groupId: this.props.dataGroups[index].groupCode,
     });
-    this.props._onCourse(this.state.groupId);
-    setTimeout(() => {
+    this.props._onCourse(this.props.dataGroups[index].groupCode);
+    // setTimeout(() => {
       this._onGetData();
-    }, 100);
+    // }, 100);
     return data;
   };
   _selectCourse = data => {
@@ -95,6 +99,49 @@ class FixeScreen extends React.Component {
 
     // this.props._onNoAnsweredQuestionCourseBase( UserData.jsonData.teacherInfo.Rid , 27, 3273);
     // this.props._onReservedQuestionCourseBase( UserData.jsonData.teacherInfo.Rid , 27, 3273);
+  }
+  _openModalRankQuTeacher =(e)=>{
+    this.setState({
+      rank:e.Rate,
+      isModalRankQuTeacher:true
+    })
+  }
+  _hideModalRankQuTeacher =()=>{
+    this.setState({
+      isModalRankQuTeacher:false
+    })
+  }
+  shouldComponentUpdate(nextProps,nextStet){
+   
+    if (this.props.dataGroups !== nextProps.dataGroups) {
+      console.log(nextProps)
+      console.log("nextProps.dataGroups",nextProps)
+      return true;
+    }
+    if (this.props.dataCourse !== nextProps.dataCourse) {
+      console.log("nextProps.dataCourse",nextProps)
+      return true;
+    }
+    if (this.props.dataCourseBase !== nextProps.dataCourseBase) {
+      console.log("nextProps.dataCourseBase",nextProps)
+      return true;
+    }
+    
+    if (this.props.dataGetSubject !== nextProps.dataGetSubject) {
+
+      console.log("nextProps.dataGetSubject",nextProps)
+      return true;
+    }
+    if (this.props.dataGetObject !== nextProps.dataGetObject) {
+      console.log("nextProps.dataGetObject",nextProps)
+      return true;
+    }
+    if (this.state !== nextStet) {
+     
+      console.log("nextProps.state",nextStet)
+      return true;
+    }
+    return false;
   }
   _onGetData = e => {
     if (this.state.groupId === 0) {
@@ -202,25 +249,30 @@ class FixeScreen extends React.Component {
   _hideTabBar = e => {
 
     if (this.state.stepOne === 1 || this.state.stepOne === 2) {
-      this.props._onGetSubject(e.SumCrsId);
-      if (this.state.stepOne != 2) {
-        FixAction._onPostSaveReserved(
-          UserData.jsonData.teacherInfo.Rid,
-          e.Id,
-        ).then(res => {
-          this._onGetData();
-        });
-      }
+    
+      // if (this.state.stepOne != 2) {
+        // FixAction._onPostSaveReserved(
+        //   UserData.jsonData.teacherInfo.Rid,
+        //   e.Id,
+        // ).then(res => {
+        //   this._onGetData();
+        // });
+        // this._onGetData();
+      // }
 
       this.setState({
-        isModalVisible: !this.state.isModalVisible,
+        isModalVisible:true,
         detail: e,
       });
+      this.props._onGetSubject(e.SumCrsId);
+    }else{
+      alert("hamdireza")
+      this._openModalRankQuTeacher(e)
     }
   };
   _hideTabBarMode = e => {
     this.setState({
-      isModalVisible: !this.state.isModalVisible,
+      isModalVisible: false,
     });
   };
   _openModalMenu() {
@@ -271,25 +323,51 @@ class FixeScreen extends React.Component {
             width: '100%',
             borderRadius: 30,
             marginTop: 15,
-            paddingBottom: 1,
+         
             marginBottom: 1,
+            minHeight:150,
+            paddingTop:10
           }}>
-          <Image style={imageCard} resizeMode="stretch" source={circle} />
-          <View style={viewItem}>
-            <Text style={textTitle}>{item.CrsName}</Text>
-            <View style={viewItemRow}>
-              <Text style={viewItemRowII}>{'1398/08/23'}</Text>
-              <View>
-                <Text style={date}>{item.questionType}</Text>
-                <Text style={date}>{'1398/08/24'}</Text>
+          <Image style={[imageCard,{tintColor:Res.Color.tab, width: 120,
+    height: 125,
+
+    bottom: 0,
+    left:0,
+    
+    // borderBottomWidth: 7000,
+    position: 'absolute',}]} resizeMode="stretch" source={circle} />
+          <View style={[imageCard,{backgroundColor:Res.Color.tab}]} />
+
+          <View style={[{top:0,paddingLeft:10,position:'absolute'}]}>
+          <View style={{top:10}}>
+                <Text style={[date,{alignSelf:'flex-start'}]}>{item.questionType}</Text>
+                {/* <Text style={date}>{'1398/08/24'}</Text> */}
+                
               </View>
+              </View>
+          <View style={viewItem}>
+            <Text style={[textTitle,{fontSize:20}]}>{item.CrsName}</Text>
+            <View style={viewItemRow}>
+              <Text style={[viewItemRowII,{marginRight:0}]}> {item.persianDate.substring(0, 10)}</Text>
+              <Text style={[viewItemRowII,{marginRight:0,left:0}]}>{item.persianDate.substring(0, 10)}</Text>
             </View>
             <View style={[viewItemRow, {marginTop: 15}]}>
               <View style={viewDetail}>
-                <Text style={detail}>{item.ProblemText}</Text>
+                <Text style={detail} numberOfLines={5}>{item.ProblemText}</Text>
               </View>
-              <TouchableRipple
-                style={[buttonItem]}
+             
+            </View>
+           
+          </View>
+          {this.state.stepOne == 2 ? (
+            <TouchableRipple
+              style={{position: 'absolute', marginLeft: 15,width:50,height:50}}
+              onPress={() => this.deleteReserved(item)}>
+              <Icon name="close" size={14} />
+            </TouchableRipple>
+          ) : null}
+          <TouchableRipple
+                style={[buttonItem,{position:'absolute',bottom:15,left:10,backgroundColor:Res.Color.primersButton}]}
                 onPress={() => this._hideTabBar(item)}>
                 <View>
                   <Text style={textButton}>
@@ -297,15 +375,6 @@ class FixeScreen extends React.Component {
                   </Text>
                 </View>
               </TouchableRipple>
-            </View>
-          </View>
-          {this.state.stepOne == 2 ? (
-            <TouchableRipple
-              style={{position: 'absolute', marginLeft: 15, marginTop: 8}}
-              onPress={() => this.deleteReserved(item)}>
-              <Icon name="close" size={14} />
-            </TouchableRipple>
-          ) : null}
         </Card>
       </TouchableRipple>
     );
@@ -330,11 +399,14 @@ class FixeScreen extends React.Component {
       cardModelPop,
       viewActivityIndicator,
     } = style;
+   
     return (
       <View style={viewFull}>
         <ImageBackground source={background} style={viewFull}>
+        <Image style={{width:`100%`,height:`50%`,position:'absolute',bottom:0}} resizeMode="stretch" source={backgroundC}/>
+
           <ScrollView
-            style={{marginBottom: 15, paddingRight: 15, paddingLeft: 15}}>
+            style={{ paddingRight: 15, paddingLeft: 15}}>
             <View style={viewHeder}>
               <TouchableRipple onPress={this.onBack} style={buttonBack}>
                 <Image source={back} style={buttonBack} />
@@ -356,7 +428,7 @@ class FixeScreen extends React.Component {
               </View>
               <View style={{width: 10}} />
               <View style={viewFullIem}>
-                <Card style={viewLine}>
+                <Card style={[viewLine]}>
                   <Dropdown
                     textDefault="همه مقاطع"
                     data={this.props.dataGroups}
@@ -370,19 +442,16 @@ class FixeScreen extends React.Component {
 
             <FlatList
               data={this.props.dataCourseBase}
-              marginTop={10}
-              layout={'default'}
-              style={flatListStyle}
+        
+              extraData={this.state}
+              keyExtractor={item => item.id}
               showsVerticalScrollIndicator={false}
-              scrollInterpolator={this._scrollInterpolator}
-              slideInterpolatedStyle={this._animatedStyles}
-              sliderWidth={screenWidth}
-              itemWidth={(screenWidth + 50) / 2}
               renderItem={({item, index}) => this.renderGridItem(item, index)}
             />
           </ScrollView>
+          {/* {this.state.isCardStep==true? */}
           <View style={viewFullCardButton}>
-            <Card style={cardButton}>
+            <View style={[cardButton,{backgroundColor:Res.Color.tabProb}]}>
               <View style={viewCardButton}>
                 <TouchableRipple
                   activeOpacity={0.9}
@@ -391,6 +460,7 @@ class FixeScreen extends React.Component {
                     this._onStepList(1);
                   }}>
                   <Text
+                  allowFontScaling={false}
                     style={
                       this.state.stepOne === 1
                         ? textCardButton
@@ -406,6 +476,7 @@ class FixeScreen extends React.Component {
                     this._onStepList(2);
                   }}>
                   <Text
+                  allowFontScaling={false}
                     style={
                       this.state.stepOne === 2
                         ? textCardButton
@@ -422,6 +493,7 @@ class FixeScreen extends React.Component {
                     this._onStepList(3);
                   }}>
                   <Text
+                  allowFontScaling={false}
                     style={
                       this.state.stepOne === 3
                         ? textCardButton
@@ -431,10 +503,12 @@ class FixeScreen extends React.Component {
                   </Text>
                 </TouchableRipple>
               </View>
-            </Card>
+            </View>
           </View>
+       {/* :null } */}
         </ImageBackground>
         <Modal
+
           visible={this.state.isModalVisible}
           onDismiss={this._hideTabBarMode}>
           <View style={{height: '100%', justifyContent: 'flex-end'}}>
@@ -479,6 +553,22 @@ class FixeScreen extends React.Component {
               width: '100%',
             }}>
             <FullScreenImage dataList={this.state.dataImageItem} />
+          </View>
+        </Modal>
+
+        <Modal
+        dismissable={false}
+
+          visible={this.state.isModalRankQuTeacher}
+          onDismiss={this._hideModalRankQuTeacher}>
+          <View
+            style={{
+              height: '100%',
+              justifyContent: 'center',
+              backgroundColor: 'transparent',
+              width: '100%',
+            }}>
+          <RankQuTeacher hidePopUp={this._hideModalRankQuTeacher} dataPro={this.state.rank}/>
           </View>
         </Modal>
       </View>

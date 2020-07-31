@@ -10,12 +10,14 @@ export default class Channel {
   }
   onPostLogin(e) {
     var add = address.postLogin();
-   
+ 
+
     return axios
       .post(add, {
         nationalCode: e,
       })
       .then(res => {
+        // alert("res")
         if (res.data.Status === 1) {
           UserData.jsonData = res.data.Data;
         
@@ -23,13 +25,14 @@ export default class Channel {
             ['userid', res.data.Data.teacherInfo.Rid + ''],
             ['dataUser', JSON.stringify(UserData.jsonData) + ''],
           ]);
-          return res.data.Data.teacherInfo;
+          return res.data.Status;
         } else {
           return '';
         }
       })
       .catch(error => {
-       
+        // alert("error")
+        console.log("error")
         return '';
       });
 
@@ -215,6 +218,7 @@ export default class Channel {
       .post(add)
       .then(res => {
         if (res.data.Status === 1) {
+          console.log(res.data.Data.questions.length)
           return res.data.Data.questions;
         } else {
           return '0';

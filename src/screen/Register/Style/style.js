@@ -33,7 +33,7 @@ export default StyleSheet.create({
     width: 60,
     height: 60,
     borderRadius: 100,
-    backgroundColor: '#d3d3d3',
+    backgroundColor: '#ccc',
     alignItems: 'center',
     justifyContent: 'center',
   },
@@ -43,10 +43,10 @@ export default StyleSheet.create({
     textAlign: 'center',
     fontFamily: 'BYekanBold',
     fontSize: 23,
-    color: '#a0a0a0',
+    color: '#eee',
   },
   buttonItem: {
-    backgroundColor: '#333648',
+    backgroundColor: Res.Color.primersButton,
     borderRadius: 30,
     marginTop:100,
     width: '85%',
@@ -88,7 +88,7 @@ export default StyleSheet.create({
     marginRight: 15,
     marginLeft: 15,
     elevation: 5,
-    backgroundColor: '#bfbfbf',
+    backgroundColor: '#fff',
     borderRadius: 50,
     alignSelf: 'center',
     marginTop: 15,
@@ -175,7 +175,7 @@ export default StyleSheet.create({
   cardButton: {
     width: '80%',
     height: 50,
-    backgroundColor: '#bfbfbf',
+    backgroundColor: '#fff',
     borderRadius: 30,
   },
   
@@ -207,7 +207,7 @@ export default StyleSheet.create({
     fontFamily: 'BYekanBold',
     fontSize: 22,
 
-    color: '#a0a0a0',
+    color: '#ffff',
   },
   buttonLogin:{
     borderRadius: 30,

@@ -13,13 +13,18 @@ import {
 } from 'react-native';
 import {Card, Modal, TouchableRipple} from 'react-native-paper';
 import Carousel, {getInputRangeFromIndexes} from 'react-native-snap-carousel';
-import background from '../../../assets/images/abstract.png';
+import im_exam from '../../../assets/images/test.png';
+import passed from '../../../assets/images/passed.png';
+import house from '../../../assets/images/house.png';
+import werite from '../../../assets/images/werite.png'
+import background from '../../../assets/images/abstract3.png';
 import alarm from '../../../assets/images/alarm.png';
 import menu from '../../../assets/images/menu.png';
 import backgroundC from '../../../assets/images/abstract2.png';
 import PopUp from './popUp';
 import style from './Style/style';
 import PerformanceScreen from '../PerformanceTech/PerformanceScreen';
+import RankScreen from '../PerformanceTech/rank';
 import Res from '../../Color/color';
 import NotifyScreen from '../notify/notifyScreen';
 import ListClass from './lsitClass';
@@ -50,7 +55,24 @@ class HomeScreen extends React.Component {
     isModalPopImageFull: false,
     dataImageItem: '',
   };
+  shouldComponentUpdate(nextProps,nextStet){
+    console.log("shouldComponentUpdate",nextStet)
+    if (this.props.data !== nextProps.data) {
+      return true;
+    }
+    if (this.props.dataGetSubject !== nextProps.dataGetSubject) {
+      return true;
+    }
+    if (this.props.dataGetObject !== nextProps.dataGetObject) {
+      return true;
+    }
+    if (this.state !== nextStet) {
+      return true;
+    }
+    return false;
+    
 
+  }
   static navigationOptions = ({navigation}) => {
     const {params} = navigation.state;
 
@@ -118,11 +140,11 @@ class HomeScreen extends React.Component {
   };
   _hideTabBarItem = (e, data) => {
     this.props._onGetSubject(data.SumCrsId);
-    FixAction._onPostSaveReserved(UserData.jsonData.teacherInfo.Rid, e.Id).then(
-      res => {
-        this.props._onAnsweredQuestion(UserData.jsonData.teacherInfo.Rid);
-      },
-    );
+    // FixAction._onPostSaveReserved(UserData.jsonData.teacherInfo.Rid, e.Id).then(
+    //   res => {
+    //     this.props._onAnsweredQuestion(UserData.jsonData.teacherInfo.Rid);
+    //   },
+    // );
     this.props.navigation.setParams({tabBarVisible: !this.state.tabBarVisible});
   
     this.setState({
@@ -132,7 +154,7 @@ class HomeScreen extends React.Component {
     });
   };
   _hideTabBar = e => {
-    this.props.navigation.setParams({tabBarVisible: !this.state.tabBarVisible});
+  
 
     this.setState({
       tabBarVisible: !this.state.tabBarVisible,
@@ -146,7 +168,7 @@ class HomeScreen extends React.Component {
   };
   _hideModalNotify = e => {
     this.setState({
-      isModalNotify: e,
+      isModalNotify:false,
     });
   };
   _hideModalMenu = e => {
@@ -172,7 +194,9 @@ class HomeScreen extends React.Component {
     this._hideModalPerformance(true);
   }
   _openModalNotify() {
-    this._hideModalNotify(true);
+    this.setState({
+      isModalNotify:true,
+    });
   }
   _openModalMenu() {
     this._hideModalMenu(true);
@@ -211,7 +235,15 @@ class HomeScreen extends React.Component {
   componentWillUpdate() {
     console.log('=====>', this.props.data);
   }
+  _hideTabBarQus =e =>{
+   
+    this.props.navigation.setParams({tabBarVisible: true});
 
+    this.setState({
+      tabBarVisible: true,
+      isModalVisible: false,
+    });
+  }
   render() {
     let {
       textButton,
@@ -225,17 +257,18 @@ class HomeScreen extends React.Component {
     return (
       <View style={[viewFull]}>
         <View style={[viewFull, {paddingBottom: this.state.top}]}>
-          <ImageBackground source={background} style={[viewFull]}>
+          <ImageBackground source={background} style={[viewFull]} resizeMode="cover">
+          {/* <Image style={{width:`100%`,height:`50%`,position:'absolute',bottom:0}} resizeMode="stretch" source={backgroundC}/> */}
             <View
               style={{
                 width: '100%',
                 flexDirection: 'row',
-                marginTop: 20,
-                paddingLeft: 15,
-                paddingRight: 15,
+                
+               
               }}>
               <TouchableRipple
                 activeOpacity={10}
+                style={{width: 55, height: 55,alignItems:'center',justifyContent:'center'}}
                 onPress={() => this._openModalNotify()}>
                 <Image
                   source={alarm}
@@ -245,12 +278,11 @@ class HomeScreen extends React.Component {
               <TouchableRipple
                 activeOpacity={10}
                 style={{
-                  width: 20,
-                  height: 20,
+                  width: 55, height: 55,
                   position: 'absolute',
                   right: 0,
-
-                  marginRight: 15,
+                  alignItems:'center',justifyContent:'center',
+                
                 }}
                 onPress={() => this._openModalMenu()}>
                 <Image
@@ -273,6 +305,7 @@ class HomeScreen extends React.Component {
               style={imagePro}
             />
             <Text
+            allowFontScaling={false}
               style={{
                 textAlign: 'center',
                 color: '#000',
@@ -291,7 +324,7 @@ class HomeScreen extends React.Component {
                 this._openPerformance();
               }}>
               <Card style={viewLine}>
-                <Text style={textPerformance}>مشاهده ی گزارش عملکرد 5/5</Text>
+                <Text allowFontScaling={false} style={textPerformance}>مشاهده ی گزارش عملکرد 5/5</Text>
               </Card>
             </TouchableRipple>
             <ListClass
@@ -301,10 +334,12 @@ class HomeScreen extends React.Component {
             <Modal
               visible={this.state.isModalVisible}
               onDismiss={this._hideTabBar}>
+            
               <View style={{height: '100%', justifyContent: 'flex-end'}}>
                 <View style={cardModelPop}>
+              
                   <PopUp
-                    changeState={this._hideTabBar}
+                    changeState={this._hideTabBarQus}
                     dataPro={this.state.detail}
                     navigation={this.props.navigation}
                     hidePopUp={this._hideTabBar}
@@ -314,8 +349,10 @@ class HomeScreen extends React.Component {
                     object={this.props.dataGetObject}
                     onFunObject={this.props._onGetObject}
                   />
+            
                 </View>
               </View>
+              
             </Modal>
             <Modal
               transparent={true}
@@ -326,18 +363,19 @@ class HomeScreen extends React.Component {
                 style={{
                   height: '100%',
                   justifyContent: 'center',
-                  padding: 20,
-                  paddingBottom: 30,
+                  paddingLeft: 20,
+                  paddingRight:20,
+                  paddingBottom: 60,
                 }}>
-                <PerformanceScreen changeState={this._hideModalPerformance} />
+                <PerformanceScreen  changeState={this._hideModalPerformance} />
               </View>
             </Modal>
             <Modal
               visible={this.state.isModalNotify}
-              onDismiss={this._hideTabBar}>
+              onDismiss={this._hideModalNotify}>
               <View
                 style={{
-                  height: '100%',
+                  height: '94%',
                   justifyContent: 'center',
                   padding: 20,
                   paddingBottom: 30,
@@ -349,7 +387,29 @@ class HomeScreen extends React.Component {
               visible={this.state.isModalPopUpMenu}
               onDismiss={this._hideModalMenu}>
               <View style={{height: '100%', justifyContent: 'flex-end'}}>
-                <Card style={cardModelPop}>
+              <TouchableRipple
+            activeOpacity={10}
+            style={{
+              width: 50,
+              height: `30%`,
+              alignSelf:'center',
+              position: 'absolute',
+              top: 90,
+           
+            }}
+            onPress={() => {
+              this._hideModalMenu();
+            }}>
+            <View
+              style={{
+                width: 50,
+                height: 4,
+                borderRadius: 8,
+               
+              }}
+            />
+          </TouchableRipple>
+                <Card style={[cardModelPop,{height:`70%`}]}>
                   <PopUpMenu
                     changeState={this._hideModalMenu}
                     navigation={this.props.navigation}
@@ -358,6 +418,8 @@ class HomeScreen extends React.Component {
               </View>
             </Modal>
           </ImageBackground>
+
+        
           <Modal
             visible={this.state.isModalPopTextFull}
             onDismiss={this._hideModalTextFull}>
@@ -381,6 +443,55 @@ class HomeScreen extends React.Component {
             </View>
           </Modal>
         </View>
+
+       
+       {this.state.tabBarVisible==true?    
+        <View 
+        elevation={8}
+        style={{width:`100%`,height:55,position:'absolute',bottom:0,backgroundColor:Res.Color.tab,margin:0.1,paddingTop:10}}>
+          <View style={{flexDirection:'row',width:`100%`,height:`100%`}}>
+          <View style={{flex:1,alignItems:'center'}}>
+          <Image
+            source={passed}
+            style={{width: 20, height: 20, color: Res.Color.primersButton}}
+            tintColor={Res.Color.gray}
+          />
+          <Text allowFontScaling={false} style={{color:Res.Color.gray,fontFamily:'BYekan'}}>{"آزمون سازی"}</Text>
+          </View>
+          <View style={{flex:1,alignItems:'center'}}>
+          <Image
+            source={werite}
+            style={{width: 20, height: 20, color: Res.Color.primersButton}}
+            tintColor={Res.Color.gray}
+          />
+          <Text style={{color:Res.Color.gray,fontFamily:'BYekan'}}>{"محصول ساز"}</Text>
+          </View>
+          <TouchableRipple
+          style={{flex:1,alignItems:'center'}}
+          onPress={()=> this.props.navigation.navigate("CreatProduct")}>
+            
+       
+          <View 
+          style={{flex:1,alignItems:'center'}}>
+          <Image
+            source={im_exam}
+            style={{width: 20, height: 20, color: Res.Color.primersButton}}
+            tintColor={Res.Color.gray}
+          />
+          <Text allowFontScaling={false} style={{color:Res.Color.gray,fontFamily:'BYekan'}}>{"رفع اشکال"}</Text>
+          </View>
+          </TouchableRipple>
+          <View style={{flex:1,alignItems:'center'}}>
+          <Image
+            source={house}
+            style={{width: 20, height: 20, color: Res.Color.primersButton}}
+            tintColor={Res.Color.primersButton}
+          />
+          <Text allowFontScaling={false} style={{color:Res.Color.primersButton,fontFamily:'BYekan'}}>{"خانه"}</Text>
+          </View>
+          </View>
+        </View>
+      :null}  
       </View>
     );
   }

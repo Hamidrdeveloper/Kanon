@@ -28,6 +28,7 @@ import Res from '../../Color/color';
 import {Rating, AirbnbRating} from '../../react_native_ratings_example/index';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import back from '../../../assets/images/left_arrow.png';
+import { UserData } from '../../model/userData';
 
 let screenWidth = Dimensions.get('window').width;
 class PerformanceScreen extends React.Component {
@@ -70,7 +71,7 @@ class PerformanceScreen extends React.Component {
       cardBottomLine,
     } = style;
     return (
-      <View style={{width: '100%', height: '100%'}}>
+      <View style={{width: '100%', height: '93%'}}>
         <Card style={viewForm}>
           <TouchableRipple
             activeOpacity={10}
@@ -102,8 +103,11 @@ class PerformanceScreen extends React.Component {
               style={imagePro}
               source={{
                 uri:
-                  'https://cdn01.zoomit.ir/2018/10/e3d98770-8164-49cc-a419-6f0bd80c3b2c.jpg',
+                UserData.jsonData.teacherPicture != null
+                    ? `http://kanoonihaweb.kanoon.ir/${UserData.jsonData.teacherPicture}`
+                    : 'https://cdn01.zoomit.ir/2018/10/e3d98770-8164-49cc-a419-6f0bd80c3b2c.jpg',
               }}
+             
             />
             <Text allowFontScaling={false} style={detail} fon>
               {'نام نام خانوادگی'}
@@ -165,7 +169,7 @@ class PerformanceScreen extends React.Component {
               <Card style={cardButtonMore}>
                 <View style={viewTextShowRank}>
                   <Text allowFontScaling={false} style={textShowRank}>
-                    {'مشاهده جایگاه شما'}
+                    {'مشاهده پرداخت ها'}
                   </Text>
 
                   <View style={viewImageShowRank}>
@@ -190,18 +194,18 @@ class PerformanceScreen extends React.Component {
             <View style={viewItemRow}>
               <Text
                 allowFontScaling={false}
-                style={[textBottomRank, {flex: 1, textAlign: 'right'}]}>
-                رتبه دربین 100 نفر
+                style={[textBottomRank, {flex: 1, textAlign: 'center'}]}>
+               {"فیدبک ها:"}
               </Text>
               <Text
                 allowFontScaling={false}
                 style={[textBottomRank, {flex: 1}]}>
-                رتبه دربین 100 نفر
+                {"میانگین زمان\n پاسخگویی:"}
               </Text>
               <Text
                 allowFontScaling={false}
                 style={[textBottomRank, {flex: 1}]}>
-                رتبه دربین 100 نفر
+               {" تعداد سوالات\n پاسخ داده:"}
               </Text>
             </View>
             <View style={viewItemRow}>
@@ -209,45 +213,45 @@ class PerformanceScreen extends React.Component {
                 <Text
                   allowFontScaling={false}
                   style={[textBottomRank, {flex: 1}]}>
-                  رتبه دربین 100 نفر
+                 {"عملکرد این ماه:"}
                 </Text>
                 <Text
                   allowFontScaling={false}
                   style={[textBottomRank, {flex: 1, color: Res.Color.gray}]}>
-                  رتبه دربین 100 نفر
+                  رتبه:
                 </Text>
                 <Text
                   allowFontScaling={false}
                   style={[textBottomRank, {flex: 1, color: Res.Color.gray}]}>
-                  رتبه دربین 100 نفر
+                  {"تعداد سوالات پاسخ داده:"}
                 </Text>
                 <Text
                   allowFontScaling={false}
                   style={[textBottomRank, {flex: 1, color: Res.Color.gray}]}>
-                  رتبه دربین 100 نفر
+                 {"ماینگین زمان پاسخگویی"}
                 </Text>
               </View>
               <View style={cardBottomLine} />
               <View style={cardBottom}>
-                <Text
+              <Text
                   allowFontScaling={false}
                   style={[textBottomRank, {flex: 1}]}>
-                  رتبه دربین 100 نفر
+                 {"عملکرد امروز:"}
                 </Text>
                 <Text
                   allowFontScaling={false}
                   style={[textBottomRank, {flex: 1, color: Res.Color.gray}]}>
-                  رتبه دربین 100 نفر
+                  رتبه:
                 </Text>
                 <Text
                   allowFontScaling={false}
                   style={[textBottomRank, {flex: 1, color: Res.Color.gray}]}>
-                  رتبه دربین 100 نفر
+                  {"تعداد سوالات پاسخ داده:"}
                 </Text>
                 <Text
                   allowFontScaling={false}
                   style={[textBottomRank, {flex: 1, color: Res.Color.gray}]}>
-                  رتبه دربین 100 نفر
+                 {"ماینگین زمان پاسخگویی"}
                 </Text>
               </View>
             </View>

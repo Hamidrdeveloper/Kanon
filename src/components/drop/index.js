@@ -733,7 +733,7 @@ export default class Dropdown extends PureComponent {
         onLayout={this.onLayout}
         ref={this.updateContainerRef}
         style={containerStyle}>
-        <TouchableRipple {...touchableProps}>
+        <TouchableOpacity {...touchableProps}>
           <View
             style={{
               width: '100%',
@@ -749,7 +749,7 @@ export default class Dropdown extends PureComponent {
               {this.renderRipple()}
             </View>
           </View>
-        </TouchableRipple>
+        </TouchableOpacity>
 
         <Modal
           visible={modal}

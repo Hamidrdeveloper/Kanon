@@ -19,21 +19,24 @@ class NotifyScreen extends React.Component {
     return (
       <View style={{width: '100%', height: '100%'}}>
         <Card style={viewForm}>
+        
+          <View>
+            <Text allowFontScaling={false} style={detail}>موضوع نوتیفیکیشن :</Text>
+            <View style={cardBottom} />
+          </View>
           <TouchableRipple
             activeOpacity={10}
             style={{
-              width: 20,
-              height: 20,
+              width: 30,
+              height: 30,
+              position:'absolute'
+              
             }}
             onPress={this._hideModalNotify}>
-            <View style={closeButton}>
+            <View style={[closeButton,{ position:'absolute'}]}>
               <Icon name="remove" size={12} color="#000" />
             </View>
           </TouchableRipple>
-          <View>
-            <Text style={detail}>موضوع نوتیفیکیشن :</Text>
-            <View style={cardBottom} />
-          </View>
         </Card>
       </View>
     );

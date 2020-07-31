@@ -19,6 +19,7 @@ import PopUp from './screen/Home/popUp';
 import FullScreenImage from './components/FullScreenImage';
 import Page from './components/recorderPlayer';
 import FullScreenText from './components/textFull';
+import Res from './Color/color';
 
 const ProfileStack = createStackNavigator(
   {
@@ -82,84 +83,94 @@ const TestStack = createStackNavigator(
 );
 
 
-const bottomTab = createBottomTabNavigator(
-  {
-    CreatExm: {
-      screen: ExmStack,
-      navigationOptions: {
-        tabBarLabel: 'آزمون سازی',
-        tabBarIcon: ({tintColor}) => (
-          <Image
-            source={passed}
-            style={{width: 20, height: 20, color: tintColor}}
-            tintColor={tintColor}
-          />
-        ),
-      },
-    },
-    HoDebugging: {
-      screen: Making,
-      navigationOptions: {
-        tabBarLabel: 'محصول ساز',
-        tabBarIcon: ({tintColor}) => (
-          <Image
-            source={werite}
-            style={{width: 20, height: 20, color: tintColor}}
-            tintColor={tintColor}
-          />
-        ),
-      },
-    },
-    CreatProduct: {
-      screen: TestStack,
-      navigationOptions: {
-        tabBarLabel: 'رفع اشکال',
-        tabBarIcon: ({tintColor}) => (
-          <Image
-            source={im_exam}
-            style={{width: 20, height: 20, color: tintColor}}
-            tintColor={tintColor}
-          />
-        ),
-      },
-    },
-    Home: {
-      screen: ProfileStack,
-      navigationOptions: {
-        tabBarLabel: 'خانه',
-        tabBarIcon: ({tintColor}) => (
-          <Image
-            source={house}
-            style={{width: 20, height: 20, color: tintColor}}
-            tintColor={tintColor}
-          />
-        ),
-      },
-    },
-  },
-  {
-    initialRouteName: 'Home',
-    mode: 'modal',
-    headerMode: null,
-    headerLeft: null,
-    headerShown: false,
-  },
-);
+// const bottomTab = createBottomTabNavigator(
+//   {
+//     CreatExm: {
+//       screen: ExmStack,
+//       navigationOptions: {
+//         tabBarLabel: 'آزمون سازی',
+//         tabBarIcon: ({tintColor}) => (
+//           <Image
+//             source={passed}
+//             style={{width: 20, height: 20, color: tintColor}}
+//             tintColor={tintColor}
+//           />
+//         ),
+//       },
+//     },
+//     HoDebugging: {
+//       screen: Making,
+//       navigationOptions: {
+//         tabBarLabel: 'محصول ساز',
+//         tabBarIcon: ({tintColor}) => (
+//           <Image
+//             source={werite}
+//             style={{width: 20, height: 20, color: tintColor}}
+//             tintColor={tintColor}
+//           />
+//         ),
+//       },
+//     },
+//     CreatProduct: {
+//       screen: TestStack,
+//       navigationOptions: {
+//         tabBarLabel: 'رفع اشکال',
+//         tabBarIcon: ({tintColor}) => (
+//           <Image
+//             source={im_exam}
+//             style={{width: 20, height: 20, color: tintColor}}
+//             tintColor={tintColor}
+//           />
+//         ),
+//       },
+//     },
+//     Home: {
+//       screen: ProfileStack,
+//       navigationOptions: {
+//         tabBarLabel: 'خانه',
+//         tabBarIcon: ({tintColor}) => (
+//           <Image
+//             source={house}
+//             style={{width: 20, height: 20, color: tintColor}}
+//             tintColor={tintColor}
+//           />
+//         ),
+//       },
+//     },
+//   },
+//   {
+//     initialRouteName: 'Home',
+//     mode: 'modal',
+//     headerMode: null,
+//     headerLeft: null,
+//     headerShown: false,
+//     tabBarOptions: {
+//       activeTintColor: Res.Color.primersButton,
+//       labelStyle: {
+//         fontSize: 12,
+//       },
+//       style: {
+//         backgroundColor: Res.Color.tab,
+//       },
+//     }
+//   },
+// );
 
 const homeStack = createStackNavigator(
   {
+    CreatProduct: {screen: TestStack},
     Register: {screen: RegisterScreen},
     Register2: {screen: RegisterScreen},
-    Home: {screen: bottomTab},
+    Home: {screen: Home},
     CaptureModal: {
       screen: PopUp,
       navigationOptions: {
         gesturesEnabled: false,
       },
     },
-    Modal: {
-      screen: bottomTab,
-    },
+    // Modal: {
+    //   screen: bottomTab,
+    // },
     Performance: {
       screen: PerformanceScreen,
     },

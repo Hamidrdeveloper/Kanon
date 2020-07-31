@@ -1,5 +1,7 @@
-import {StyleSheet} from 'react-native';
+import {StyleSheet, Dimensions} from 'react-native';
 import Res from '../../../Color/color';
+let screenWidth = Dimensions.get('window').width;
+
 export default StyleSheet.create({
   matchParent: {
     width: 200,
@@ -29,7 +31,7 @@ export default StyleSheet.create({
     width: 60,
     height: 60,
     borderRadius: 100,
-    backgroundColor: '#d3d3d3',
+    backgroundColor: Res.Color.grayLight,
     alignItems: 'center',
     justifyContent: 'center',
   },
@@ -43,7 +45,7 @@ export default StyleSheet.create({
   buttonItem: {
     backgroundColor: '#333648',
     borderRadius: 30,
-    width: 85,
+    width: 95,
     height: 38,
     justifyContent: 'flex-end',
     alignSelf: 'flex-end',
@@ -125,7 +127,7 @@ export default StyleSheet.create({
   buttonBack: {
     width: 25,
     height: 25,
-    marginLeft: 10,
+  
     tintColor: Res.Color.primers,
   },
   viewActivityIndicator: {
@@ -149,13 +151,13 @@ export default StyleSheet.create({
     fontFamily: 'BYekanBold',
     right: 0,
     position: 'absolute',
-    paddingRight: 15,
+    
   },
   viewHeder: {
     marginTop: 25,
     alignItems: 'center',
     flexDirection: 'row',
-    paddingRight: 15,
+    justifyContent:'space-between',
     width: '100%',
   },
   space: {
@@ -177,18 +179,20 @@ export default StyleSheet.create({
     flexDirection: 'row',
     width: '100%',
   },
-  flatListStyle: {marginBottom: 60},
+  flatListStyle: {marginBottom: 0},
   viewDetail: {
     paddingLeft: 100,
     width: '100%',
   },
   imageCard: {
-    width: 120,
-    height: '88%',
+    width: 50,
+    height: 50,
 
     bottom: 0,
+    left:0,
     tintColor: '#f8f7f9',
-    borderBottomLeftRadius: 20,
+    borderBottomLeftRadius: 30,
+ 
 
     // borderBottomWidth: 7000,
     position: 'absolute',
