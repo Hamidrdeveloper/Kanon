@@ -92,8 +92,8 @@ class RankScreen extends React.Component {
       cardBottomLine,
     } = style;
     return (
-      <View style={{width: '100%', height: '100%'}}>
-        <Card style={[viewForm,{height:`90%`}]}>
+      <View style={{width: '100%', height: '93%'}}>
+        <Card style={[viewForm]}>
           <TouchableRipple
             activeOpacity={10}
             style={{

@@ -82,7 +82,7 @@ export default StyleSheet.create({
     width: 65,
     height: 65,
     borderRadius: 100,
-    backgroundColor: Res.Color.greenL,
+    backgroundColor:"#cce4aa",
     alignItems: 'center',
     justifyContent: 'center',
   },

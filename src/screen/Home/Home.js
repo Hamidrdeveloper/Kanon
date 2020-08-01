@@ -52,6 +52,7 @@ class HomeScreen extends React.Component {
     isModalPopUpMenu: false,
     isModalPopTextFull: false,
     dataTextItem: '',
+    isModalRank: false,
     isModalPopImageFull: false,
     dataImageItem: '',
   };
@@ -163,7 +164,7 @@ class HomeScreen extends React.Component {
   };
   _hideModalPerformance = e => {
     this.setState({
-      isModalPerformance: e,
+      isModalPerformance: false,
     });
   };
   _hideModalNotify = e => {
@@ -191,7 +192,9 @@ class HomeScreen extends React.Component {
   }
 
   _openPerformance() {
-    this._hideModalPerformance(true);
+    this.setState({
+      isModalPerformance: true,
+    });
   }
   _openModalNotify() {
     this.setState({
@@ -243,6 +246,26 @@ class HomeScreen extends React.Component {
       tabBarVisible: true,
       isModalVisible: false,
     });
+  }
+  _hideModalPopUpMenu = () =>{
+  
+    this.setState({
+      
+      isModalPopUpMenu: false,
+      tabBarVisible:true,
+    });
+  } 
+  _OpenModalisModalRank= ()=>{
+    this.setState({
+      
+      isModalRank: true,
+    })
+  }
+  _hideModalisModalRank= ()=>{
+    this.setState({
+      
+      isModalRank: false,
+    })
   }
   render() {
     let {
@@ -358,7 +381,7 @@ class HomeScreen extends React.Component {
               transparent={true}
               animationType={'none'}
               visible={this.state.isModalPerformance}
-              onDismiss={this._hideTabBar}>
+              onDismiss={this._hideModalPerformance}>
               <View
                 style={{
                   height: '100%',
@@ -367,7 +390,10 @@ class HomeScreen extends React.Component {
                   paddingRight:20,
                   paddingBottom: 60,
                 }}>
-                <PerformanceScreen  changeState={this._hideModalPerformance} />
+                <PerformanceScreen 
+                                    ModalRank={this._OpenModalisModalRank}
+
+                 changeState={this._hideModalPerformance} />
               </View>
             </Modal>
             <Modal
@@ -385,7 +411,7 @@ class HomeScreen extends React.Component {
             </Modal>
             <Modal
               visible={this.state.isModalPopUpMenu}
-              onDismiss={this._hideModalMenu}>
+              onDismiss={this._hideModalPopUpMenu}>
               <View style={{height: '100%', justifyContent: 'flex-end'}}>
               <TouchableRipple
             activeOpacity={10}
@@ -398,7 +424,7 @@ class HomeScreen extends React.Component {
            
             }}
             onPress={() => {
-              this._hideModalMenu();
+              this._hideModalPopUpMenu();
             }}>
             <View
               style={{
@@ -411,12 +437,33 @@ class HomeScreen extends React.Component {
           </TouchableRipple>
                 <Card style={[cardModelPop,{height:`70%`}]}>
                   <PopUpMenu
-                    changeState={this._hideModalMenu}
+                    changeState={this._hideModalPopUpMenu}
                     navigation={this.props.navigation}
                   />
                 </Card>
               </View>
             </Modal>
+
+            <Modal
+              transparent={true}
+              animationType={'none'}
+              visible={this.state.isModalRank}
+              onDismiss={this._hideModalisModalRank}>
+              <View
+                style={{
+                  height: '100%',
+                  justifyContent: 'center',
+                  paddingLeft: 20,
+                  paddingRight:20,
+                  paddingBottom: 60,
+                }}>
+                <RankScreen 
+                            
+
+                 changeState={this._hideModalisModalRank} />
+              </View>
+            </Modal>
+          
           </ImageBackground>
 
         
@@ -440,15 +487,17 @@ class HomeScreen extends React.Component {
                 width: '100%',
               }}>
               <FullScreenImage dataList={this.state.dataImageItem} />
-            </View>
+            </View> 
           </Modal>
+          
+        
         </View>
 
        
        {this.state.tabBarVisible==true?    
         <View 
         elevation={8}
-        style={{width:`100%`,height:55,position:'absolute',bottom:0,backgroundColor:Res.Color.tab,margin:0.1,paddingTop:10}}>
+        style={{width:`100%`,height:55,position:'absolute',bottom:0,backgroundColor:"#ecf5df",margin:0.1,paddingTop:10}}>
           <View style={{flexDirection:'row',width:`100%`,height:`100%`}}>
           <View style={{flex:1,alignItems:'center'}}>
           <Image

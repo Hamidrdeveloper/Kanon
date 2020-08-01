@@ -266,7 +266,7 @@ class FixeScreen extends React.Component {
       });
       this.props._onGetSubject(e.SumCrsId);
     }else{
-      alert("hamdireza")
+ 
       this._openModalRankQuTeacher(e)
     }
   };
@@ -328,12 +328,12 @@ class FixeScreen extends React.Component {
             minHeight:150,
             paddingTop:10
           }}>
-          <Image style={[imageCard,{tintColor:Res.Color.tab, width: 120,
+          <Image style={[imageCard,{tintColor:"#e3f0d1", width: 120,
     height: 125,
 
     bottom: 0,
     left:0,
-    
+    tintColor:"#e3f0d1",
     // borderBottomWidth: 7000,
     position: 'absolute',}]} resizeMode="stretch" source={circle} />
           <View style={[imageCard,{backgroundColor:Res.Color.tab}]} />

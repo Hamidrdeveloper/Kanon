@@ -110,7 +110,9 @@ class PerformanceScreen extends React.Component {
              
             />
             <Text allowFontScaling={false} style={detail} fon>
-              {'نام نام خانوادگی'}
+            {UserData.jsonData.teacherInfo.FirstName +
+                '' +
+                UserData.jsonData.teacherInfo.LastName}
             </Text>
             <View style={viewFullCardButton}>
               <View style={cardButton}>
@@ -165,6 +167,10 @@ class PerformanceScreen extends React.Component {
                 </View>
               </View>
             </View>
+            <TouchableRipple
+             onPress={()=>{this.props.ModalRank()}}>
+
+     
             <View style={viewFullCardButtonmore}>
               <Card style={cardButtonMore}>
                 <View style={viewTextShowRank}>
@@ -178,6 +184,7 @@ class PerformanceScreen extends React.Component {
                 </View>
               </Card>
             </View>
+            </TouchableRipple>
             <View
               style={{
                 width: '100%',
@@ -262,6 +269,7 @@ class PerformanceScreen extends React.Component {
   }
   static propsType = {
     changeState: PropTypes.func,
+    ModalRank:PropTypes.func,
   };
 }
 
